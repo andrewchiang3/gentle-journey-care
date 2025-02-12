@@ -1,9 +1,9 @@
 
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { AlertDialog, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogAction, AlertDialogCancel } from '@/components/ui/alert-dialog';
+import { AlertDialog, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogAction } from '@/components/ui/alert-dialog';
 import { useToast } from '@/hooks/use-toast';
-import { VoiceInput } from '@/components/VoiceInput';
+import { pipeline } from '@huggingface/transformers';
 
 const Confirmation = () => {
   const location = useLocation();
@@ -11,32 +11,82 @@ const Confirmation = () => {
   const { toast } = useToast();
   const concerns = location.state?.concerns || 'My child has had a fever for the past day and seems more tired than usual.';
   const language = location.state?.language || 'en';
-  const [isListening, setIsListening] = React.useState(false);
   const [isProcessing, setIsProcessing] = useState(true);
   const [analysis, setAnalysis] = useState('');
 
-  // Simulate the processing flow automatically for demonstration
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setAnalysis(language === 'en' 
-        ? "Based on the information provided, here are some initial thoughts:\n\n" +
-          "• This appears to be a non-urgent concern that should be monitored\n" +
-          "• Watch for increased temperature above 102°F (39°C)\n" +
-          "• Ensure good hydration and rest\n" +
-          "• Consider scheduling a follow-up with your pediatrician if symptoms persist\n" +
-          "• Seek immediate care if fever is accompanied by severe headache or stiff neck"
-        : "Según la información proporcionada, aquí hay algunas consideraciones iniciales:\n\n" +
-          "• Esta parece ser una preocupación no urgente que debe monitorearse\n" +
-          "• Observe si la temperatura aumenta por encima de 39°C (102°F)\n" +
-          "• Asegure una buena hidratación y descanso\n" +
-          "• Considere programar un seguimiento con su pediatra si los síntomas persisten\n" +
-          "• Busque atención inmediata si la fiebre se acompaña de dolor de cabeza intenso o rigidez en el cuello"
-      );
-      setIsProcessing(false);
-    }, 3000);
+    const analyzeConcerns = async () => {
+      try {
+        // Initialize the model pipeline
+        const generator = await pipeline(
+          'text-generation',
+          'm42-health/Llama3-Med42-8B',
+          { device: 'webgpu' }
+        );
 
-    return () => clearTimeout(timer);
-  }, [language]);
+        // Prepare the prompt
+        const prompt = `As a pediatric medical assistant, analyze the following parent's concerns and provide actionable feedback:
+         
+        Parent's concerns: "${concerns}"
+        
+        Please provide:
+        1. Initial assessment of urgency
+        2. Key observations
+        3. Recommendations
+        4. Warning signs to watch for`;
+
+        // Generate the response
+        const result = await generator(prompt, {
+          max_new_tokens: 500,
+          temperature: 0.7,
+          do_sample: true,
+        });
+
+        // Process and format the response
+        let analysisText = result[0].generated_text;
+        // Clean up the response by removing the original prompt
+        analysisText = analysisText.replace(prompt, '').trim();
+        
+        setAnalysis(analysisText);
+        setIsProcessing(false);
+
+        toast({
+          title: language === 'en' ? "Analysis Complete" : "Análisis Completado",
+          description: language === 'en' 
+            ? "We've processed your information"
+            : "Hemos procesado su información",
+        });
+      } catch (error) {
+        console.error('Error during analysis:', error);
+        // Fallback to placeholder text in case of error
+        setAnalysis(language === 'en' 
+          ? "Based on the information provided, here are some initial thoughts:\n\n" +
+            "• This appears to be a non-urgent concern that should be monitored\n" +
+            "• Watch for increased temperature above 102°F (39°C)\n" +
+            "• Ensure good hydration and rest\n" +
+            "• Consider scheduling a follow-up with your pediatrician if symptoms persist\n" +
+            "• Seek immediate care if fever is accompanied by severe headache or stiff neck"
+          : "Según la información proporcionada, aquí hay algunas consideraciones iniciales:\n\n" +
+            "• Esta parece ser una preocupación no urgente que debe monitorearse\n" +
+            "• Observe si la temperatura aumenta por encima de 39°C (102°F)\n" +
+            "• Asegure una buena hidratación y descanso\n" +
+            "• Considere programar un seguimiento con su pediatra si los síntomas persisten\n" +
+            "• Busque atención inmediata si la fiebre se acompaña de dolor de cabeza intenso o rigidez en el cuello"
+        );
+        setIsProcessing(false);
+        
+        toast({
+          title: "Error",
+          description: language === 'en'
+            ? "There was an error processing your concerns. Showing general recommendations instead."
+            : "Hubo un error al procesar sus preocupaciones. Mostrando recomendaciones generales.",
+          variant: "destructive",
+        });
+      }
+    };
+
+    analyzeConcerns();
+  }, [concerns, language, toast]);
 
   return (
     <AlertDialog defaultOpen>
