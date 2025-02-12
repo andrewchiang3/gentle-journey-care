@@ -34,7 +34,11 @@ export const analyzeMedicalConcerns = async (
       do_sample: true,
     });
 
-    const output = result[0]?.generated_text || '';
+    // Handle the response whether it's an array or single output
+    const output = Array.isArray(result) 
+      ? result[0].toString()
+      : result.toString();
+
     const analysisText = output.replace(prompt, '').trim();
 
     return {
@@ -114,7 +118,6 @@ export const generatePDF = (
     280
   );
 
-  // Save the PDF
-  const pdfBlob = doc.output('bloburl');
-  return pdfBlob;
+  // Return the PDF as a blob URL string
+  return doc.output('bloburl');
 };
