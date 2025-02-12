@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { WelcomeHeader } from '@/components/WelcomeHeader';
 import { VoiceInput } from '@/components/VoiceInput';
@@ -7,6 +8,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
+import { analyzeMedicalConcerns } from '@/utils/llmProcessor';
 
 const Index = () => {
   const [isListening, setIsListening] = useState(false);
@@ -50,9 +52,16 @@ const Index = () => {
     });
   };
 
-  const navigateToConfirmation = () => {
+  const handleConfirmation = async () => {
     if (concerns.trim()) {
-      navigate('/confirmation', { state: { concerns, language } });
+      const analysis = await analyzeMedicalConcerns(concerns, language);
+      navigate('/confirmation', { 
+        state: { 
+          concerns, 
+          language,
+          analysis: analysis.text 
+        } 
+      });
     } else {
       showEmptyInputToast();
     }
@@ -204,8 +213,8 @@ const Index = () => {
           <AlertDialogHeader>
             <AlertDialogTitle>
               {language === 'en' 
-                ? "Confirm Your Input"
-                : "Confirme su Entrada"}
+                ? "Please Review Your Input"
+                : "Por favor Revise su Entrada"}
             </AlertDialogTitle>
             <AlertDialogDescription className="space-y-4">
               <p>
@@ -219,11 +228,18 @@ const Index = () => {
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>
-              {language === 'en' ? "Edit" : "Editar"}
+            <AlertDialogCancel className="bg-gray-100 hover:bg-gray-200">
+              {language === 'en' 
+                ? "No, let me correct it"
+                : "No, déjame corregirlo"}
             </AlertDialogCancel>
-            <AlertDialogAction onClick={navigateToConfirmation}>
-              {language === 'en' ? "Confirm" : "Confirmar"}
+            <AlertDialogAction 
+              onClick={handleConfirmation}
+              className="bg-green-500 hover:bg-green-600 text-white"
+            >
+              {language === 'en' 
+                ? "Yes, that looks good"
+                : "Sí, está correcto"}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
