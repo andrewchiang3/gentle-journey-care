@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { WelcomeHeader } from '@/components/WelcomeHeader';
 import { VoiceInput } from '@/components/VoiceInput';
@@ -210,38 +209,46 @@ const Index = () => {
 
       <AlertDialog open={showConfirmDialog} onOpenChange={setShowConfirmDialog}>
         <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>
-              {language === 'en' 
-                ? "Please Review Your Input"
-                : "Por favor Revise su Entrada"}
-            </AlertDialogTitle>
-            <AlertDialogDescription className="space-y-4">
-              <p>
-                {language === 'en'
-                  ? "Is this what you wanted to share with us?"
-                  : "¿Es esto lo que quería compartir con nosotros?"}
-              </p>
-              <div className="bg-muted p-4 rounded-md">
-                <p className="text-sm font-medium">{concerns}</p>
-              </div>
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel className="bg-gray-100 hover:bg-gray-200">
-              {language === 'en' 
-                ? "No, let me correct it"
-                : "No, déjame corregirlo"}
-            </AlertDialogCancel>
-            <AlertDialogAction 
-              onClick={handleConfirmation}
-              className="bg-green-500 hover:bg-green-600 text-white"
-            >
-              {language === 'en' 
-                ? "Yes, that looks good"
-                : "Sí, está correcto"}
-            </AlertDialogAction>
-          </AlertDialogFooter>
+          <div className="text-center space-y-4">
+            <img
+              src="/lovable-uploads/f4a6e110-504c-4780-b9c6-30bec6066142.png"
+              alt="Friendly Medical Helper"
+              className="w-24 h-24 mx-auto animate-bounce"
+            />
+            
+            <AlertDialogHeader>
+              <AlertDialogTitle className="text-xl">
+                {language === 'en' 
+                  ? "Please Review Your Input"
+                  : "Por favor Revise su Entrada"}
+              </AlertDialogTitle>
+              <AlertDialogDescription className="space-y-4">
+                <p>
+                  {language === 'en'
+                    ? "Is this what you wanted to share with us?"
+                    : "¿Es esto lo que quería compartir con nosotros?"}
+                </p>
+                <div className="bg-[#F2FCE2] p-6 rounded-lg shadow-sm border border-[#E2ECD2]">
+                  <p className="text-sm font-medium text-gray-700">{concerns}</p>
+                </div>
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter className="flex flex-col sm:flex-row justify-center gap-4">
+              <AlertDialogCancel className="bg-gray-100 hover:bg-gray-200">
+                {language === 'en' 
+                  ? "No, let me correct it"
+                  : "No, déjame corregirlo"}
+              </AlertDialogCancel>
+              <AlertDialogAction 
+                onClick={handleConfirmation}
+                className="bg-green-500 hover:bg-green-600 text-white"
+              >
+                {language === 'en' 
+                  ? "Yes, that looks good"
+                  : "Sí, está correcto"}
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </div>
         </AlertDialogContent>
       </AlertDialog>
     </div>
