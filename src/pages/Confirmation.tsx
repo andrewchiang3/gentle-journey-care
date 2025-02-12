@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { AlertDialog, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogAction, AlertDialogCancel } from '@/components/ui/alert-dialog';
 import { useToast } from '@/hooks/use-toast';
@@ -9,57 +9,34 @@ const Confirmation = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { toast } = useToast();
-  const concerns = location.state?.concerns || '';
+  const concerns = location.state?.concerns || 'My child has had a fever for the past day and seems more tired than usual.';
   const language = location.state?.language || 'en';
   const [isListening, setIsListening] = React.useState(false);
-  const [isProcessing, setIsProcessing] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(true);
   const [analysis, setAnalysis] = useState('');
 
-  const handleVoiceConfirmation = (transcript: string) => {
-    const normalizedTranscript = transcript.toLowerCase().trim();
-    if (normalizedTranscript.includes('yes') || normalizedTranscript.includes('sí')) {
-      processWithLLM();
-    } else if (normalizedTranscript.includes('no')) {
-      navigate('/');
-    }
-  };
-
-  const processWithLLM = async () => {
-    setIsProcessing(true);
-    try {
-      // This is a placeholder for the actual LLM processing
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      // Placeholder analysis result
+  // Simulate the processing flow automatically for demonstration
+  useEffect(() => {
+    const timer = setTimeout(() => {
       setAnalysis(language === 'en' 
         ? "Based on the information provided, here are some initial thoughts:\n\n" +
-          "• This appears to be a non-urgent concern\n" +
-          "• We recommend scheduling a follow-up with your pediatrician\n" +
-          "• In the meantime, monitor for any changes in symptoms"
+          "• This appears to be a non-urgent concern that should be monitored\n" +
+          "• Watch for increased temperature above 102°F (39°C)\n" +
+          "• Ensure good hydration and rest\n" +
+          "• Consider scheduling a follow-up with your pediatrician if symptoms persist\n" +
+          "• Seek immediate care if fever is accompanied by severe headache or stiff neck"
         : "Según la información proporcionada, aquí hay algunas consideraciones iniciales:\n\n" +
-          "• Esta parece ser una preocupación no urgente\n" +
-          "• Recomendamos programar un seguimiento con su pediatra\n" +
-          "• Mientras tanto, monitoreé cualquier cambio en los síntomas"
+          "• Esta parece ser una preocupación no urgente que debe monitorearse\n" +
+          "• Observe si la temperatura aumenta por encima de 39°C (102°F)\n" +
+          "• Asegure una buena hidratación y descanso\n" +
+          "• Considere programar un seguimiento con su pediatra si los síntomas persisten\n" +
+          "• Busque atención inmediata si la fiebre se acompaña de dolor de cabeza intenso o rigidez en el cuello"
       );
-      
-      toast({
-        title: language === 'en' ? "Analysis Complete" : "Análisis Completado",
-        description: language === 'en' 
-          ? "We've processed your information"
-          : "Hemos procesado su información",
-      });
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: language === 'en'
-          ? "There was an error processing your concerns. Please try again."
-          : "Hubo un error al procesar sus preocupaciones. Por favor, intente de nuevo.",
-        variant: "destructive",
-      });
-    } finally {
       setIsProcessing(false);
-    }
-  };
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, [language]);
 
   return (
     <AlertDialog defaultOpen>
@@ -68,61 +45,43 @@ const Confirmation = () => {
           <img
             src="/lovable-uploads/f4a6e110-504c-4780-b9c6-30bec6066142.png"
             alt="Friendly Medical Helper"
-            className={`w-24 h-24 md:w-32 md:h-32 mx-auto ${isProcessing ? 'animate-bounce' : 'animate-float'}`}
+            className={`w-24 h-24 md:w-32 md:h-32 mx-auto transition-all duration-500 ${
+              isProcessing ? 'animate-bounce' : 'animate-float'
+            }`}
           />
           
           <AlertDialogHeader>
             <AlertDialogTitle className="text-xl md:text-2xl">
               {isProcessing 
                 ? (language === 'en' ? "Analyzing your information..." : "Analizando su información...")
-                : analysis 
-                  ? (language === 'en' ? "Here's what I think" : "Esto es lo que pienso")
-                  : (language === 'en' ? "Did I get that right?" : "¿Entendí bien?")}
+                : (language === 'en' ? "Here's what I think" : "Esto es lo que pienso")}
             </AlertDialogTitle>
-            <AlertDialogDescription>
+            <AlertDialogDescription className="mt-4">
               {isProcessing ? (
-                <div className="text-center py-8">
+                <div className="text-center py-8 space-y-4">
+                  <div className="flex justify-center items-center space-x-2">
+                    <div className="w-2 h-2 bg-primary rounded-full animate-bounce [animation-delay:-0.3s]"></div>
+                    <div className="w-2 h-2 bg-primary rounded-full animate-bounce [animation-delay:-0.15s]"></div>
+                    <div className="w-2 h-2 bg-primary rounded-full animate-bounce"></div>
+                  </div>
                   <p className="text-sm md:text-base text-muted-foreground">
                     {language === 'en'
                       ? "I'm carefully reviewing your information..."
                       : "Estoy revisando cuidadosamente su información..."}
                   </p>
                 </div>
-              ) : analysis ? (
+              ) : (
                 <div className="bg-[#F2FCE2] p-6 rounded-lg shadow-sm border border-[#E2ECD2] mt-4 text-left">
                   <p className="whitespace-pre-line text-sm md:text-base text-gray-700">{analysis}</p>
                 </div>
-              ) : (
-                <>
-                  <div className="bg-[#F2FCE2] p-6 rounded-lg shadow-sm border border-[#E2ECD2] mt-4">
-                    <p className="text-sm md:text-base text-gray-700">{concerns}</p>
-                  </div>
-
-                  <p className="text-sm text-muted-foreground mt-4">
-                    {language === 'en' 
-                      ? "You can speak 'yes' or 'no', or use the buttons below"
-                      : "Puede decir 'sí' o 'no', o usar los botones abajo"}
-                  </p>
-
-                  <div className="flex items-center justify-center gap-4 mt-6">
-                    <VoiceInput
-                      isListening={isListening}
-                      onListeningChange={setIsListening}
-                      onTranscript={handleVoiceConfirmation}
-                    />
-                  </div>
-                </>
               )}
             </AlertDialogDescription>
           </AlertDialogHeader>
 
-          {!isProcessing && !analysis && (
+          {!isProcessing && (
             <AlertDialogFooter className="flex justify-center gap-4 mt-6">
-              <AlertDialogCancel onClick={() => navigate('/')}>
-                {language === 'en' ? "No, let me revise" : "No, déjame revisar"}
-              </AlertDialogCancel>
-              <AlertDialogAction onClick={processWithLLM}>
-                {language === 'en' ? "Yes, that's correct" : "Sí, es correcto"}
+              <AlertDialogAction onClick={() => navigate('/')}>
+                {language === 'en' ? "Return Home" : "Volver al Inicio"}
               </AlertDialogAction>
             </AlertDialogFooter>
           )}
