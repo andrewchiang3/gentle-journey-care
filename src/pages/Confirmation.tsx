@@ -2,8 +2,9 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { AlertDialog, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogAction } from '@/components/ui/alert-dialog';
+import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
-import { pipeline } from '@huggingface/transformers';
+import { analyzeMedicalConcerns, generatePDF } from '@/utils/medicalAnalysis';
 
 const Confirmation = () => {
   const location = useLocation();
@@ -15,82 +16,33 @@ const Confirmation = () => {
   const [analysis, setAnalysis] = useState('');
 
   useEffect(() => {
-    const analyzeConcerns = async () => {
-      try {
-        // Initialize the model pipeline
-        const generator = await pipeline(
-          'text-generation',
-          'm42-health/Llama3-Med42-8B',
-          { device: 'webgpu' }
-        );
+    const processAnalysis = async () => {
+      const result = await analyzeMedicalConcerns(concerns, language);
+      setAnalysis(result.text);
+      setIsProcessing(false);
 
-        // Prepare the prompt
-        const prompt = `As a pediatric medical assistant, analyze the following parent's concerns and provide actionable feedback:
-         
-        Parent's concerns: "${concerns}"
-        
-        Please provide:
-        1. Initial assessment of urgency
-        2. Key observations
-        3. Recommendations
-        4. Warning signs to watch for`;
-
-        // Generate the response
-        const result = await generator(prompt, {
-          max_new_tokens: 500,
-          temperature: 0.7,
-          do_sample: true,
-        });
-
-        // Process and format the response
-        // Check if result is an array or single output
-        const outputText = Array.isArray(result) 
-          ? result[0].generated_text 
-          : result.generated_text;
-
-        // Clean up the response by removing the original prompt
-        const analysisText = outputText.replace(prompt, '').trim();
-        
-        setAnalysis(analysisText);
-        setIsProcessing(false);
-
-        toast({
-          title: language === 'en' ? "Analysis Complete" : "Análisis Completado",
-          description: language === 'en' 
-            ? "We've processed your information"
-            : "Hemos procesado su información",
-        });
-      } catch (error) {
-        console.error('Error during analysis:', error);
-        // Fallback to placeholder text in case of error
-        setAnalysis(language === 'en' 
-          ? "Based on the information provided, here are some initial thoughts:\n\n" +
-            "• This appears to be a non-urgent concern that should be monitored\n" +
-            "• Watch for increased temperature above 102°F (39°C)\n" +
-            "• Ensure good hydration and rest\n" +
-            "• Consider scheduling a follow-up with your pediatrician if symptoms persist\n" +
-            "• Seek immediate care if fever is accompanied by severe headache or stiff neck"
-          : "Según la información proporcionada, aquí hay algunas consideraciones iniciales:\n\n" +
-            "• Esta parece ser una preocupación no urgente que debe monitorearse\n" +
-            "• Observe si la temperatura aumenta por encima de 39°C (102°F)\n" +
-            "• Asegure una buena hidratación y descanso\n" +
-            "• Considere programar un seguimiento con su pediatra si los síntomas persisten\n" +
-            "• Busque atención inmediata si la fiebre se acompaña de dolor de cabeza intenso o rigidez en el cuello"
-        );
-        setIsProcessing(false);
-        
-        toast({
-          title: "Error",
-          description: language === 'en'
-            ? "There was an error processing your concerns. Showing general recommendations instead."
-            : "Hubo un error al procesar sus preocupaciones. Mostrando recomendaciones generales.",
-          variant: "destructive",
-        });
-      }
+      toast({
+        title: language === 'en' ? "Analysis Complete" : "Análisis Completado",
+        description: language === 'en' 
+          ? "We've processed your information"
+          : "Hemos procesado su información",
+      });
     };
 
-    analyzeConcerns();
+    processAnalysis();
   }, [concerns, language, toast]);
+
+  const handleDownloadPDF = () => {
+    const pdfUrl = generatePDF(concerns, analysis, language);
+    window.open(pdfUrl, '_blank');
+    
+    toast({
+      title: language === 'en' ? "PDF Generated" : "PDF Generado",
+      description: language === 'en' 
+        ? "Your analysis report has been downloaded"
+        : "Su informe de análisis ha sido descargado",
+    });
+  };
 
   return (
     <AlertDialog defaultOpen>
@@ -133,7 +85,10 @@ const Confirmation = () => {
           </AlertDialogHeader>
 
           {!isProcessing && (
-            <AlertDialogFooter className="flex justify-center gap-4 mt-6">
+            <AlertDialogFooter className="flex flex-col sm:flex-row justify-center gap-4 mt-6">
+              <Button onClick={handleDownloadPDF} variant="outline">
+                {language === 'en' ? "Download PDF Report" : "Descargar Informe PDF"}
+              </Button>
               <AlertDialogAction onClick={() => navigate('/')}>
                 {language === 'en' ? "Return Home" : "Volver al Inicio"}
               </AlertDialogAction>
