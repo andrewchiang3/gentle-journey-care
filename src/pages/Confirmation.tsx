@@ -1,10 +1,10 @@
-
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { AlertDialog, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogAction } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
-import { analyzeMedicalConcerns, generatePDF } from '@/utils/medicalAnalysis';
+import { analyzeMedicalConcerns } from '@/utils/llmProcessor';
+import { generatePDF } from '@/utils/pdfGenerator';
 
 const Confirmation = () => {
   const location = useLocation();
