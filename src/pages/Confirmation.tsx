@@ -43,9 +43,13 @@ const Confirmation = () => {
         });
 
         // Process and format the response
-        let analysisText = result[0].generated_text;
+        // Check if result is an array or single output
+        const outputText = Array.isArray(result) 
+          ? result[0].text 
+          : result.text;
+
         // Clean up the response by removing the original prompt
-        analysisText = analysisText.replace(prompt, '').trim();
+        const analysisText = outputText.replace(prompt, '').trim();
         
         setAnalysis(analysisText);
         setIsProcessing(false);
