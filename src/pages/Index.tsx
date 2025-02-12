@@ -57,53 +57,53 @@ const Index = () => {
           onLanguageChange={setLanguage}
         />
         
-        <main className="container max-w-4xl mx-auto px-4 py-8">
+        <main className="container max-w-4xl mx-auto px-4 py-6 md:py-8">
           <WelcomeHeader />
           
-          <div className="mt-12 flex flex-col items-center space-y-8">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-2xl">
+          <div className="mt-8 md:mt-12 flex flex-col items-center space-y-4 md:space-y-8">
+            <div className="grid grid-cols-1 gap-4 w-full max-w-md md:max-w-2xl">
               <Button
                 onClick={() => setShowCheckupForm(true)}
-                className="h-auto p-8 bg-[#F2FCE2] hover:bg-[#E2ECD2] text-gray-800 rounded-2xl shadow-md transition-all duration-300 flex flex-col items-center gap-4 group"
+                className="h-auto p-6 md:p-8 bg-[#F2FCE2] hover:bg-[#E2ECD2] text-gray-800 rounded-xl md:rounded-2xl shadow-md transition-all duration-300 flex flex-col items-center gap-3 md:gap-4 group"
               >
                 <img
                   src="/lovable-uploads/f4a6e110-504c-4780-b9c6-30bec6066142.png"
                   alt="Regular Checkup"
-                  className="w-24 h-24 group-hover:scale-110 transition-transform duration-300"
+                  className="w-16 h-16 md:w-24 md:h-24 group-hover:scale-110 transition-transform duration-300"
                 />
                 <div className="text-center">
-                  <p className="font-medium text-lg mb-2">
+                  <p className="font-medium text-base md:text-lg mb-1 md:mb-2">
                     {language === 'en'
-                      ? "Time for a regular check-up!"
-                      : "¡Es hora de un chequeo regular!"}
+                      ? "Time for a check-up?"
+                      : "¿Es hora de un chequeo?"}
                   </p>
-                  <p className="text-sm text-gray-600">
+                  <p className="text-xs md:text-sm text-gray-600 px-2">
                     {language === 'en'
-                      ? "Let's make sure your little one is growing healthy and strong"
-                      : "Asegurémonos de que su pequeño esté creciendo sano y fuerte"}
+                      ? "Let's make sure your little one is growing healthy"
+                      : "Asegurémonos de que su pequeño esté creciendo sano"}
                   </p>
                 </div>
               </Button>
 
               <Button
                 onClick={() => setShowConcernsForm(true)}
-                className="h-auto p-8 bg-[#FEF7CD] hover:bg-[#FEC6A1] text-gray-800 rounded-2xl shadow-md transition-all duration-300 flex flex-col items-center gap-4 group"
+                className="h-auto p-6 md:p-8 bg-[#FEF7CD] hover:bg-[#FEC6A1] text-gray-800 rounded-xl md:rounded-2xl shadow-md transition-all duration-300 flex flex-col items-center gap-3 md:gap-4 group"
               >
                 <img
                   src="/lovable-uploads/f4a6e110-504c-4780-b9c6-30bec6066142.png"
                   alt="Specific Concerns"
-                  className="w-24 h-24 group-hover:scale-110 transition-transform duration-300"
+                  className="w-16 h-16 md:w-24 md:h-24 group-hover:scale-110 transition-transform duration-300"
                 />
                 <div className="text-center">
-                  <p className="font-medium text-lg mb-2">
+                  <p className="font-medium text-base md:text-lg mb-1 md:mb-2">
                     {language === 'en'
-                      ? "Something specific on your mind?"
-                      : "¿Algo específico que le preocupe?"}
+                      ? "Have a specific concern?"
+                      : "¿Tiene una preocupación?"}
                   </p>
-                  <p className="text-sm text-gray-600">
+                  <p className="text-xs md:text-sm text-gray-600 px-2">
                     {language === 'en'
-                      ? "We're here to help with any concerns you may have"
-                      : "Estamos aquí para ayudar con cualquier preocupación que tenga"}
+                      ? "We're here to help with any concerns"
+                      : "Estamos aquí para ayudar"}
                   </p>
                 </div>
               </Button>
