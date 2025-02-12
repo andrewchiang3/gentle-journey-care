@@ -17,7 +17,14 @@ export const VoiceInput: React.FC<VoiceInputProps> = ({
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      // Cast window to unknown first to avoid TypeScript errors
+      const windowWithSpeech = window as unknown as {
+        SpeechRecognition?: SpeechRecognitionConstructor;
+        webkitSpeechRecognition?: SpeechRecognitionConstructor;
+      };
+
+      const SpeechRecognition = windowWithSpeech.SpeechRecognition || windowWithSpeech.webkitSpeechRecognition;
+      
       if (SpeechRecognition) {
         const recognition = new SpeechRecognition();
         recognition.continuous = true;
