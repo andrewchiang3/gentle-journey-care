@@ -1,4 +1,4 @@
-
+require('dotenv').config()
 import { pipeline } from '@huggingface/transformers';
 
 interface AnalysisResult {
