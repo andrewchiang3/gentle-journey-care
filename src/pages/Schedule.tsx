@@ -33,6 +33,15 @@ const Schedule = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
+    // Save appointment to localStorage
+    const appointment = {
+      name,
+      date: date!.toISOString(), // Store as ISO string to preserve date
+      time: timeSlot,
+      type: appointmentType
+    };
+    localStorage.setItem('upcomingAppointment', JSON.stringify(appointment));
+    
     toast({
       title: language === 'en' ? "Appointment Scheduled!" : "¡Cita Programada!",
       description: language === 'en' 
