@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
@@ -132,141 +131,139 @@ const Resources = () => {
   const resources = resourceCategories[language];
 
   return (
-    <div className="fixed inset-0 bg-background/80 flex items-center justify-center p-4">
-      <div className="bg-white rounded-lg shadow-lg w-full max-w-4xl">
-        <ScrollArea className="h-[80vh] rounded-md">
-          <div className="p-6 space-y-6">
-            {/* Header with Avatar */}
-            <div className="text-center space-y-4">
-              <img
-                src="/lovable-uploads/f4a6e110-504c-4780-b9c6-30bec6066142.png"
-                alt="Friendly Helper"
-                className="w-24 h-24 mx-auto"
-              />
-              <h1 className="text-2xl font-bold text-gray-800">
-                {language === 'en' ? "Community Resources" : "Recursos Comunitarios"}
-              </h1>
-              <p className="text-gray-600 max-w-2xl mx-auto">
-                {language === 'en' 
-                  ? "Helping People. Changing Lives. Strengthening our Community."
-                  : "Ayudando a las Personas. Cambiando Vidas. Fortaleciendo nuestra Comunidad."}
-              </p>
-            </div>
+    <div className="container mx-auto px-4 py-8">
+      <ScrollArea className="h-[calc(100vh-4rem)]">
+        <div className="max-w-4xl mx-auto space-y-6">
+          {/* Header with Avatar */}
+          <div className="text-center space-y-4">
+            <img
+              src="/lovable-uploads/f4a6e110-504c-4780-b9c6-30bec6066142.png"
+              alt="Friendly Helper"
+              className="w-24 h-24 mx-auto"
+            />
+            <h1 className="text-2xl font-bold text-gray-800">
+              {language === 'en' ? "Community Resources" : "Recursos Comunitarios"}
+            </h1>
+            <p className="text-gray-600 max-w-2xl mx-auto">
+              {language === 'en' 
+                ? "Helping People. Changing Lives. Strengthening our Community."
+                : "Ayudando a las Personas. Cambiando Vidas. Fortaleciendo nuestra Comunidad."}
+            </p>
+          </div>
 
-            {/* Main Services */}
-            <div className="space-y-4">
-              <h2 className="text-xl font-semibold text-gray-800 mb-4">
-                {language === 'en' ? "Main Services" : "Servicios Principales"}
-              </h2>
-              <div className="grid gap-4 md:grid-cols-2">
-                {resources.mainServices.map((service, index) => (
-                  <Card key={index} className="bg-[#F2FCE2]">
-                    <CardHeader>
-                      <CardTitle>{service.title}</CardTitle>
-                      <CardDescription>{service.description}</CardDescription>
-                    </CardHeader>
-                    <CardContent className="space-y-2">
-                      {service.phone && (
-                        <p className="text-sm">📞 {service.phone}</p>
-                      )}
-                      {service.tollFree && (
-                        <p className="text-sm">🆓 {service.tollFree}</p>
-                      )}
-                      {service.link && (
-                        <a
-                          href={service.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center text-blue-600 hover:text-blue-800"
-                        >
-                          <ExternalLink className="h-4 w-4 mr-1" />
-                          {language === 'en' ? "Visit Website" : "Visitar Sitio Web"}
-                        </a>
-                      )}
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            </div>
-
-            {/* Crisis Services */}
-            <div className="space-y-4">
-              <h2 className="text-xl font-semibold text-gray-800 mb-4">
-                {language === 'en' ? "Crisis Services" : "Servicios de Crisis"}
-              </h2>
-              <div className="grid gap-4 md:grid-cols-2">
-                {resources.crisisServices.map((service, index) => (
-                  <Card key={index} className="bg-[#FEF7CD]">
-                    <CardHeader>
-                      <CardTitle>{service.title}</CardTitle>
-                      {service.description && (
-                        <CardDescription>{service.description}</CardDescription>
-                      )}
-                    </CardHeader>
-                    <CardContent className="space-y-2">
+          {/* Main Services */}
+          <div className="space-y-4">
+            <h2 className="text-xl font-semibold text-gray-800 mb-4">
+              {language === 'en' ? "Main Services" : "Servicios Principales"}
+            </h2>
+            <div className="grid gap-4 md:grid-cols-2">
+              {resources.mainServices.map((service, index) => (
+                <Card key={index} className="bg-[#F2FCE2]">
+                  <CardHeader>
+                    <CardTitle>{service.title}</CardTitle>
+                    <CardDescription>{service.description}</CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-2">
+                    {service.phone && (
                       <p className="text-sm">📞 {service.phone}</p>
-                      {service.tollFree && (
-                        <p className="text-sm">🆓 {service.tollFree}</p>
-                      )}
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            </div>
-
-            {/* Child Services */}
-            <div className="space-y-4">
-              <h2 className="text-xl font-semibold text-gray-800 mb-4">
-                {language === 'en' ? "Child & Family Services" : "Servicios para Niños y Familias"}
-              </h2>
-              <div className="grid gap-4 md:grid-cols-2">
-                {resources.childServices.map((service, index) => (
-                  <Card key={index} className="bg-[#D3E4FD]">
-                    <CardHeader>
-                      <CardTitle>{service.title}</CardTitle>
-                      {service.organization && (
-                        <CardDescription>{service.organization}</CardDescription>
-                      )}
-                    </CardHeader>
-                    <CardContent className="space-y-2">
-                      <p className="text-sm">📞 {service.phone}</p>
-                      {service.tollFree && (
-                        <p className="text-sm">🆓 {service.tollFree}</p>
-                      )}
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            </div>
-
-            {/* Additional Resources Link */}
-            <div className="text-center pt-4">
-              <a
-                href="https://in.ewu.edu/ewahec/wp-content/uploads/sites/102/2016/05/Ferry-County-Resources.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-600 hover:text-blue-800 inline-flex items-center"
-              >
-                <ExternalLink className="h-4 w-4 mr-1" />
-                {language === 'en' 
-                  ? "View Complete Resource Guide (PDF)" 
-                  : "Ver Guía Completa de Recursos (PDF)"}
-              </a>
-            </div>
-
-            {/* Return Button */}
-            <div className="flex justify-center pt-4">
-              <Button
-                onClick={() => navigate('/')}
-                variant="outline"
-                className="bg-white"
-              >
-                {language === 'en' ? "Return Home" : "Volver al Inicio"}
-              </Button>
+                    )}
+                    {service.tollFree && (
+                      <p className="text-sm">🆓 {service.tollFree}</p>
+                    )}
+                    {service.link && (
+                      <a
+                        href={service.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center text-blue-600 hover:text-blue-800"
+                      >
+                        <ExternalLink className="h-4 w-4 mr-1" />
+                        {language === 'en' ? "Visit Website" : "Visitar Sitio Web"}
+                      </a>
+                    )}
+                  </CardContent>
+                </Card>
+              ))}
             </div>
           </div>
-        </ScrollArea>
-      </div>
+
+          {/* Crisis Services */}
+          <div className="space-y-4">
+            <h2 className="text-xl font-semibold text-gray-800 mb-4">
+              {language === 'en' ? "Crisis Services" : "Servicios de Crisis"}
+            </h2>
+            <div className="grid gap-4 md:grid-cols-2">
+              {resources.crisisServices.map((service, index) => (
+                <Card key={index} className="bg-[#FEF7CD]">
+                  <CardHeader>
+                    <CardTitle>{service.title}</CardTitle>
+                    {service.description && (
+                      <CardDescription>{service.description}</CardDescription>
+                    )}
+                  </CardHeader>
+                  <CardContent className="space-y-2">
+                    <p className="text-sm">📞 {service.phone}</p>
+                    {service.tollFree && (
+                      <p className="text-sm">🆓 {service.tollFree}</p>
+                    )}
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+
+          {/* Child Services */}
+          <div className="space-y-4">
+            <h2 className="text-xl font-semibold text-gray-800 mb-4">
+              {language === 'en' ? "Child & Family Services" : "Servicios para Niños y Familias"}
+            </h2>
+            <div className="grid gap-4 md:grid-cols-2">
+              {resources.childServices.map((service, index) => (
+                <Card key={index} className="bg-[#D3E4FD]">
+                  <CardHeader>
+                    <CardTitle>{service.title}</CardTitle>
+                    {service.organization && (
+                      <CardDescription>{service.organization}</CardDescription>
+                    )}
+                  </CardHeader>
+                  <CardContent className="space-y-2">
+                    <p className="text-sm">📞 {service.phone}</p>
+                    {service.tollFree && (
+                      <p className="text-sm">🆓 {service.tollFree}</p>
+                    )}
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+
+          {/* Additional Resources Link */}
+          <div className="text-center pt-4">
+            <a
+              href="https://in.ewu.edu/ewahec/wp-content/uploads/sites/102/2016/05/Ferry-County-Resources.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-600 hover:text-blue-800 inline-flex items-center"
+            >
+              <ExternalLink className="h-4 w-4 mr-1" />
+              {language === 'en' 
+                ? "View Complete Resource Guide (PDF)" 
+                : "Ver Guía Completa de Recursos (PDF)"}
+            </a>
+          </div>
+
+          {/* Return Button */}
+          <div className="flex justify-center pt-4">
+            <Button
+              onClick={() => navigate('/')}
+              variant="outline"
+              className="bg-white"
+            >
+              {language === 'en' ? "Return Home" : "Volver al Inicio"}
+            </Button>
+          </div>
+        </div>
+      </ScrollArea>
     </div>
   );
 };

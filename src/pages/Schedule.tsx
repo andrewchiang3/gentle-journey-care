@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
@@ -43,147 +42,144 @@ const Schedule = () => {
   };
 
   return (
-    <div className="fixed inset-0 bg-background/80 flex items-center justify-center p-4">
-      <div className="bg-white rounded-lg shadow-lg w-full max-w-md">
-        <div className="p-6 space-y-6">
-          {/* Header with Avatar */}
-          <div className="text-center space-y-4">
-            <img
-              src="/lovable-uploads/f4a6e110-504c-4780-b9c6-30bec6066142.png"
-              alt="Friendly Medical Helper"
-              className="w-24 h-24 mx-auto"
+    <div className="container mx-auto px-4 py-8">
+      <div className="max-w-md mx-auto space-y-6">
+        <div className="text-center space-y-4">
+          <img
+            src="/lovable-uploads/f4a6e110-504c-4780-b9c6-30bec6066142.png"
+            alt="Friendly Medical Helper"
+            className="w-24 h-24 mx-auto"
+          />
+          <h1 className="text-2xl font-bold text-gray-800">
+            {language === 'en' ? "Schedule an Appointment" : "Programar una Cita"}
+          </h1>
+        </div>
+
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="space-y-2">
+            <Label htmlFor="name">
+              {language === 'en' ? "Full Name" : "Nombre Completo"}
+            </Label>
+            <Input
+              id="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
             />
-            <h1 className="text-2xl font-bold text-gray-800">
-              {language === 'en' ? "Schedule an Appointment" : "Programar una Cita"}
-            </h1>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="space-y-2">
-              <Label htmlFor="name">
-                {language === 'en' ? "Full Name" : "Nombre Completo"}
-              </Label>
-              <Input
-                id="name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                required
-              />
-            </div>
+          <div className="space-y-2">
+            <Label htmlFor="phone">
+              {language === 'en' ? "Phone Number" : "Número de Teléfono"}
+            </Label>
+            <Input
+              id="phone"
+              type="tel"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              required
+            />
+          </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="phone">
-                {language === 'en' ? "Phone Number" : "Número de Teléfono"}
-              </Label>
-              <Input
-                id="phone"
-                type="tel"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                required
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label>
-                {language === 'en' ? "Appointment Type" : "Tipo de Cita"}
-              </Label>
-              <RadioGroup
-                defaultValue="telehealth"
-                onValueChange={setAppointmentType}
-                className="flex flex-col space-y-2"
-              >
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="telehealth" id="telehealth" />
-                  <Label htmlFor="telehealth">
-                    {language === 'en' ? "Telehealth Visit" : "Consulta de Telesalud"}
-                  </Label>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="clinic" id="clinic" />
-                  <Label htmlFor="clinic">
-                    {language === 'en' ? "Local Clinic Visit" : "Visita a Clínica Local"}
-                  </Label>
-                </div>
-              </RadioGroup>
-            </div>
-
-            <div className="space-y-2">
-              <Label>
-                {language === 'en' ? "Preferred Date" : "Fecha Preferida"}
-              </Label>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button
-                    variant={"outline"}
-                    className={cn(
-                      "w-full justify-start text-left font-normal",
-                      !date && "text-muted-foreground"
-                    )}
-                  >
-                    <CalendarIcon className="mr-2 h-4 w-4" />
-                    {date ? (
-                      format(date, "PPP", { locale: language === 'es' ? es : undefined })
-                    ) : (
-                      language === 'en' ? "Pick a date" : "Seleccionar fecha"
-                    )}
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                  <Calendar
-                    mode="single"
-                    selected={date}
-                    onSelect={setDate}
-                    initialFocus
-                    disabled={(date) => date < new Date()}
-                    className="bg-white rounded-md shadow-md border"
-                  />
-                </PopoverContent>
-              </Popover>
-            </div>
-
-            {date && (
-              <div className="space-y-2">
-                <Label>
-                  {language === 'en' ? "Available Time Slots" : "Horarios Disponibles"}
+          <div className="space-y-2">
+            <Label>
+              {language === 'en' ? "Appointment Type" : "Tipo de Cita"}
+            </Label>
+            <RadioGroup
+              defaultValue="telehealth"
+              onValueChange={setAppointmentType}
+              className="flex flex-col space-y-2"
+            >
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="telehealth" id="telehealth" />
+                <Label htmlFor="telehealth">
+                  {language === 'en' ? "Telehealth Visit" : "Consulta de Telesalud"}
                 </Label>
-                <div className="grid grid-cols-3 gap-2">
-                  {availableTimeSlots.map((slot) => (
-                    <Button
-                      key={slot}
-                      type="button"
-                      variant={timeSlot === slot ? "default" : "outline"}
-                      className={cn(
-                        "h-9",
-                        timeSlot === slot && "bg-green-500 hover:bg-green-600"
-                      )}
-                      onClick={() => setTimeSlot(slot)}
-                    >
-                      {slot}
-                    </Button>
-                  ))}
-                </div>
               </div>
-            )}
+              <div className="flex items-center space-x-2">
+                <RadioGroupItem value="clinic" id="clinic" />
+                <Label htmlFor="clinic">
+                  {language === 'en' ? "Local Clinic Visit" : "Visita a Clínica Local"}
+                </Label>
+              </div>
+            </RadioGroup>
+          </div>
 
-            <div className="flex flex-col sm:flex-row justify-center gap-4 pt-4">
-              <Button
-                type="button"
-                onClick={() => navigate('/confirmation', { state: { ...location.state } })}
-                variant="outline"
-              >
-                {language === 'en' ? "Cancel" : "Cancelar"}
-              </Button>
-              <Button
-                type="submit"
-                className="bg-green-500 hover:bg-green-600 text-white"
-                disabled={!name || !phone || !date || !timeSlot}
-              >
-                {language === 'en' ? "Schedule Appointment" : "Programar Cita"}
-              </Button>
+          <div className="space-y-2">
+            <Label>
+              {language === 'en' ? "Preferred Date" : "Fecha Preferida"}
+            </Label>
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  variant={"outline"}
+                  className={cn(
+                    "w-full justify-start text-left font-normal",
+                    !date && "text-muted-foreground"
+                  )}
+                >
+                  <CalendarIcon className="mr-2 h-4 w-4" />
+                  {date ? (
+                    format(date, "PPP", { locale: language === 'es' ? es : undefined })
+                  ) : (
+                    language === 'en' ? "Pick a date" : "Seleccionar fecha"
+                  )}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0" align="start">
+                <Calendar
+                  mode="single"
+                  selected={date}
+                  onSelect={setDate}
+                  initialFocus
+                  disabled={(date) => date < new Date()}
+                  className="bg-white rounded-md shadow-md border"
+                />
+              </PopoverContent>
+            </Popover>
+          </div>
+
+          {date && (
+            <div className="space-y-2">
+              <Label>
+                {language === 'en' ? "Available Time Slots" : "Horarios Disponibles"}
+              </Label>
+              <div className="grid grid-cols-3 gap-2">
+                {availableTimeSlots.map((slot) => (
+                  <Button
+                    key={slot}
+                    type="button"
+                    variant={timeSlot === slot ? "default" : "outline"}
+                    className={cn(
+                      "h-9",
+                      timeSlot === slot && "bg-green-500 hover:bg-green-600"
+                    )}
+                    onClick={() => setTimeSlot(slot)}
+                  >
+                    {slot}
+                  </Button>
+                ))}
+              </div>
             </div>
-          </form>
-        </div>
+          )}
+
+          <div className="flex flex-col sm:flex-row justify-center gap-4 pt-4">
+            <Button
+              type="button"
+              onClick={() => navigate('/confirmation', { state: { ...location.state } })}
+              variant="outline"
+            >
+              {language === 'en' ? "Cancel" : "Cancelar"}
+            </Button>
+            <Button
+              type="submit"
+              className="bg-green-500 hover:bg-green-600 text-white"
+              disabled={!name || !phone || !date || !timeSlot}
+            >
+              {language === 'en' ? "Schedule Appointment" : "Programar Cita"}
+            </Button>
+          </div>
+        </form>
       </div>
     </div>
   );

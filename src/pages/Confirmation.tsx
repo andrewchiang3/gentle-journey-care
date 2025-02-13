@@ -58,83 +58,77 @@ const Confirmation = () => {
   };
 
   return (
-    <div className="fixed inset-0 bg-background/80 flex items-center justify-center p-4">
-      <div className="bg-white rounded-lg shadow-lg w-full max-w-4xl">
-        <ScrollArea className="h-[80vh] rounded-md">
-          <div className="p-6 space-y-6">
-            {/* Header with Avatar */}
-            <div className="text-center space-y-4">
+    <div className="container mx-auto px-4 py-8">
+      <ScrollArea className="h-[calc(100vh-4rem)]">
+        <div className="space-y-6 max-w-4xl mx-auto">
+          <div className="text-center space-y-4">
+            <img
+              src="/lovable-uploads/f4a6e110-504c-4780-b9c6-30bec6066142.png"
+              alt="Friendly Medical Helper"
+              className="w-24 h-24 mx-auto"
+            />
+            <h1 className="text-2xl font-bold text-gray-800">
+              {isCheckup 
+                ? (language === 'en' ? "Check-up Information Summary" : "Resumen de Información del Chequeo")
+                : (language === 'en' ? "Health Information Summary" : "Resumen de Información de Salud")}
+            </h1>
+          </div>
+
+          <div className="bg-[#F2FCE2] p-6 rounded-lg shadow-sm border border-[#E2ECD2]">
+            <h3 className="text-lg font-semibold mb-3">
+              {isCheckup
+                ? (language === 'en' ? "Your Check-up Information" : "Su Información del Chequeo")
+                : (language === 'en' ? "Your Concerns" : "Sus Preocupaciones")}
+            </h3>
+            <p className="text-gray-700 whitespace-pre-line">{concerns}</p>
+          </div>
+
+          <div className="bg-[#FEF7CD] p-6 rounded-lg shadow-sm border">
+            <div className="flex items-center gap-4 mb-4">
               <img
                 src="/lovable-uploads/f4a6e110-504c-4780-b9c6-30bec6066142.png"
-                alt="Friendly Medical Helper"
-                className="w-24 h-24 mx-auto"
+                alt="Health Tips"
+                className="w-16 h-16"
               />
-              <h1 className="text-2xl font-bold text-gray-800">
-                {isCheckup 
-                  ? (language === 'en' ? "Check-up Information Summary" : "Resumen de Información del Chequeo")
-                  : (language === 'en' ? "Health Information Summary" : "Resumen de Información de Salud")}
-              </h1>
-            </div>
-
-            {/* User's Input Summary */}
-            <div className="bg-[#F2FCE2] p-6 rounded-lg shadow-sm border border-[#E2ECD2]">
-              <h3 className="text-lg font-semibold mb-3">
+              <h3 className="text-lg font-semibold">
                 {isCheckup
-                  ? (language === 'en' ? "Your Check-up Information" : "Su Información del Chequeo")
-                  : (language === 'en' ? "Your Concerns" : "Sus Preocupaciones")}
+                  ? (language === 'en' ? "Important Check-up Guidelines" : "Pautas Importantes del Chequeo")
+                  : (language === 'en' ? "Important Health Guidelines" : "Pautas Importantes de Salud")}
               </h3>
-              <p className="text-gray-700 whitespace-pre-line">{concerns}</p>
             </div>
-
-            {/* Guidelines Section */}
-            <div className="bg-[#FEF7CD] p-6 rounded-lg shadow-sm border">
-              <div className="flex items-center gap-4 mb-4">
-                <img
-                  src="/lovable-uploads/f4a6e110-504c-4780-b9c6-30bec6066142.png"
-                  alt="Health Tips"
-                  className="w-16 h-16"
-                />
-                <h3 className="text-lg font-semibold">
-                  {isCheckup
-                    ? (language === 'en' ? "Important Check-up Guidelines" : "Pautas Importantes del Chequeo")
-                    : (language === 'en' ? "Important Health Guidelines" : "Pautas Importantes de Salud")}
-                </h3>
-              </div>
-              <ul className="space-y-4">
-                {(isCheckup ? checkupGuidelines[language] : specificConcerns[language]).map((item, index) => (
-                  <li key={index} className="flex items-start gap-2">
-                    <span className="text-green-500 mt-1">•</span>
-                    <span className="text-gray-700">{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Action Buttons */}
-            <div className="flex flex-col sm:flex-row justify-center gap-4 pt-4">
-              <Button
-                onClick={() => navigate('/')}
-                variant="outline"
-                className="bg-white"
-              >
-                {language === 'en' ? "Return Home" : "Volver al Inicio"}
-              </Button>
-              <Button
-                onClick={handleDownloadPDF}
-                className="bg-green-500 hover:bg-green-600 text-white"
-              >
-                {language === 'en' ? "Download Summary (PDF)" : "Descargar Resumen (PDF)"}
-              </Button>
-              <Button
-                onClick={() => navigate('/schedule', { state: { ...location.state } })}
-                className="bg-blue-500 hover:bg-blue-600 text-white"
-              >
-                {language === 'en' ? "Schedule Appointment" : "Programar Cita"}
-              </Button>
-            </div>
+            <ul className="space-y-4">
+              {(isCheckup ? checkupGuidelines[language] : specificConcerns[language]).map((item, index) => (
+                <li key={index} className="flex items-start gap-2">
+                  <span className="text-green-500 mt-1">•</span>
+                  <span className="text-gray-700">{item}</span>
+                </li>
+              ))}
+            </ul>
           </div>
-        </ScrollArea>
-      </div>
+
+          <div className="flex flex-col sm:flex-row justify-center gap-4 pt-4">
+            <Button
+              onClick={() => navigate('/')}
+              variant="outline"
+              className="bg-white"
+            >
+              {language === 'en' ? "Return Home" : "Volver al Inicio"}
+            </Button>
+            <Button
+              onClick={handleDownloadPDF}
+              className="bg-green-500 hover:bg-green-600 text-white"
+            >
+              {language === 'en' ? "Download Summary (PDF)" : "Descargar Resumen (PDF)"}
+            </Button>
+            <Button
+              onClick={() => navigate('/schedule', { state: { ...location.state } })}
+              className="bg-blue-500 hover:bg-blue-600 text-white"
+            >
+              {language === 'en' ? "Schedule Appointment" : "Programar Cita"}
+            </Button>
+          </div>
+        </div>
+      </ScrollArea>
     </div>
   );
 };
