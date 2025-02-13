@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -94,6 +93,12 @@ const Confirmation = () => {
                 className="bg-green-500 hover:bg-green-600 text-white"
               >
                 {language === 'en' ? "Download Summary (PDF)" : "Descargar Resumen (PDF)"}
+              </Button>
+              <Button
+                onClick={() => navigate('/schedule', { state: { ...location.state } })}
+                className="bg-blue-500 hover:bg-blue-600 text-white"
+              >
+                {language === 'en' ? "Schedule Appointment" : "Programar Cita"}
               </Button>
             </div>
           </div>
