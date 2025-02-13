@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { WelcomeHeader } from '@/components/WelcomeHeader';
 import { VoiceInput } from '@/components/VoiceInput';
@@ -58,6 +59,7 @@ const Index = () => {
         state: { 
           concerns, 
           language,
+          isCheckup: showCheckupForm, // Add this flag to indicate which form was used
           analysis: analysis.text 
         } 
       });
