@@ -1,84 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { generatePDF } from '@/utils/pdfGenerator';
-import { Input } from '@/components/ui/input';
-import { Search } from 'lucide-react';
-
-const commonConditions = {
-  en: {
-    trending: [
-      { name: "Respiratory Syncytial Virus (RSV)", description: "Common respiratory infection affecting young children" },
-      { name: "Hand, Foot, and Mouth Disease", description: "Viral infection causing sores in mouth and rash on hands and feet" },
-      { name: "Strep Throat", description: "Bacterial infection causing sore throat and fever" }
-    ],
-    all: [
-      { name: "Acute Otitis Media", description: "Middle ear infection common in young children" },
-      { name: "Bronchiolitis", description: "Inflammation of small airways in the lungs" },
-      { name: "Chickenpox", description: "Viral infection causing itchy rash and fever" },
-      { name: "Croup", description: "Upper airway infection with barking cough" },
-      { name: "Gastroenteritis", description: "Stomach flu causing diarrhea and vomiting" },
-      { name: "Impetigo", description: "Bacterial skin infection common in children" },
-      { name: "Pinkeye", description: "Conjunctivitis, eye inflammation or infection" },
-      { name: "Pneumonia", description: "Lung infection causing cough and fever" }
-    ]
-  },
-  es: {
-    trending: [
-      { name: "Virus Respiratorio Sincitial (VRS)", description: "Infección respiratoria común que afecta a niños pequeños" },
-      { name: "Enfermedad de Mano, Pie y Boca", description: "Infección viral que causa llagas en la boca y sarpullido en manos y pies" },
-      { name: "Faringitis Estreptocócica", description: "Infección bacteriana que causa dolor de garganta y fiebre" }
-    ],
-    all: [
-      { name: "Otitis Media Aguda", description: "Infección del oído medio común en niños pequeños" },
-      { name: "Bronquiolitis", description: "Inflamación de las vías respiratorias pequeñas en los pulmones" },
-      { name: "Varicela", description: "Infección viral que causa sarpullido con picazón y fiebre" },
-      { name: "Crup", description: "Infección de las vías respiratorias superiores con tos perruna" },
-      { name: "Gastroenteritis", description: "Gripe estomacal que causa diarrea y vómitos" },
-      { name: "Impétigo", description: "Infección bacteriana de la piel común en niños" },
-      { name: "Conjuntivitis", description: "Inflamación o infección del ojo" },
-      { name: "Neumonía", description: "Infección pulmonar que causa tos y fiebre" }
-    ]
-  }
-};
-
-const commonMedications = {
-  en: {
-    trending: [
-      { name: "Amoxicillin", usage: "Antibiotic for bacterial infections" },
-      { name: "Children's Tylenol", usage: "Pain and fever reducer" },
-      { name: "Children's Motrin", usage: "Pain and fever reducer" }
-    ],
-    all: [
-      { name: "Azithromycin", usage: "Antibiotic for various infections" },
-      { name: "Benadryl", usage: "Antihistamine for allergies" },
-      { name: "Cefdinir", usage: "Antibiotic for various infections" },
-      { name: "Children's Allegra", usage: "Antihistamine for allergies" },
-      { name: "Children's Claritin", usage: "Antihistamine for allergies" },
-      { name: "Children's Zyrtec", usage: "Antihistamine for allergies" },
-      { name: "Pedialyte", usage: "Oral rehydration solution" },
-      { name: "Prednisone", usage: "Steroid for inflammation" }
-    ]
-  },
-  es: {
-    trending: [
-      { name: "Amoxicilina", usage: "Antibiótico para infecciones bacterianas" },
-      { name: "Tylenol para Niños", usage: "Reductor de dolor y fiebre" },
-      { name: "Motrin para Niños", usage: "Reductor de dolor y fiebre" }
-    ],
-    all: [
-      { name: "Azitromicina", usage: "Antibiótico para varias infecciones" },
-      { name: "Benadryl", usage: "Antihistamínico para alergias" },
-      { name: "Cefdinir", usage: "Antibiótico para varias infecciones" },
-      { name: "Allegra para Niños", usage: "Antihistamínico para alergias" },
-      { name: "Claritin para Niños", usage: "Antihistamínico para alergias" },
-      { name: "Zyrtec para Niños", usage: "Antihistamínico para alergias" },
-      { name: "Pedialyte", usage: "Solución de rehidratación oral" },
-      { name: "Prednisona", usage: "Esteroide para la inflamación" }
-    ]
-  }
-};
 
 const specificConcerns = {
   en: [
@@ -126,98 +50,12 @@ const Confirmation = () => {
   const concerns = location.state?.concerns || '';
   const language = location.state?.language || 'en';
   const isCheckup = location.state?.isCheckup || false;
-  const [searchTerm, setSearchTerm] = useState('');
 
   const handleDownloadPDF = () => {
     const guidelinesToUse = isCheckup ? checkupGuidelines[language].join('\n\n') : specificConcerns[language].join('\n\n');
     const pdfUrl = generatePDF(concerns, guidelinesToUse, language);
     window.open(pdfUrl, '_blank');
   };
-
-  const filterItems = (items: any[]) => {
-    return items.filter(item =>
-      item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.description?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.usage?.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-  };
-
-  if (isCheckup) {
-    return (
-      <div className="container mx-auto px-4 py-8">
-        <ScrollArea className="h-[calc(100vh-4rem)]">
-          <div className="space-y-6 max-w-4xl mx-auto">
-            <div className="text-center space-y-4">
-              <img
-                src="/lovable-uploads/f4a6e110-504c-4780-b9c6-30bec6066142.png"
-                alt="Friendly Medical Helper"
-                className="w-24 h-24 mx-auto"
-              />
-              <h1 className="text-2xl font-bold text-gray-800">
-                {isCheckup 
-                  ? (language === 'en' ? "Check-up Information Summary" : "Resumen de Información del Chequeo")
-                  : (language === 'en' ? "Health Information Summary" : "Resumen de Información de Salud")}
-              </h1>
-            </div>
-
-            <div className="bg-[#F2FCE2] p-6 rounded-lg shadow-sm border border-[#E2ECD2]">
-              <h3 className="text-lg font-semibold mb-3">
-                {isCheckup
-                  ? (language === 'en' ? "Your Check-up Information" : "Su Información del Chequeo")
-                  : (language === 'en' ? "Your Concerns" : "Sus Preocupaciones")}
-              </h3>
-              <p className="text-gray-700 whitespace-pre-line">{concerns}</p>
-            </div>
-
-            <div className="bg-[#FEF7CD] p-6 rounded-lg shadow-sm border">
-              <div className="flex items-center gap-4 mb-4">
-                <img
-                  src="/lovable-uploads/f4a6e110-504c-4780-b9c6-30bec6066142.png"
-                  alt="Health Tips"
-                  className="w-16 h-16"
-                />
-                <h3 className="text-lg font-semibold">
-                  {isCheckup
-                    ? (language === 'en' ? "Important Check-up Guidelines" : "Pautas Importantes del Chequeo")
-                    : (language === 'en' ? "Important Health Guidelines" : "Pautas Importantes de Salud")}
-                </h3>
-              </div>
-              <ul className="space-y-4">
-                {(isCheckup ? checkupGuidelines[language] : specificConcerns[language]).map((item, index) => (
-                  <li key={index} className="flex items-start gap-2">
-                    <span className="text-green-500 mt-1">•</span>
-                    <span className="text-gray-700">{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="flex flex-col sm:flex-row justify-center gap-4 pt-4">
-              <Button
-                onClick={() => navigate('/')}
-                variant="outline"
-                className="bg-white"
-              >
-                {language === 'en' ? "Return Home" : "Volver al Inicio"}
-              </Button>
-              <Button
-                onClick={handleDownloadPDF}
-                className="bg-green-500 hover:bg-green-600 text-white"
-              >
-                {language === 'en' ? "Download Summary (PDF)" : "Descargar Resumen (PDF)"}
-              </Button>
-              <Button
-                onClick={() => navigate('/schedule', { state: { ...location.state } })}
-                className="bg-blue-500 hover:bg-blue-600 text-white"
-              >
-                {language === 'en' ? "Schedule Appointment" : "Programar Cita"}
-              </Button>
-            </div>
-          </div>
-        </ScrollArea>
-      </div>
-    );
-  }
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -230,87 +68,42 @@ const Confirmation = () => {
               className="w-24 h-24 mx-auto"
             />
             <h1 className="text-2xl font-bold text-gray-800">
-              {language === 'en' ? "Health Information Summary" : "Resumen de Información de Salud"}
+              {isCheckup 
+                ? (language === 'en' ? "Check-up Information Summary" : "Resumen de Información del Chequeo")
+                : (language === 'en' ? "Health Information Summary" : "Resumen de Información de Salud")}
             </h1>
           </div>
 
           <div className="bg-[#F2FCE2] p-6 rounded-lg shadow-sm border border-[#E2ECD2]">
             <h3 className="text-lg font-semibold mb-3">
-              {language === 'en' ? "Your Concerns" : "Sus Preocupaciones"}
+              {isCheckup
+                ? (language === 'en' ? "Your Check-up Information" : "Su Información del Chequeo")
+                : (language === 'en' ? "Your Concerns" : "Sus Preocupaciones")}
             </h3>
             <p className="text-gray-700 whitespace-pre-line">{concerns}</p>
           </div>
 
-          <div className="relative">
-            <Search className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
-            <Input
-              className="pl-10 bg-white"
-              placeholder={language === 'en' ? "Search conditions or medications..." : "Buscar condiciones o medicamentos..."}
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-          </div>
-
           <div className="bg-[#FEF7CD] p-6 rounded-lg shadow-sm border">
-            <h3 className="text-xl font-semibold mb-4">
-              {language === 'en' ? "Find Conditions" : "Encontrar Condiciones"}
-            </h3>
-            
-            {/* Trending Conditions */}
-            <div className="mb-6">
-              <h4 className="text-lg font-medium mb-3 text-orange-600">
-                {language === 'en' ? "Trending Now" : "Tendencias Actuales"}
-              </h4>
-              <div className="grid gap-3">
-                {filterItems(commonConditions[language].trending).map((condition, index) => (
-                  <div key={index} className="bg-white p-4 rounded-lg shadow-sm">
-                    <h5 className="font-semibold text-gray-800">{condition.name}</h5>
-                    <p className="text-gray-600 text-sm mt-1">{condition.description}</p>
-                  </div>
-                ))}
-              </div>
+            <div className="flex items-center gap-4 mb-4">
+              <img
+                src="/lovable-uploads/f4a6e110-504c-4780-b9c6-30bec6066142.png"
+                alt="Health Tips"
+                className="w-16 h-16"
+              />
+              <h3 className="text-lg font-semibold">
+                {isCheckup
+                  ? (language === 'en' ? "Important Check-up Guidelines" : "Pautas Importantes del Chequeo")
+                  : (language === 'en' ? "Important Health Guidelines" : "Pautas Importantes de Salud")}
+              </h3>
             </div>
-
-            {/* All Conditions */}
-            <div className="grid gap-3">
-              {filterItems(commonConditions[language].all).map((condition, index) => (
-                <div key={index} className="bg-white p-4 rounded-lg shadow-sm">
-                  <h5 className="font-semibold text-gray-800">{condition.name}</h5>
-                  <p className="text-gray-600 text-sm mt-1">{condition.description}</p>
-                </div>
+            <ul className="space-y-4">
+              {(isCheckup ? checkupGuidelines[language] : specificConcerns[language]).map((item, index) => (
+                <li key={index} className="flex items-start gap-2">
+                  <span className="text-green-500 mt-1">•</span>
+                  <span className="text-gray-700">{item}</span>
+                </li>
               ))}
-            </div>
-          </div>
-
-          <div className="bg-[#E5F2FC] p-6 rounded-lg shadow-sm border">
-            <h3 className="text-xl font-semibold mb-4">
-              {language === 'en' ? "Medicine Guide" : "Guía de Medicamentos"}
-            </h3>
-            
-            {/* Trending Medications */}
-            <div className="mb-6">
-              <h4 className="text-lg font-medium mb-3 text-blue-600">
-                {language === 'en' ? "Commonly Prescribed" : "Comúnmente Recetados"}
-              </h4>
-              <div className="grid gap-3">
-                {filterItems(commonMedications[language].trending).map((medication, index) => (
-                  <div key={index} className="bg-white p-4 rounded-lg shadow-sm">
-                    <h5 className="font-semibold text-gray-800">{medication.name}</h5>
-                    <p className="text-gray-600 text-sm mt-1">{medication.usage}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* All Medications */}
-            <div className="grid gap-3">
-              {filterItems(commonMedications[language].all).map((medication, index) => (
-                <div key={index} className="bg-white p-4 rounded-lg shadow-sm">
-                  <h5 className="font-semibold text-gray-800">{medication.name}</h5>
-                  <p className="text-gray-600 text-sm mt-1">{medication.usage}</p>
-                </div>
-              ))}
-            </div>
+            </ul>
           </div>
 
           <div className="flex flex-col sm:flex-row justify-center gap-4 pt-4">

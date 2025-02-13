@@ -9,7 +9,6 @@ import { analyzeMedicalConcerns } from '@/utils/llmProcessor';
 import { MainMenuButtons } from '@/components/MainMenuButtons';
 import { ConcernsForm } from '@/components/ConcernsForm';
 import { FormState } from '@/types/form';
-import { AppointmentReminder } from '@/components/AppointmentReminder';
 
 const Index = () => {
   const [formState, setFormState] = useState<FormState>({
@@ -20,10 +19,6 @@ const Index = () => {
     showConcernsForm: false,
     showConfirmDialog: false,
   });
-
-  // Get appointment from localStorage if it exists
-  const appointmentStr = localStorage.getItem('upcomingAppointment');
-  const appointment = appointmentStr ? JSON.parse(appointmentStr) : null;
 
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -94,18 +89,6 @@ const Index = () => {
         />
         
         <main className="container max-w-4xl mx-auto px-4 py-6 md:py-8">
-          {appointment && (
-            <div className="mb-8">
-              <AppointmentReminder 
-                appointment={{
-                  ...appointment,
-                  date: new Date(appointment.date)
-                }}
-                language={formState.language}
-              />
-            </div>
-          )}
-
           <WelcomeHeader />
           
           <div className="mt-8 md:mt-12 flex flex-col items-center space-y-4 md:space-y-8">
