@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
@@ -12,6 +13,11 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { format } from "date-fns";
 import { es } from 'date-fns/locale';
 
+const availableTimeSlots = [
+  "09:00", "09:30", "10:00", "10:30", "11:00", "11:30",
+  "14:00", "14:30", "15:00", "15:30", "16:00", "16:30"
+];
+
 const Schedule = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -21,20 +27,18 @@ const Schedule = () => {
   const [phone, setPhone] = React.useState("");
   const [appointmentType, setAppointmentType] = React.useState("telehealth");
   const [date, setDate] = React.useState<Date>();
+  const [timeSlot, setTimeSlot] = React.useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    // In a real app, this would connect to your backend
-    // For now, we'll simulate success with a toast
     toast({
       title: language === 'en' ? "Appointment Scheduled!" : "¡Cita Programada!",
       description: language === 'en' 
-        ? `We'll send a text reminder to ${phone} for your ${appointmentType} appointment.`
-        : `Enviaremos un recordatorio por mensaje de texto al ${phone} para su cita de ${appointmentType === 'telehealth' ? 'telesalud' : 'clínica'}.`,
+        ? `We'll send a text reminder to ${phone} for your ${appointmentType} appointment on ${format(date!, 'PPP')} at ${timeSlot}.`
+        : `Enviaremos un recordatorio por mensaje de texto al ${phone} para su cita de ${appointmentType === 'telehealth' ? 'telesalud' : 'clínica'} el ${format(date!, 'PPP', { locale: es })} a las ${timeSlot}.`,
     });
 
-    // Navigate to resources page
     navigate('/resources', { state: { ...location.state } });
   };
 
@@ -125,17 +129,42 @@ const Schedule = () => {
                     )}
                   </Button>
                 </PopoverTrigger>
-                <PopoverContent className="w-auto p-0">
+                <PopoverContent className="w-auto p-0" align="start">
                   <Calendar
                     mode="single"
                     selected={date}
                     onSelect={setDate}
                     initialFocus
                     disabled={(date) => date < new Date()}
+                    className="bg-white rounded-md shadow-md border"
                   />
                 </PopoverContent>
               </Popover>
             </div>
+
+            {date && (
+              <div className="space-y-2">
+                <Label>
+                  {language === 'en' ? "Available Time Slots" : "Horarios Disponibles"}
+                </Label>
+                <div className="grid grid-cols-3 gap-2">
+                  {availableTimeSlots.map((slot) => (
+                    <Button
+                      key={slot}
+                      type="button"
+                      variant={timeSlot === slot ? "default" : "outline"}
+                      className={cn(
+                        "h-9",
+                        timeSlot === slot && "bg-green-500 hover:bg-green-600"
+                      )}
+                      onClick={() => setTimeSlot(slot)}
+                    >
+                      {slot}
+                    </Button>
+                  ))}
+                </div>
+              </div>
+            )}
 
             <div className="flex flex-col sm:flex-row justify-center gap-4 pt-4">
               <Button
@@ -148,7 +177,7 @@ const Schedule = () => {
               <Button
                 type="submit"
                 className="bg-green-500 hover:bg-green-600 text-white"
-                disabled={!name || !phone || !date}
+                disabled={!name || !phone || !date || !timeSlot}
               >
                 {language === 'en' ? "Schedule Appointment" : "Programar Cita"}
               </Button>
