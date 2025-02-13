@@ -31,11 +31,29 @@ const Medicines = () => {
   const location = useLocation();
   const language = location.state?.language || 'en';
   const [searchTerm, setSearchTerm] = useState('');
+  const [selectedMedicines, setSelectedMedicines] = useState<string[]>([]);
 
   const filteredMedicines = medicines[language].filter(medicine =>
     medicine.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     medicine.description.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const toggleMedicine = (medicineName: string) => {
+    setSelectedMedicines(prev =>
+      prev.includes(medicineName)
+        ? prev.filter(name => name !== medicineName)
+        : [...prev, medicineName]
+    );
+  };
+
+  const handleBack = () => {
+    navigate('/confirmation', {
+      state: {
+        ...location.state,
+        selectedMedicines
+      }
+    });
+  };
 
   return (
     <div className="min-h-screen bg-[#FDF7F3]">
@@ -43,7 +61,7 @@ const Medicines = () => {
         <div className="flex items-center justify-between mb-6">
           <Button
             variant="ghost"
-            onClick={() => navigate(-1)}
+            onClick={handleBack}
             className="p-2"
           >
             <ArrowLeft className="h-6 w-6" />
@@ -52,7 +70,7 @@ const Medicines = () => {
           <div className="w-10" /> {/* Spacer for alignment */}
         </div>
 
-        <h1 className="text-2xl font-bold mb-2">
+        <h1 className="text-2xl font-bold mb-2 text-[#2D1810]">
           {language === 'en' ? "Children's Medicine Guide" : "Guía de Medicamentos para Niños"}
         </h1>
 
@@ -72,7 +90,12 @@ const Medicines = () => {
           {filteredMedicines.map((medicine, index) => (
             <div
               key={index}
-              className="bg-white p-4 rounded-xl shadow-sm border border-[#D3E5F5]"
+              className={`bg-white p-4 rounded-xl shadow-sm cursor-pointer transition-colors ${
+                selectedMedicines.includes(medicine.name)
+                  ? 'border-2 border-[#7EB8E7]'
+                  : 'border border-[#D3E5F5] hover:border-[#7EB8E7]'
+              }`}
+              onClick={() => toggleMedicine(medicine.name)}
             >
               <h3 className="text-lg font-semibold text-[#7EB8E7] mb-1">
                 {medicine.name}

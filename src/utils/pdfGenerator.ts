@@ -4,7 +4,9 @@ import jsPDF from 'jspdf';
 export const generatePDF = (
   concerns: string,
   analysis: string,
-  language: string = 'en'
+  language: string = 'en',
+  selectedConditions: string[] = [],
+  selectedMedicines: string[] = []
 ): string => {
   const doc = new jsPDF();
   const lineHeight = 7;
@@ -28,7 +30,6 @@ export const generatePDF = (
   yPosition += lineHeight;
   doc.setFont('helvetica', 'normal');
   
-  // Split text into lines that fit the page width
   const splitConcerns = doc.splitTextToSize(concerns, 170);
   doc.text(splitConcerns, 20, yPosition);
   yPosition += (splitConcerns.length * lineHeight) + lineHeight;
@@ -41,6 +42,32 @@ export const generatePDF = (
   
   const splitAnalysis = doc.splitTextToSize(analysis, 170);
   doc.text(splitAnalysis, 20, yPosition);
+  yPosition += (splitAnalysis.length * lineHeight) + lineHeight;
+
+  // Add selected conditions if any
+  if (selectedConditions.length > 0) {
+    doc.setFont('helvetica', 'bold');
+    doc.text(language === 'en' ? 'Conditions of Interest:' : 'Condiciones de Interés:', 20, yPosition);
+    yPosition += lineHeight;
+    doc.setFont('helvetica', 'normal');
+    selectedConditions.forEach(condition => {
+      doc.text(`• ${condition}`, 30, yPosition);
+      yPosition += lineHeight;
+    });
+    yPosition += lineHeight;
+  }
+
+  // Add selected medicines if any
+  if (selectedMedicines.length > 0) {
+    doc.setFont('helvetica', 'bold');
+    doc.text(language === 'en' ? 'Medicines of Interest:' : 'Medicamentos de Interés:', 20, yPosition);
+    yPosition += lineHeight;
+    doc.setFont('helvetica', 'normal');
+    selectedMedicines.forEach(medicine => {
+      doc.text(`• ${medicine}`, 30, yPosition);
+      yPosition += lineHeight;
+    });
+  }
 
   // Add footer
   doc.setFontSize(10);

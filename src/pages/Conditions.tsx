@@ -31,11 +31,29 @@ const Conditions = () => {
   const location = useLocation();
   const language = location.state?.language || 'en';
   const [searchTerm, setSearchTerm] = useState('');
+  const [selectedConditions, setSelectedConditions] = useState<string[]>([]);
 
   const filteredConditions = conditions[language].filter(condition =>
     condition.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     condition.description.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const toggleCondition = (conditionName: string) => {
+    setSelectedConditions(prev =>
+      prev.includes(conditionName)
+        ? prev.filter(name => name !== conditionName)
+        : [...prev, conditionName]
+    );
+  };
+
+  const handleBack = () => {
+    navigate('/confirmation', {
+      state: {
+        ...location.state,
+        selectedConditions
+      }
+    });
+  };
 
   return (
     <div className="min-h-screen bg-[#FDF7F3]">
@@ -43,7 +61,7 @@ const Conditions = () => {
         <div className="flex items-center justify-between mb-6">
           <Button
             variant="ghost"
-            onClick={() => navigate(-1)}
+            onClick={handleBack}
             className="p-2"
           >
             <ArrowLeft className="h-6 w-6" />
@@ -52,7 +70,7 @@ const Conditions = () => {
           <div className="w-10" /> {/* Spacer for alignment */}
         </div>
 
-        <h1 className="text-2xl font-bold mb-2">
+        <h1 className="text-2xl font-bold mb-2 text-[#2D1810]">
           {language === 'en' ? "Common Childhood Conditions" : "Condiciones Infantiles Comunes"}
         </h1>
 
@@ -72,7 +90,12 @@ const Conditions = () => {
           {filteredConditions.map((condition, index) => (
             <div
               key={index}
-              className="bg-white p-4 rounded-xl shadow-sm border border-[#FFE4E4]"
+              className={`bg-white p-4 rounded-xl shadow-sm cursor-pointer transition-colors ${
+                selectedConditions.includes(condition.name)
+                  ? 'border-2 border-[#FF9999]'
+                  : 'border border-[#FFE4E4] hover:border-[#FF9999]'
+              }`}
+              onClick={() => toggleCondition(condition.name)}
             >
               <h3 className="text-lg font-semibold text-[#FF9999] mb-1">
                 {condition.name}

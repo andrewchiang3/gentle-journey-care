@@ -10,6 +10,8 @@ import Confirmation from "./pages/Confirmation";
 import Schedule from "./pages/Schedule";
 import Resources from "./pages/Resources";
 import NotFound from "./pages/NotFound";
+import Conditions from "./pages/Conditions";
+import Medicines from "./pages/Medicines";
 
 const queryClient = new QueryClient();
 
@@ -26,6 +28,8 @@ const App = () => (
             <Route path="/confirmation" element={<Confirmation />} />
             <Route path="/schedule" element={<Schedule />} />
             <Route path="/resources" element={<Resources />} />
+            <Route path="/conditions" element={<Conditions />} />
+            <Route path="/medicines" element={<Medicines />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
