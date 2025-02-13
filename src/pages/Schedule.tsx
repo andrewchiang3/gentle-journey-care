@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
@@ -35,8 +34,8 @@ const Schedule = () => {
         : `Enviaremos un recordatorio por mensaje de texto al ${phone} para su cita de ${appointmentType === 'telehealth' ? 'telesalud' : 'clínica'}.`,
     });
 
-    // Navigate back to confirmation
-    navigate('/confirmation', { state: { ...location.state } });
+    // Navigate to resources page
+    navigate('/resources', { state: { ...location.state } });
   };
 
   return (
