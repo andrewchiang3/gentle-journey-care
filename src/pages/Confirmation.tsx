@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -24,18 +23,24 @@ const specificConcerns = {
 
 const checkupGuidelines = {
   en: [
-    "Regular well-child visits are essential for monitoring growth and development",
-    "Vaccinations should be kept up to date according to the recommended schedule",
-    "Discuss any changes in eating, sleeping, or behavior patterns",
-    "Track developmental milestones and discuss any concerns",
-    "Maintain regular dental check-ups and good oral hygiene"
+    "Vaccinations: Keep your child up-to-date with routine vaccinations as per CDC recommendations",
+    "Nutrition: Aim for a balanced diet including fresh fruits, vegetables, whole grains, lean proteins, and low-fat dairy products. Be mindful of food insecurity in rural communities",
+    "Sleep Hygiene: Establish consistent sleep schedules to promote healthy sleep patterns",
+    "Physical Activity: Encourage regular physical activity through playtime or community sports programs",
+    "Screen Time: Limit screen time, especially before bedtime; encourage active engagement instead",
+    "Preventive Care: Regular check-ups with local clinics for routine health maintenance and early detection of potential issues",
+    "Developmental Milestones: Track and discuss any concerns about your child's development",
+    "Dental Health: Maintain regular dental check-ups and practice good oral hygiene"
   ],
   es: [
-    "Las visitas regulares de control del niño son esenciales para monitorear el crecimiento y desarrollo",
-    "Las vacunas deben mantenerse actualizadas según el calendario recomendado",
-    "Discutir cualquier cambio en los patrones de alimentación, sueño o comportamiento",
-    "Seguir los hitos del desarrollo y discutir cualquier preocupación",
-    "Mantener chequeos dentales regulares y buena higiene oral"
+    "Vacunas: Mantenga a su hijo al día con las vacunas de rutina según las recomendaciones del CDC",
+    "Nutrición: Procure una dieta equilibrada que incluya frutas frescas, verduras, granos integrales, proteínas magras y productos lácteos bajos en grasa. Tenga en cuenta la inseguridad alimentaria en las comunidades rurales",
+    "Higiene del Sueño: Establezca horarios de sueño consistentes para promover patrones de sueño saludables",
+    "Actividad Física: Fomente la actividad física regular a través del tiempo de juego o programas deportivos comunitarios",
+    "Tiempo de Pantalla: Limite el tiempo frente a la pantalla, especialmente antes de dormir; fomente la participación activa en su lugar",
+    "Atención Preventiva: Chequeos regulares en clínicas locales para el mantenimiento rutinario de la salud y la detección temprana de posibles problemas",
+    "Hitos del Desarrollo: Realice seguimiento y discuta cualquier preocupación sobre el desarrollo de su hijo",
+    "Salud Dental: Mantenga chequeos dentales regulares y practique una buena higiene oral"
   ]
 };
 
