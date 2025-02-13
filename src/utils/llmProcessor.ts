@@ -14,8 +14,7 @@ async function initializePipeline() {
       'text2text-generation',
       'Xenova/medical-summarization-en',
       { 
-        device: 'webgpu',
-        quantized: true // Enable model quantization for better performance
+        device: 'webgpu'
       }
     );
   }
