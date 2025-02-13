@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -21,14 +22,33 @@ const specificConcerns = {
   ]
 };
 
+const checkupGuidelines = {
+  en: [
+    "Regular well-child visits are essential for monitoring growth and development",
+    "Vaccinations should be kept up to date according to the recommended schedule",
+    "Discuss any changes in eating, sleeping, or behavior patterns",
+    "Track developmental milestones and discuss any concerns",
+    "Maintain regular dental check-ups and good oral hygiene"
+  ],
+  es: [
+    "Las visitas regulares de control del niño son esenciales para monitorear el crecimiento y desarrollo",
+    "Las vacunas deben mantenerse actualizadas según el calendario recomendado",
+    "Discutir cualquier cambio en los patrones de alimentación, sueño o comportamiento",
+    "Seguir los hitos del desarrollo y discutir cualquier preocupación",
+    "Mantener chequeos dentales regulares y buena higiene oral"
+  ]
+};
+
 const Confirmation = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const concerns = location.state?.concerns || '';
   const language = location.state?.language || 'en';
+  const isCheckup = location.state?.isCheckup || false;
 
   const handleDownloadPDF = () => {
-    const pdfUrl = generatePDF(concerns, specificConcerns[language].join('\n\n'), language);
+    const guidelinesToUse = isCheckup ? checkupGuidelines[language].join('\n\n') : specificConcerns[language].join('\n\n');
+    const pdfUrl = generatePDF(concerns, guidelinesToUse, language);
     window.open(pdfUrl, '_blank');
   };
 
@@ -45,19 +65,23 @@ const Confirmation = () => {
                 className="w-24 h-24 mx-auto"
               />
               <h1 className="text-2xl font-bold text-gray-800">
-                {language === 'en' ? "Health Information Summary" : "Resumen de Información de Salud"}
+                {isCheckup 
+                  ? (language === 'en' ? "Check-up Information Summary" : "Resumen de Información del Chequeo")
+                  : (language === 'en' ? "Health Information Summary" : "Resumen de Información de Salud")}
               </h1>
             </div>
 
             {/* User's Input Summary */}
             <div className="bg-[#F2FCE2] p-6 rounded-lg shadow-sm border border-[#E2ECD2]">
               <h3 className="text-lg font-semibold mb-3">
-                {language === 'en' ? "Your Concerns" : "Sus Preocupaciones"}
+                {isCheckup
+                  ? (language === 'en' ? "Your Check-up Information" : "Su Información del Chequeo")
+                  : (language === 'en' ? "Your Concerns" : "Sus Preocupaciones")}
               </h3>
               <p className="text-gray-700 whitespace-pre-line">{concerns}</p>
             </div>
 
-            {/* Specific Concerns Section */}
+            {/* Guidelines Section */}
             <div className="bg-[#FEF7CD] p-6 rounded-lg shadow-sm border">
               <div className="flex items-center gap-4 mb-4">
                 <img
@@ -66,14 +90,16 @@ const Confirmation = () => {
                   className="w-16 h-16"
                 />
                 <h3 className="text-lg font-semibold">
-                  {language === 'en' ? "Important Health Guidelines" : "Pautas Importantes de Salud"}
+                  {isCheckup
+                    ? (language === 'en' ? "Important Check-up Guidelines" : "Pautas Importantes del Chequeo")
+                    : (language === 'en' ? "Important Health Guidelines" : "Pautas Importantes de Salud")}
                 </h3>
               </div>
               <ul className="space-y-4">
-                {specificConcerns[language].map((concern, index) => (
+                {(isCheckup ? checkupGuidelines[language] : specificConcerns[language]).map((item, index) => (
                   <li key={index} className="flex items-start gap-2">
                     <span className="text-green-500 mt-1">•</span>
-                    <span className="text-gray-700">{concern}</span>
+                    <span className="text-gray-700">{item}</span>
                   </li>
                 ))}
               </ul>
