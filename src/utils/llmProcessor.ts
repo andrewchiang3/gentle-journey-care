@@ -1,5 +1,5 @@
 
-import { pipeline, type TextGenerationOutput } from '@huggingface/transformers';
+import { pipeline } from '@huggingface/transformers';
 
 interface AnalysisResult {
   success: boolean;
@@ -35,9 +35,9 @@ export const analyzeMedicalConcerns = async (
 
     // Extract the generated text from the result
     const output = Array.isArray(result) ? result[0] : result;
-    const generatedText = typeof output === 'string' 
-      ? output 
-      : output.text || '';
+    const generatedText = typeof output === 'object' && 'generated_text' in output
+      ? output.generated_text
+      : String(output);
 
     return {
       success: true,
