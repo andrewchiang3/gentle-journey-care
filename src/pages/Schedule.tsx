@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
@@ -13,8 +14,8 @@ import { format } from "date-fns";
 import { es } from 'date-fns/locale';
 
 const availableTimeSlots = [
-  "09:00", "09:30", "10:00", "10:30", "11:00", "11:30",
-  "14:00", "14:30", "15:00", "15:30", "16:00", "16:30"
+  "9:00 AM", "9:30 AM", "10:00 AM", "10:30 AM", "11:00 AM", "11:30 AM",
+  "2:00 PM", "2:30 PM", "3:00 PM", "3:30 PM", "4:00 PM", "4:30 PM"
 ];
 
 const Schedule = () => {
@@ -27,6 +28,7 @@ const Schedule = () => {
   const [appointmentType, setAppointmentType] = React.useState("telehealth");
   const [date, setDate] = React.useState<Date>();
   const [timeSlot, setTimeSlot] = React.useState("");
+  const [isCalendarOpen, setIsCalendarOpen] = React.useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -39,6 +41,11 @@ const Schedule = () => {
     });
 
     navigate('/resources', { state: { ...location.state } });
+  };
+
+  const handleDateSelect = (selectedDate: Date | undefined) => {
+    setDate(selectedDate);
+    setIsCalendarOpen(false); // Close the calendar after selection
   };
 
   return (
@@ -109,7 +116,7 @@ const Schedule = () => {
             <Label>
               {language === 'en' ? "Preferred Date" : "Fecha Preferida"}
             </Label>
-            <Popover>
+            <Popover open={isCalendarOpen} onOpenChange={setIsCalendarOpen}>
               <PopoverTrigger asChild>
                 <Button
                   variant={"outline"}
@@ -130,7 +137,7 @@ const Schedule = () => {
                 <Calendar
                   mode="single"
                   selected={date}
-                  onSelect={setDate}
+                  onSelect={handleDateSelect}
                   initialFocus
                   disabled={(date) => date < new Date()}
                   className="bg-white rounded-md shadow-md border"
