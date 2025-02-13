@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Shield, ArrowLeft } from 'lucide-react';
+import { Shield, ArrowLeft, Plus } from 'lucide-react';
 
 const medicines = {
   en: [
@@ -90,19 +90,34 @@ const Medicines = () => {
           {filteredMedicines.map((medicine, index) => (
             <div
               key={index}
-              className={`bg-white p-4 rounded-xl shadow-sm cursor-pointer transition-colors ${
+              className={`bg-white p-4 rounded-xl shadow-sm transition-colors ${
                 selectedMedicines.includes(medicine.name)
                   ? 'border-2 border-[#7EB8E7]'
                   : 'border border-[#D3E5F5] hover:border-[#7EB8E7]'
               }`}
-              onClick={() => toggleMedicine(medicine.name)}
             >
-              <h3 className="text-lg font-semibold text-[#7EB8E7] mb-1">
-                {medicine.name}
-              </h3>
-              <p className="text-gray-600">
-                {medicine.description}
-              </p>
+              <div className="flex justify-between items-start">
+                <div className="flex-1">
+                  <h3 className="text-lg font-semibold text-[#7EB8E7] mb-1">
+                    {medicine.name}
+                  </h3>
+                  <p className="text-gray-600">
+                    {medicine.description}
+                  </p>
+                </div>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className={`shrink-0 ml-2 ${
+                    selectedMedicines.includes(medicine.name)
+                      ? 'bg-[#7EB8E7] text-white hover:bg-[#7EB8E7]/90'
+                      : 'text-[#7EB8E7] hover:text-[#7EB8E7]/90'
+                  }`}
+                  onClick={() => toggleMedicine(medicine.name)}
+                >
+                  <Plus className="h-5 w-5" />
+                </Button>
+              </div>
             </div>
           ))}
         </div>

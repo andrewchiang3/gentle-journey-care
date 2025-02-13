@@ -51,10 +51,18 @@ const Confirmation = () => {
   const concerns = location.state?.concerns || '';
   const language = location.state?.language || 'en';
   const isCheckup = location.state?.isCheckup || false;
+  const selectedConditions = location.state?.selectedConditions || [];
+  const selectedMedicines = location.state?.selectedMedicines || [];
 
   const handleDownloadPDF = () => {
     const guidelinesToUse = isCheckup ? checkupGuidelines[language].join('\n\n') : specificConcerns[language].join('\n\n');
-    const pdfUrl = generatePDF(concerns, guidelinesToUse, language);
+    const pdfUrl = generatePDF(
+      concerns, 
+      guidelinesToUse, 
+      language,
+      selectedConditions,
+      selectedMedicines
+    );
     window.open(pdfUrl, '_blank');
   };
 

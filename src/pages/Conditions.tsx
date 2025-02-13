@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Brain, ArrowLeft } from 'lucide-react';
+import { Brain, ArrowLeft, Plus } from 'lucide-react';
 
 const conditions = {
   en: [
@@ -90,19 +90,34 @@ const Conditions = () => {
           {filteredConditions.map((condition, index) => (
             <div
               key={index}
-              className={`bg-white p-4 rounded-xl shadow-sm cursor-pointer transition-colors ${
+              className={`bg-white p-4 rounded-xl shadow-sm transition-colors ${
                 selectedConditions.includes(condition.name)
                   ? 'border-2 border-[#FF9999]'
                   : 'border border-[#FFE4E4] hover:border-[#FF9999]'
               }`}
-              onClick={() => toggleCondition(condition.name)}
             >
-              <h3 className="text-lg font-semibold text-[#FF9999] mb-1">
-                {condition.name}
-              </h3>
-              <p className="text-gray-600">
-                {condition.description}
-              </p>
+              <div className="flex justify-between items-start">
+                <div className="flex-1">
+                  <h3 className="text-lg font-semibold text-[#FF9999] mb-1">
+                    {condition.name}
+                  </h3>
+                  <p className="text-gray-600">
+                    {condition.description}
+                  </p>
+                </div>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className={`shrink-0 ml-2 ${
+                    selectedConditions.includes(condition.name)
+                      ? 'bg-[#FF9999] text-white hover:bg-[#FF9999]/90'
+                      : 'text-[#FF9999] hover:text-[#FF9999]/90'
+                  }`}
+                  onClick={() => toggleCondition(condition.name)}
+                >
+                  <Plus className="h-5 w-5" />
+                </Button>
+              </div>
             </div>
           ))}
         </div>
