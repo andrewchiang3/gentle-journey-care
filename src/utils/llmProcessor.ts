@@ -1,5 +1,5 @@
-require('dotenv').config()
-import { pipeline } from '@huggingface/transformers';
+
+import { pipeline, type TextGenerationOutput } from '@huggingface/transformers';
 
 interface AnalysisResult {
   success: boolean;
@@ -34,15 +34,14 @@ export const analyzeMedicalConcerns = async (
     });
 
     // Extract the generated text from the result
-    const generatedText = Array.isArray(result) 
-      ? result[0].generated_text 
-      : result.generated_text;
-
-    const analysisText = (generatedText || '').replace(prompt, '').trim();
+    const output = Array.isArray(result) ? result[0] : result;
+    const generatedText = typeof output === 'string' 
+      ? output 
+      : output.text || '';
 
     return {
       success: true,
-      text: analysisText,
+      text: generatedText.replace(prompt, '').trim(),
     };
   } catch (error) {
     console.error('Error during analysis:', error);

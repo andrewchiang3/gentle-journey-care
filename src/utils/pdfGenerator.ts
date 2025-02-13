@@ -53,5 +53,6 @@ export const generatePDF = (
     280
   );
 
-  return doc.output('bloburl');
+  const blobUrl = doc.output('bloburl');
+  return typeof blobUrl === 'string' ? blobUrl : String(blobUrl);
 };
