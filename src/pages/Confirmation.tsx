@@ -165,6 +165,27 @@ const Confirmation = () => {
             <p className="text-gray-700 whitespace-pre-line">{concerns}</p>
           </div>
 
+          <div className="bg-[#FEF7CD] p-6 rounded-lg shadow-sm border">
+            <div className="flex items-center gap-4 mb-4">
+              <img
+                src="/lovable-uploads/f4a6e110-504c-4780-b9c6-30bec6066142.png"
+                alt="Health Tips"
+                className="w-16 h-16"
+              />
+              <h3 className="text-lg font-semibold">
+                {language === 'en' ? "Important Health Guidelines" : "Pautas Importantes de Salud"}
+              </h3>
+            </div>
+            <ul className="space-y-4">
+              {specificConcerns[language].map((item, index) => (
+                <li key={index} className="flex items-start gap-2">
+                  <span className="text-green-500 mt-1">•</span>
+                  <span className="text-gray-700">{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
           <div className="grid gap-6 md:grid-cols-2">
             {/* Find Conditions Card */}
             <div className="bg-white p-6 rounded-xl shadow-sm border hover:shadow-md transition-shadow">
