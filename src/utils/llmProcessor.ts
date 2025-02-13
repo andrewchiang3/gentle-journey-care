@@ -35,31 +35,21 @@ export const analyzeMedicalConcerns = async (
 
     // Extract the generated text from the result
     const output = Array.isArray(result) ? result[0] : result;
-    const generatedText = typeof output === 'object' && 'generated_text' in output
+    const generatedText = String(typeof output === 'object' && 'generated_text' in output
       ? output.generated_text
-      : String(output);
+      : output).replace(prompt, '').trim();
 
     return {
       success: true,
-      text: generatedText.replace(prompt, '').trim(),
+      text: generatedText
     };
   } catch (error) {
     console.error('Error during analysis:', error);
     return {
       success: false,
       text: language === 'en'
-        ? "Based on the information provided, here are some initial thoughts:\n\n" +
-          "• This appears to be a non-urgent concern that should be monitored\n" +
-          "• Watch for increased temperature above 102°F (39°C)\n" +
-          "• Ensure good hydration and rest\n" +
-          "• Consider scheduling a follow-up with your pediatrician if symptoms persist\n" +
-          "• Seek immediate care if fever is accompanied by severe headache or stiff neck"
-        : "Según la información proporcionada, aquí hay algunas consideraciones iniciales:\n\n" +
-          "• Esta parece ser una preocupación no urgente que debe monitorearse\n" +
-          "• Observe si la temperatura aumenta por encima de 39°C (102°F)\n" +
-          "• Asegure una buena hidratación y descanso\n" +
-          "• Considere programar un seguimiento con su pediatra si los síntomas persisten\n" +
-          "• Busque atención inmediata si la fiebre se acompaña de dolor de cabeza intenso o rigidez en el cuello"
+        ? "Please consult with your healthcare provider for a proper evaluation."
+        : "Por favor consulte con su proveedor de atención médica para una evaluación adecuada."
     };
   }
 };
