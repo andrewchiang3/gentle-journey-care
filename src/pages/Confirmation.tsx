@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { generatePDF } from '@/utils/pdfGenerator';
+import { Brain, Shield } from 'lucide-react';
 
 const specificConcerns = {
   en: [
@@ -57,6 +58,83 @@ const Confirmation = () => {
     window.open(pdfUrl, '_blank');
   };
 
+  if (isCheckup) {
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <ScrollArea className="h-[calc(100vh-4rem)]">
+          <div className="space-y-6 max-w-4xl mx-auto">
+            <div className="text-center space-y-4">
+              <img
+                src="/lovable-uploads/f4a6e110-504c-4780-b9c6-30bec6066142.png"
+                alt="Friendly Medical Helper"
+                className="w-24 h-24 mx-auto"
+              />
+              <h1 className="text-2xl font-bold text-gray-800">
+                {isCheckup
+                  ? (language === 'en' ? "Check-up Information Summary" : "Resumen de Información del Chequeo")
+                  : (language === 'en' ? "Health Information Summary" : "Resumen de Información de Salud")}
+              </h1>
+            </div>
+
+            <div className="bg-[#F2FCE2] p-6 rounded-lg shadow-sm border border-[#E2ECD2]">
+              <h3 className="text-lg font-semibold mb-3">
+                {isCheckup
+                  ? (language === 'en' ? "Your Check-up Information" : "Su Información del Chequeo")
+                  : (language === 'en' ? "Your Concerns" : "Sus Preocupaciones")}
+              </h3>
+              <p className="text-gray-700 whitespace-pre-line">{concerns}</p>
+            </div>
+
+            <div className="bg-[#FEF7CD] p-6 rounded-lg shadow-sm border">
+              <div className="flex items-center gap-4 mb-4">
+                <img
+                  src="/lovable-uploads/f4a6e110-504c-4780-b9c6-30bec6066142.png"
+                  alt="Health Tips"
+                  className="w-16 h-16"
+                />
+                <h3 className="text-lg font-semibold">
+                  {isCheckup
+                    ? (language === 'en' ? "Important Check-up Guidelines" : "Pautas Importantes del Chequeo")
+                    : (language === 'en' ? "Important Health Guidelines" : "Pautas Importantes de Salud")}
+                </h3>
+              </div>
+              <ul className="space-y-4">
+                {(isCheckup ? checkupGuidelines[language] : specificConcerns[language]).map((item, index) => (
+                  <li key={index} className="flex items-start gap-2">
+                    <span className="text-green-500 mt-1">•</span>
+                    <span className="text-gray-700">{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="flex flex-col sm:flex-row justify-center gap-4 pt-4">
+              <Button
+                onClick={() => navigate('/')}
+                variant="outline"
+                className="bg-white"
+              >
+                {language === 'en' ? "Return Home" : "Volver al Inicio"}
+              </Button>
+              <Button
+                onClick={handleDownloadPDF}
+                className="bg-green-500 hover:bg-green-600 text-white"
+              >
+                {language === 'en' ? "Download Summary (PDF)" : "Descargar Resumen (PDF)"}
+              </Button>
+              <Button
+                onClick={() => navigate('/schedule', { state: { ...location.state } })}
+                className="bg-blue-500 hover:bg-blue-600 text-white"
+              >
+                {language === 'en' ? "Schedule Appointment" : "Programar Cita"}
+              </Button>
+            </div>
+          </div>
+        </ScrollArea>
+      </div>
+    );
+  }
+
   return (
     <div className="container mx-auto px-4 py-8">
       <ScrollArea className="h-[calc(100vh-4rem)]">
@@ -68,42 +146,59 @@ const Confirmation = () => {
               className="w-24 h-24 mx-auto"
             />
             <h1 className="text-2xl font-bold text-gray-800">
-              {isCheckup 
-                ? (language === 'en' ? "Check-up Information Summary" : "Resumen de Información del Chequeo")
-                : (language === 'en' ? "Health Information Summary" : "Resumen de Información de Salud")}
+              {language === 'en' ? "Health Information Summary" : "Resumen de Información de Salud"}
             </h1>
           </div>
 
           <div className="bg-[#F2FCE2] p-6 rounded-lg shadow-sm border border-[#E2ECD2]">
             <h3 className="text-lg font-semibold mb-3">
-              {isCheckup
-                ? (language === 'en' ? "Your Check-up Information" : "Su Información del Chequeo")
-                : (language === 'en' ? "Your Concerns" : "Sus Preocupaciones")}
+              {language === 'en' ? "Your Concerns" : "Sus Preocupaciones"}
             </h3>
             <p className="text-gray-700 whitespace-pre-line">{concerns}</p>
           </div>
 
-          <div className="bg-[#FEF7CD] p-6 rounded-lg shadow-sm border">
-            <div className="flex items-center gap-4 mb-4">
-              <img
-                src="/lovable-uploads/f4a6e110-504c-4780-b9c6-30bec6066142.png"
-                alt="Health Tips"
-                className="w-16 h-16"
-              />
-              <h3 className="text-lg font-semibold">
-                {isCheckup
-                  ? (language === 'en' ? "Important Check-up Guidelines" : "Pautas Importantes del Chequeo")
-                  : (language === 'en' ? "Important Health Guidelines" : "Pautas Importantes de Salud")}
+          <div className="grid gap-6 md:grid-cols-2">
+            {/* Find Conditions Card */}
+            <div className="bg-white p-6 rounded-xl shadow-sm border hover:shadow-md transition-shadow">
+              <div className="bg-[#FFF5F5] w-16 h-16 rounded-2xl flex items-center justify-center mb-4">
+                <Brain className="h-8 w-8 text-[#FF9999]" />
+              </div>
+              <h3 className="text-xl font-bold mb-2">
+                {language === 'en' ? "Find Conditions" : "Encontrar Condiciones"}
               </h3>
+              <p className="text-gray-600 mb-6">
+                {language === 'en'
+                  ? "Learn about common children's health conditions and their treatments, with expert insights."
+                  : "Aprenda sobre condiciones de salud comunes en niños y sus tratamientos, con información experta."}
+              </p>
+              <Button
+                onClick={() => navigate('/conditions', { state: { ...location.state } })}
+                className="w-full bg-[#C3E8DF] hover:bg-[#A5D4C8] text-gray-800"
+              >
+                {language === 'en' ? "Explore Conditions" : "Explorar Condiciones"}
+              </Button>
             </div>
-            <ul className="space-y-4">
-              {(isCheckup ? checkupGuidelines[language] : specificConcerns[language]).map((item, index) => (
-                <li key={index} className="flex items-start gap-2">
-                  <span className="text-green-500 mt-1">•</span>
-                  <span className="text-gray-700">{item}</span>
-                </li>
-              ))}
-            </ul>
+
+            {/* Medicine Guide Card */}
+            <div className="bg-white p-6 rounded-xl shadow-sm border hover:shadow-md transition-shadow">
+              <div className="bg-[#F5F9FF] w-16 h-16 rounded-2xl flex items-center justify-center mb-4">
+                <Shield className="h-8 w-8 text-[#7EB8E7]" />
+              </div>
+              <h3 className="text-xl font-bold mb-2">
+                {language === 'en' ? "Medicine Guide" : "Guía de Medicamentos"}
+              </h3>
+              <p className="text-gray-600 mb-6">
+                {language === 'en'
+                  ? "Access our comprehensive guide to child-safe medications and proper dosage information."
+                  : "Acceda a nuestra guía completa de medicamentos seguros para niños e información de dosificación."}
+              </p>
+              <Button
+                onClick={() => navigate('/medicines', { state: { ...location.state } })}
+                className="w-full bg-white hover:bg-gray-50 border-2 border-[#7EB8E7] text-gray-800"
+              >
+                {language === 'en' ? "Search Medicines" : "Buscar Medicamentos"}
+              </Button>
+            </div>
           </div>
 
           <div className="flex flex-col sm:flex-row justify-center gap-4 pt-4">
