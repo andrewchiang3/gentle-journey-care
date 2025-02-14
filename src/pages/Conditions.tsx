@@ -5,14 +5,19 @@ import { Button } from '@/components/ui/button';
 import { Brain, ArrowLeft } from 'lucide-react';
 import { SearchBar } from '@/components/SearchBar';
 import { RemedyList } from '@/components/RemedyList';
-import { homeRemedies } from '@/data/homeRemedies'; // We'll create this next
+import { homeRemedies } from '@/data/homeRemedies';
+
+interface SelectedRemedy {
+  title: string;
+  description: string;
+}
 
 const Conditions = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const language = location.state?.language || 'en';
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedRemedies, setSelectedRemedies] = useState<{[key: string]: string[]}>({});
+  const [selectedRemedies, setSelectedRemedies] = useState<{[key: string]: SelectedRemedy[]}>({});
 
   const filteredHomeRemedies = homeRemedies[language].filter(section =>
     section.topic.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -22,18 +27,18 @@ const Conditions = () => {
     )
   );
 
-  const toggleRemedy = (topic: string, remedyTitle: string) => {
+  const toggleRemedy = (topic: string, remedy: { title: string; description: string }) => {
     setSelectedRemedies(prev => {
       const newRemedies = { ...prev };
       if (!newRemedies[topic]) {
         newRemedies[topic] = [];
       }
       
-      const remedyIndex = newRemedies[topic].indexOf(remedyTitle);
+      const remedyIndex = newRemedies[topic].findIndex(r => r.title === remedy.title);
       if (remedyIndex === -1) {
-        newRemedies[topic] = [...newRemedies[topic], remedyTitle];
+        newRemedies[topic] = [...newRemedies[topic], remedy];
       } else {
-        newRemedies[topic] = newRemedies[topic].filter(r => r !== remedyTitle);
+        newRemedies[topic] = newRemedies[topic].filter(r => r.title !== remedy.title);
         if (newRemedies[topic].length === 0) {
           delete newRemedies[topic];
         }
@@ -45,7 +50,7 @@ const Conditions = () => {
   const handleBack = () => {
     const formattedConditions = Object.entries(selectedRemedies).map(([topic, remedies]) => ({
       topic,
-      remedies
+      remedies: remedies.map(r => ({ title: r.title, description: r.description }))
     }));
     
     navigate('/confirmation', {

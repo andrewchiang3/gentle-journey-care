@@ -20,8 +20,8 @@ interface RemedySection {
 
 interface RemedyListProps {
   sections: RemedySection[];
-  selectedRemedies: { [key: string]: string[] };
-  onToggleRemedy: (topic: string, remedyTitle: string) => void;
+  selectedRemedies: { [key: string]: Remedy[] };
+  onToggleRemedy: (topic: string, remedy: Remedy) => void;
 }
 
 export const RemedyList: React.FC<RemedyListProps> = ({
@@ -45,9 +45,10 @@ export const RemedyList: React.FC<RemedyListProps> = ({
                     title={remedy.title}
                     description={remedy.description}
                     isSelected={Object.keys(selectedRemedies).some(topic => 
-                      topic === section.topic && selectedRemedies[topic].includes(remedy.title)
+                      topic === section.topic && 
+                      selectedRemedies[topic].some(r => r.title === remedy.title)
                     )}
-                    onToggle={() => onToggleRemedy(section.topic, remedy.title)}
+                    onToggle={() => onToggleRemedy(section.topic, remedy)}
                   />
                 ))}
               </div>

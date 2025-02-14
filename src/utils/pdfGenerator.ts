@@ -1,9 +1,14 @@
 
 import jsPDF from 'jspdf';
 
+interface Remedy {
+  title: string;
+  description: string;
+}
+
 interface Condition {
   topic: string;
-  remedies: string[];
+  remedies: Remedy[];
 }
 
 export const generatePDF = (
@@ -56,7 +61,7 @@ export const generatePDF = (
     yPosition += lineHeight * 2;
     
     // Group remedies by topic to prevent duplication
-    const groupedConditions: { [key: string]: string[] } = {};
+    const groupedConditions: { [key: string]: Remedy[] } = {};
     selectedConditions.forEach(condition => {
       if (!condition?.topic || !condition?.remedies) return;
       
@@ -76,13 +81,14 @@ export const generatePDF = (
       doc.text(`${topic}:`, 20, yPosition);
       yPosition += lineHeight * 1.5;
       
-      // Add unique remedies
+      // Add unique remedies with their descriptions
       doc.setFont('helvetica', 'normal');
-      [...new Set(remedies)].forEach(remedy => {
-        if (remedy) {
-          doc.text(`• ${remedy}`, 30, yPosition);
-          yPosition += lineHeight;
-        }
+      const uniqueRemedies = [...new Map(remedies.map(r => [r.title, r])).values()];
+      uniqueRemedies.forEach(remedy => {
+        const remedyText = `• ${remedy.description}`;
+        const splitRemedyText = doc.splitTextToSize(remedyText, 160);
+        doc.text(splitRemedyText, 30, yPosition);
+        yPosition += (splitRemedyText.length * lineHeight);
       });
       yPosition += lineHeight; // Add space after each topic group
     });
