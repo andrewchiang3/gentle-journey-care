@@ -55,25 +55,36 @@ export const generatePDF = (
     doc.text(language === 'en' ? 'Home Care Recommendations:' : 'Recomendaciones de Cuidado en Casa:', 20, yPosition);
     yPosition += lineHeight * 2;
     
+    // Group remedies by topic to prevent duplication
+    const groupedConditions: { [key: string]: string[] } = {};
     selectedConditions.forEach(condition => {
-      if (!condition?.topic) return;
+      if (!condition?.topic || !condition?.remedies) return;
       
-      // Add topic with colon
+      if (!groupedConditions[condition.topic]) {
+        groupedConditions[condition.topic] = [];
+      }
+      groupedConditions[condition.topic] = [
+        ...groupedConditions[condition.topic],
+        ...condition.remedies
+      ];
+    });
+
+    // Display grouped conditions and remedies
+    Object.entries(groupedConditions).forEach(([topic, remedies]) => {
+      // Add topic
       doc.setFont('helvetica', 'bold');
-      doc.text(`${condition.topic}:`, 20, yPosition);
+      doc.text(`${topic}:`, 20, yPosition);
       yPosition += lineHeight * 1.5;
       
-      // Add remedies
+      // Add unique remedies
       doc.setFont('helvetica', 'normal');
-      if (Array.isArray(condition.remedies)) {
-        condition.remedies.forEach(remedy => {
-          if (remedy) {
-            doc.text(remedy, 30, yPosition);
-            yPosition += lineHeight;
-          }
-        });
-      }
-      yPosition += lineHeight; // Add space after each condition group
+      [...new Set(remedies)].forEach(remedy => {
+        if (remedy) {
+          doc.text(`• ${remedy}`, 30, yPosition);
+          yPosition += lineHeight;
+        }
+      });
+      yPosition += lineHeight; // Add space after each topic group
     });
   }
 
@@ -86,7 +97,7 @@ export const generatePDF = (
     doc.setFont('helvetica', 'normal');
     selectedMedicines.forEach(medicine => {
       if (medicine) {
-        doc.text(medicine, 30, yPosition);
+        doc.text(`• ${medicine}`, 30, yPosition);
         yPosition += lineHeight;
       }
     });

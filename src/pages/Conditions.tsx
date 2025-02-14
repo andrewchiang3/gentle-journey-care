@@ -310,7 +310,7 @@ const Conditions = () => {
   const location = useLocation();
   const language = location.state?.language || 'en';
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedRemedies, setSelectedRemedies] = useState<Array<{topic: string, remedy: string}>>([]);
+  const [selectedRemedies, setSelectedRemedies] = useState<{[key: string]: string[]}>({});
 
   const filteredHomeRemedies = homeRemedies[language].filter(section =>
     section.topic.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -322,25 +322,34 @@ const Conditions = () => {
 
   const toggleRemedy = (topic: string, remedyTitle: string) => {
     setSelectedRemedies(prev => {
-      const isSelected = prev.some(item => 
-        item.topic === topic && item.remedy === remedyTitle
-      );
-      
-      if (isSelected) {
-        return prev.filter(item => 
-          !(item.topic === topic && item.remedy === remedyTitle)
-        );
-      } else {
-        return [...prev, { topic, remedy: remedyTitle }];
+      const newRemedies = { ...prev };
+      if (!newRemedies[topic]) {
+        newRemedies[topic] = [];
       }
+      
+      const remedyIndex = newRemedies[topic].indexOf(remedyTitle);
+      if (remedyIndex === -1) {
+        newRemedies[topic] = [...newRemedies[topic], remedyTitle];
+      } else {
+        newRemedies[topic] = newRemedies[topic].filter(r => r !== remedyTitle);
+        if (newRemedies[topic].length === 0) {
+          delete newRemedies[topic];
+        }
+      }
+      return newRemedies;
     });
   };
 
   const handleBack = () => {
+    const formattedConditions = Object.entries(selectedRemedies).map(([topic, remedies]) => ({
+      topic,
+      remedies
+    }));
+    
     navigate('/confirmation', {
       state: {
         ...location.state,
-        selectedConditions: selectedRemedies
+        selectedConditions: formattedConditions
       }
     });
   };
@@ -396,8 +405,8 @@ const Conditions = () => {
                       <div
                         key={remedyIndex}
                         className={`p-4 rounded-lg border transition-colors ${
-                          selectedRemedies.some(item => 
-                            item.topic === section.topic && item.remedy === remedy.title
+                          Object.keys(selectedRemedies).some(topic => 
+                            topic === section.topic && selectedRemedies[topic].includes(remedy.title)
                           )
                             ? 'border-2 border-[#FF9999] bg-[#FFF5F5]'
                             : 'border-[#FFE4E4] hover:border-[#FF9999]'
@@ -416,8 +425,8 @@ const Conditions = () => {
                             variant="ghost"
                             size="icon"
                             className={`shrink-0 ml-2 ${
-                              selectedRemedies.some(item => 
-                                item.topic === section.topic && item.remedy === remedy.title
+                              Object.keys(selectedRemedies).some(topic => 
+                                topic === section.topic && selectedRemedies[topic].includes(remedy.title)
                               )
                                 ? 'bg-[#FF9999] text-white hover:bg-[#FF9999]/90'
                                 : 'text-[#FF9999] hover:text-[#FF9999]/90'
