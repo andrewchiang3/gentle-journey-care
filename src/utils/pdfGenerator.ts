@@ -50,13 +50,15 @@ export const generatePDF = (
   yPosition += (splitAnalysis.length * lineHeight) + lineHeight;
 
   // Add selected conditions if any
-  if (selectedConditions.length > 0) {
+  if (selectedConditions && selectedConditions.length > 0) {
     doc.setFont('helvetica', 'bold');
     doc.text(language === 'en' ? 'Home Care Recommendations:' : 'Recomendaciones de Cuidado en Casa:', 20, yPosition);
     yPosition += lineHeight;
     doc.setFont('helvetica', 'normal');
     
     selectedConditions.forEach(condition => {
+      if (!condition?.topic) return; // Skip if topic is undefined
+      
       // Add topic
       doc.setFont('helvetica', 'bold');
       doc.text(`• ${condition.topic}`, 30, yPosition);
@@ -64,24 +66,30 @@ export const generatePDF = (
       
       // Add remedies
       doc.setFont('helvetica', 'normal');
-      condition.remedies.forEach(remedy => {
-        doc.text(`  - ${remedy}`, 40, yPosition);
-        yPosition += lineHeight;
-      });
+      if (Array.isArray(condition.remedies)) {
+        condition.remedies.forEach(remedy => {
+          if (remedy) {
+            doc.text(`  - ${remedy}`, 40, yPosition);
+            yPosition += lineHeight;
+          }
+        });
+      }
       yPosition += lineHeight / 2; // Add small space between topics
     });
     yPosition += lineHeight;
   }
 
   // Add selected medicines if any
-  if (selectedMedicines.length > 0) {
+  if (selectedMedicines && selectedMedicines.length > 0) {
     doc.setFont('helvetica', 'bold');
     doc.text(language === 'en' ? 'Medicines of Interest:' : 'Medicamentos de Interés:', 20, yPosition);
     yPosition += lineHeight;
     doc.setFont('helvetica', 'normal');
     selectedMedicines.forEach(medicine => {
-      doc.text(`• ${medicine}`, 30, yPosition);
-      yPosition += lineHeight;
+      if (medicine) {
+        doc.text(`• ${medicine}`, 30, yPosition);
+        yPosition += lineHeight;
+      }
     });
   }
 
