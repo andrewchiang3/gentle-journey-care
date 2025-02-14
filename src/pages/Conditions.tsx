@@ -360,9 +360,16 @@ const Conditions = () => {
           <div className="w-10" />
         </div>
 
-        <h1 className="text-2xl font-bold mb-2 text-[#2D1810]">
-          {language === 'en' ? "What You Can Do at Home" : "Qué Puede Hacer en Casa"}
-        </h1>
+        <div className="mb-6 space-y-2">
+          <h1 className="text-2xl font-bold text-[#2D1810]">
+            {language === 'en' ? "What You Can Do at Home" : "Qué Puede Hacer en Casa"}
+          </h1>
+          <p className="text-gray-600">
+            {language === 'en' 
+              ? "Click the + button to add remedies to your downloadable summary"
+              : "Haga clic en el botón + para agregar remedios a su resumen descargable"}
+          </p>
+        </div>
 
         <div className="relative mb-6">
           <Input

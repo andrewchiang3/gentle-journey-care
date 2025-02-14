@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { generatePDF } from '@/utils/pdfGenerator';
-import { Brain, Shield } from 'lucide-react';
+import { Brain, Shield, Globe } from 'lucide-react';
 
 const specificConcerns = {
   en: [
@@ -187,7 +187,7 @@ const Confirmation = () => {
           </div>
 
           <div className="grid gap-6 md:grid-cols-2">
-            {/* Find Conditions Card */}
+            {/* What You Can Do At Home Card */}
             <div className="bg-white p-6 rounded-xl shadow-sm border hover:shadow-md transition-shadow">
               <div className="bg-[#FFF5F5] w-16 h-16 rounded-2xl flex items-center justify-center mb-4">
                 <Brain className="h-8 w-8 text-[#FF9999]" />
@@ -226,6 +226,27 @@ const Confirmation = () => {
                 className="w-full bg-white hover:bg-gray-50 border-2 border-[#7EB8E7] text-gray-800"
               >
                 {language === 'en' ? "Search Medicines" : "Buscar Medicamentos"}
+              </Button>
+            </div>
+
+            {/* Community Resources Card */}
+            <div className="md:col-span-2 bg-white p-6 rounded-xl shadow-sm border hover:shadow-md transition-shadow">
+              <div className="bg-[#E8F5FF] w-16 h-16 rounded-2xl flex items-center justify-center mb-4">
+                <Globe className="h-8 w-8 text-[#4B9FE1]" />
+              </div>
+              <h3 className="text-xl font-bold mb-2">
+                {language === 'en' ? "Community Support & Resources" : "Apoyo y Recursos Comunitarios"}
+              </h3>
+              <p className="text-gray-600 mb-6">
+                {language === 'en'
+                  ? "Connect with local resources and support services that can help your family thrive. Discover programs, assistance, and community organizations ready to support you."
+                  : "Conéctese con recursos locales y servicios de apoyo que pueden ayudar a su familia a prosperar. Descubra programas, asistencia y organizaciones comunitarias listas para apoyarlo."}
+              </p>
+              <Button
+                onClick={() => navigate('/resources', { state: { ...location.state } })}
+                className="w-full bg-[#4B9FE1] hover:bg-[#3A8ED0] text-white"
+              >
+                {language === 'en' ? "Explore Community Resources" : "Explorar Recursos Comunitarios"}
               </Button>
             </div>
           </div>
