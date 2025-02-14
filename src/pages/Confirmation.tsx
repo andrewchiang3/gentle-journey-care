@@ -8,17 +8,17 @@ import { Brain, Shield } from 'lucide-react';
 const specificConcerns = {
   en: [
     "When to Seek Help:",
-    "• Persistent high fever (above 103°F) or fever lasting more than 3 days.",
-    "• Severe dehydration (no urination, dry mouth, sunken eyes).",
-    "• Difficulty breathing, confusion, or seizures.",
-    "• Signs of serious infection (red streaks around a wound, swollen joints, unresponsiveness)."
+    "Persistent high fever (above 103°F) or fever lasting more than 3 days.",
+    "Severe dehydration (no urination, dry mouth, sunken eyes).",
+    "Difficulty breathing, confusion, or seizures.",
+    "Signs of serious infection (red streaks around a wound, swollen joints, unresponsiveness)."
   ],
   es: [
     "Cuándo Buscar Ayuda:",
-    "• Fiebre alta persistente (superior a 39.4°C) o fiebre que dura más de 3 días.",
-    "• Deshidratación severa (sin orinar, boca seca, ojos hundidos).",
-    "• Dificultad para respirar, confusión o convulsiones.",
-    "• Signos de infección grave (líneas rojas alrededor de una herida, articulaciones hinchadas, falta de respuesta)."
+    "Fiebre alta persistente (superior a 39.4°C) o fiebre que dura más de 3 días.",
+    "Deshidratación severa (sin orinar, boca seca, ojos hundidos).",
+    "Dificultad para respirar, confusión o convulsiones.",
+    "Signos de infección grave (líneas rojas alrededor de una herida, articulaciones hinchadas, falta de respuesta)."
   ]
 };
 
@@ -193,18 +193,18 @@ const Confirmation = () => {
                 <Brain className="h-8 w-8 text-[#FF9999]" />
               </div>
               <h3 className="text-xl font-bold mb-2">
-                {language === 'en' ? "Find Conditions" : "Encontrar Condiciones"}
+                {language === 'en' ? "Helpful Care at Home" : "Cuidados Útiles en Casa"}
               </h3>
               <p className="text-gray-600 mb-6">
                 {language === 'en'
-                  ? "Learn about common children's health conditions and their treatments, with expert insights."
-                  : "Aprenda sobre condiciones de salud comunes en niños y sus tratamientos, con información experta."}
+                  ? "Discover gentle, comforting ways to care for your child at home with our family-friendly guide to common childhood symptoms."
+                  : "Descubra formas suaves y reconfortantes de cuidar a su hijo en casa con nuestra guía familiar para síntomas infantiles comunes."}
               </p>
               <Button
                 onClick={() => navigate('/conditions', { state: { ...location.state } })}
                 className="w-full bg-[#C3E8DF] hover:bg-[#A5D4C8] text-gray-800"
               >
-                {language === 'en' ? "Explore Conditions" : "Explorar Condiciones"}
+                {language === 'en' ? "Explore Home Care Options" : "Explorar Opciones de Cuidado en Casa"}
               </Button>
             </div>
 

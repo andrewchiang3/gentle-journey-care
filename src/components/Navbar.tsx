@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { LanguageSelector } from "@/components/LanguageSelector";
 
 export const Navbar = () => {
   const location = useLocation();
@@ -17,7 +18,7 @@ export const Navbar = () => {
   ];
 
   const renderMenuItems = () => (
-    <div className={isMobile ? "flex flex-col space-y-4" : "flex space-x-4"}>
+    <div className={isMobile ? "flex flex-col space-y-4" : "flex space-x-4 items-center"}>
       {menuItems.map((item) => (
         <Button
           key={item.path}
@@ -28,6 +29,12 @@ export const Navbar = () => {
           {item.label}
         </Button>
       ))}
+      <LanguageSelector
+        currentLanguage={language}
+        onLanguageChange={(lang) => navigate(location.pathname, { 
+          state: { ...location.state, language: lang } 
+        })}
+      />
     </div>
   );
 
