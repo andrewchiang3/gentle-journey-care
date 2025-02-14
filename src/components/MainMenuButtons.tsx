@@ -46,13 +46,13 @@ export const MainMenuButtons = ({ language, onCheckupClick, onConcernsClick }: M
         <div className="text-center">
           <p className="font-medium text-base md:text-lg mb-1 md:mb-2">
             {language === 'en'
-              ? "Have a specific concern?"
-              : "¿Tiene una preocupación?"}
+              ? "Tell us about your child's symptoms"
+              : "Cuéntenos sobre los síntomas de su hijo"}
           </p>
           <p className="text-xs md:text-sm text-gray-600 px-2">
             {language === 'en'
-              ? "We're here to help with any concerns"
-              : "Estamos aquí para ayudar"}
+              ? "We'll help you find the best ways to make them feel better"
+              : "Le ayudaremos a encontrar las mejores formas de hacerlos sentir mejor"}
           </p>
         </div>
       </Button>
