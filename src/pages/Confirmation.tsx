@@ -7,26 +7,18 @@ import { Brain, Shield } from 'lucide-react';
 
 const specificConcerns = {
   en: [
-    "Respiratory Symptoms (Cold, Cough, Sore Throat):\n• Use a humidifier or steam inhalation with a bowl of hot water and towel\n• Try saline nasal spray for congestion\n• Give honey with warm water (for children over 1 year)\n• Consider children's ibuprofen or acetaminophen for fever\n• Elevate sleeping position with extra pillows",
-    
-    "Gastrointestinal Symptoms:\n• Use oral rehydration solutions like Pedialyte\n• Try the BRAT diet (Bananas, Rice, Applesauce, Toast)\n• Offer probiotic yogurt to restore gut health\n• Consider over-the-counter anti-gas remedies if needed",
-    
-    "Skin Conditions:\n• Apply calamine lotion for itchy rashes\n• Use hydrocortisone cream for minor irritation\n• Try soothing oatmeal baths\n• Keep wounds clean and covered with appropriate bandages",
-    
-    "Fever and Pain:\n• Use weight-appropriate doses of children's acetaminophen or ibuprofen\n• Try lukewarm baths to reduce fever\n• Apply cool compresses to forehead\n• Ensure plenty of rest and fluids",
-    
-    "Allergies and Common Discomforts:\n• Consider children's antihistamines for allergies\n• Use warm compresses for ear pain\n• Try saltwater rinses for sore throats\n• Maintain good hand hygiene to prevent spread of illness"
+    "Developmental Delays: Consult a pediatrician and potentially an expert in child development or special education to develop an appropriate intervention plan.",
+    "Behavioral Issues: Implement evidence-based approaches like Positive Behavioral Interventions and Supports (PBIS) for strategies on positive reinforcement and communication.",
+    "Chronic Illnesses like Asthma: Work closely with local clinics to manage medications, develop an Asthma Action Plan, and ensure proper emergency preparedness.",
+    "Injuries or Accidents: Seek prompt medical attention at a nearby clinic if any occur.",
+    "Common Pediatric Complaints like Earaches or Strep Throat: Recognize symptoms and seek appropriate treatment within 24 hours to prevent complications."
   ],
   es: [
-    "Síntomas Respiratorios (Resfriado, Tos, Dolor de Garganta):\n• Use un humidificador o inhalación de vapor\n• Pruebe spray nasal salino\n• Dele miel con agua tibia (para niños mayores de 1 año)\n• Considere ibuprofeno o acetaminofén para niños\n• Eleve la posición para dormir con almohadas adicionales",
-    
-    "Síntomas Gastrointestinales:\n• Use soluciones de rehidratación oral como Pedialyte\n• Pruebe la dieta BRAT (Plátano, Arroz, Compota de manzana, Pan tostado)\n• Ofrezca yogur probiótico\n• Considere remedios contra los gases si es necesario",
-    
-    "Condiciones de la Piel:\n• Aplique loción de calamina para sarpullidos con picazón\n• Use crema de hidrocortisona para irritaciones menores\n• Pruebe baños de avena\n• Mantenga las heridas limpias y cubiertas",
-    
-    "Fiebre y Dolor:\n• Use dosis apropiadas de acetaminofén o ibuprofeno para niños\n• Pruebe baños tibios para reducir la fiebre\n• Aplique compresas frías en la frente\n• Asegure suficiente descanso y líquidos",
-    
-    "Alergias y Molestias Comunes:\n• Considere antihistamínicos para niños\n• Use compresas tibias para dolor de oídos\n• Pruebe enjuagues con agua salada para dolor de garganta\n• Mantenga buena higiene de manos"
+    "Retrasos en el desarrollo: Consulte con un pediatra y posiblemente con un experto en desarrollo infantil o educación especial para desarrollar un plan de intervención apropiado.",
+    "Problemas de comportamiento: Implemente enfoques basados en evidencia como Intervenciones y Apoyos Conductuales Positivos (PBIS) para estrategias de refuerzo positivo y comunicación.",
+    "Enfermedades crónicas como el asma: Trabaje estrechamente con clínicas locales para manejar medicamentos, desarrollar un Plan de Acción para el Asma y asegurar la preparación para emergencias.",
+    "Lesiones o accidentes: Busque atención médica inmediata en una clínica cercana si ocurren.",
+    "Quejas pediátricas comunes como dolor de oídos o faringitis estreptocócica: Reconozca los síntomas y busque tratamiento apropiado dentro de las 24 horas para prevenir complicaciones."
   ]
 };
 

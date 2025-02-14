@@ -7,22 +7,64 @@ import { Shield, ArrowLeft, Plus } from 'lucide-react';
 
 const medicines = {
   en: [
-    { name: "Children's Acetaminophen", description: "Pain reliever and fever reducer" },
-    { name: "Children's Ibuprofen", description: "NSAID pain reliever" },
-    { name: "Diphenhydramine (Benadryl)", description: "Antihistamine" },
-    { name: "Amoxicillin", description: "Antibiotic for bacterial infections" },
-    { name: "Children's Zyrtec", description: "24-hour allergy relief" },
-    { name: "Pedialyte", description: "Oral rehydration solution" },
-    { name: "Children's Delsym", description: "Cough suppressant" }
+    {
+      name: "Over-the-Counter Pain Relief",
+      description: "Children's acetaminophen or ibuprofen for fever and pain. Always check weight-based dosing."
+    },
+    {
+      name: "Oral Rehydration Solutions",
+      description: "Pedialyte or store-brand alternatives to prevent dehydration during illness."
+    },
+    {
+      name: "Antihistamines",
+      description: "OTC options like Claritin (loratadine) or Benadryl (diphenhydramine) for allergy symptoms."
+    },
+    {
+      name: "Topical Treatments",
+      description: "Calamine lotion for itching, hydrocortisone cream for irritation, antiseptic ointments for minor cuts."
+    },
+    {
+      name: "Saline Products",
+      description: "Nasal sprays and rinses to help clear congestion, safe for all ages."
+    },
+    {
+      name: "Anti-Gas Remedies",
+      description: "Simethicone products like Gas-X to relieve bloating and discomfort."
+    },
+    {
+      name: "Children's Multivitamins",
+      description: "Daily supplements to support overall health and fill nutritional gaps."
+    }
   ],
   es: [
-    { name: "Acetaminofén para Niños", description: "Analgésico y reductor de fiebre" },
-    { name: "Ibuprofeno para Niños", description: "Analgésico antiinflamatorio" },
-    { name: "Difenhidramina (Benadryl)", description: "Antihistamínico" },
-    { name: "Amoxicilina", description: "Antibiótico para infecciones bacterianas" },
-    { name: "Zyrtec para Niños", description: "Alivio de alergias por 24 horas" },
-    { name: "Pedialyte", description: "Solución de rehidratación oral" },
-    { name: "Delsym para Niños", description: "Supresor de la tos" }
+    {
+      name: "Analgésicos de Venta Libre",
+      description: "Acetaminofén o ibuprofeno para niños para fiebre y dolor. Siempre verifique la dosis según el peso."
+    },
+    {
+      name: "Soluciones de Rehidratación",
+      description: "Pedialyte o alternativas de marca propia para prevenir la deshidratación durante la enfermedad."
+    },
+    {
+      name: "Antihistamínicos",
+      description: "Opciones como Claritin (loratadina) o Benadryl (difenhidramina) para síntomas de alergia."
+    },
+    {
+      name: "Tratamientos Tópicos",
+      description: "Loción de calamina para picazón, crema de hidrocortisona para irritación, ungüentos antisépticos para cortes menores."
+    },
+    {
+      name: "Productos Salinos",
+      description: "Sprays y enjuagues nasales para ayudar con la congestión, seguros para todas las edades."
+    },
+    {
+      name: "Remedios Anti-Gas",
+      description: "Productos con simeticona como Gas-X para aliviar la hinchazón y el malestar."
+    },
+    {
+      name: "Multivitamínicos para Niños",
+      description: "Suplementos diarios para apoyar la salud general y complementar la nutrición."
+    }
   ]
 };
 

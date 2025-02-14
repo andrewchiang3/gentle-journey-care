@@ -7,22 +7,72 @@ import { Brain, ArrowLeft, Plus } from 'lucide-react';
 
 const conditions = {
   en: [
-    { name: "Common Cold", description: "A viral infection causing upper respiratory symptoms." },
-    { name: "Acute Otitis Media (Ear Infection)", description: "Infection of the middle ear, common in young children." },
-    { name: "Hand, Foot, and Mouth Disease", description: "Viral infection causing sores in mouth and rash on hands and feet." },
-    { name: "Respiratory Syncytial Virus (RSV)", description: "Common respiratory infection affecting infants and young children." },
-    { name: "Strep Throat", description: "Bacterial infection causing sore throat and fever." },
-    { name: "Chickenpox", description: "Viral infection causing itchy rash and fever." },
-    { name: "Bronchiolitis", description: "Inflammation of small airways in lungs, common in infants." }
+    {
+      name: "Respiratory Symptoms",
+      description: "Steam inhalation with hot water and towel, saline nasal spray, honey with warm water (for kids over 1), elevated sleeping position with extra pillows."
+    },
+    {
+      name: "Gastrointestinal Symptoms",
+      description: "Use Pedialyte or homemade ORS (mix water with sugar and salt), try BRAT diet (Bananas, Rice, Applesauce, Toast), offer probiotic yogurt."
+    },
+    {
+      name: "Skin Conditions",
+      description: "Apply calamine lotion for itchy rashes, hydrocortisone cream for irritation, try oatmeal baths, keep wounds clean and covered."
+    },
+    {
+      name: "Nutritional Care",
+      description: "Offer iron-rich foods like beans and fortified cereals, consider children's multivitamins, ensure proper hydration."
+    },
+    {
+      name: "Fever Management",
+      description: "Use weight-appropriate doses of acetaminophen/ibuprofen, try lukewarm baths, apply cool compress to forehead."
+    },
+    {
+      name: "Allergy Care",
+      description: "Consider OTC antihistamines, try local honey, reduce indoor allergens with regular cleaning."
+    },
+    {
+      name: "Common Infections",
+      description: "Use warm compress for ear pain, try saltwater rinses for toothaches, proper tick removal with tweezers."
+    },
+    {
+      name: "Preventive Care",
+      description: "Regular handwashing, maintain hygiene supplies, monitor temperature with digital thermometer."
+    }
   ],
   es: [
-    { name: "Resfriado Común", description: "Una infección viral que causa síntomas respiratorios superiores." },
-    { name: "Otitis Media Aguda (Infección del Oído)", description: "Infección del oído medio, común en niños pequeños." },
-    { name: "Enfermedad de Mano, Pie y Boca", description: "Infección viral que causa llagas en la boca y sarpullido en manos y pies." },
-    { name: "Virus Respiratorio Sincitial (VRS)", description: "Infección respiratoria común que afecta a bebés y niños pequeños." },
-    { name: "Faringitis Estreptocócica", description: "Infección bacteriana que causa dolor de garganta y fiebre." },
-    { name: "Varicela", description: "Infección viral que causa sarpullido con picazón y fiebre." },
-    { name: "Bronquiolitis", description: "Inflamación de las vías respiratorias pequeñas en los pulmones, común en bebés." }
+    {
+      name: "Síntomas Respiratorios",
+      description: "Inhalación de vapor con agua caliente y toalla, spray nasal salino, miel con agua tibia (para niños mayores de 1 año), posición elevada para dormir."
+    },
+    {
+      name: "Síntomas Gastrointestinales",
+      description: "Use Pedialyte o suero casero (mezcle agua con azúcar y sal), dieta blanda (Plátano, Arroz, Manzana, Pan), ofrezca yogur probiótico."
+    },
+    {
+      name: "Condiciones de la Piel",
+      description: "Aplique loción de calamina para picazón, crema de hidrocortisona para irritación, baños de avena, mantenga heridas limpias y cubiertas."
+    },
+    {
+      name: "Cuidado Nutricional",
+      description: "Ofrezca alimentos ricos en hierro como frijoles y cereales fortificados, considere multivitamínicos, asegure hidratación adecuada."
+    },
+    {
+      name: "Manejo de Fiebre",
+      description: "Use dosis apropiadas de acetaminofén/ibuprofeno, baños tibios, aplique compresas frías en la frente."
+    },
+    {
+      name: "Cuidado de Alergias",
+      description: "Considere antihistamínicos, pruebe miel local, reduzca alérgenos con limpieza regular."
+    },
+    {
+      name: "Infecciones Comunes",
+      description: "Use compresas tibias para dolor de oído, enjuagues con agua salada para dolor de dientes, retire garrapatas con pinzas."
+    },
+    {
+      name: "Cuidado Preventivo",
+      description: "Lavado regular de manos, mantenga suministros de higiene, monitoree temperatura con termómetro digital."
+    }
   ]
 };
 
