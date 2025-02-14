@@ -81,16 +81,6 @@ const Index = () => {
     }
   };
 
-  const handleBackToMenu = () => {
-    setFormState(prev => ({
-      ...prev,
-      showCheckupForm: false,
-      showConcernsForm: false,
-      concerns: '',
-      showConfirmDialog: false
-    }));
-  };
-
   if (!formState.showCheckupForm && !formState.showConcernsForm) {
     return (
       <div className="min-h-screen bg-background">
@@ -113,15 +103,6 @@ const Index = () => {
     <div className="min-h-screen bg-background">
       <main className="container max-w-4xl mx-auto px-4 py-8">
         <WelcomeHeader />
-        
-        <MainMenuButtons
-          language={formState.language}
-          onCheckupClick={() => setFormState(prev => ({ ...prev, showCheckupForm: true }))}
-          onConcernsClick={() => setFormState(prev => ({ ...prev, showConcernsForm: true }))}
-          showCheckupForm={formState.showCheckupForm}
-          showConcernsForm={formState.showConcernsForm}
-          onBackClick={handleBackToMenu}
-        />
         
         <ConcernsForm
           showCheckupForm={formState.showCheckupForm}
