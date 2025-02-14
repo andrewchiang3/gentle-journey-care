@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { Button } from '@/components/ui/button';
+import { ArrowLeft } from 'lucide-react';
 import happy from '../img/happy.png'
 import koala from '../img/koala.png'
 
@@ -8,9 +9,34 @@ type MainMenuButtonsProps = {
   language: string;
   onCheckupClick: () => void;
   onConcernsClick: () => void;
+  showCheckupForm?: boolean;
+  showConcernsForm?: boolean;
+  onBackClick?: () => void;
 };
 
-export const MainMenuButtons = ({ language, onCheckupClick, onConcernsClick }: MainMenuButtonsProps) => {
+export const MainMenuButtons = ({ 
+  language, 
+  onCheckupClick, 
+  onConcernsClick,
+  showCheckupForm,
+  showConcernsForm,
+  onBackClick
+}: MainMenuButtonsProps) => {
+  if (showCheckupForm || showConcernsForm) {
+    return (
+      <div className="w-full flex justify-start mb-4">
+        <Button
+          onClick={onBackClick}
+          variant="ghost"
+          className="flex items-center gap-2 text-gray-600 hover:text-gray-800"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          {language === 'en' ? "Back to Menu" : "Volver al Menú"}
+        </Button>
+      </div>
+    );
+  }
+
   return (
     <div className="grid grid-cols-1 gap-4 w-full max-w-md md:max-w-2xl">
       <Button
