@@ -7,18 +7,18 @@ import { Brain, Shield } from 'lucide-react';
 
 const specificConcerns = {
   en: [
-    "Developmental Delays: Consult a pediatrician and potentially an expert in child development or special education to develop an appropriate intervention plan.",
-    "Behavioral Issues: Implement evidence-based approaches like Positive Behavioral Interventions and Supports (PBIS) for strategies on positive reinforcement and communication.",
-    "Chronic Illnesses like Asthma: Work closely with local clinics to manage medications, develop an Asthma Action Plan, and ensure proper emergency preparedness.",
-    "Injuries or Accidents: Seek prompt medical attention at a nearby clinic if any occur.",
-    "Common Pediatric Complaints like Earaches or Strep Throat: Recognize symptoms and seek appropriate treatment within 24 hours to prevent complications."
+    "When to Seek Help:",
+    "• Persistent high fever (above 103°F) or fever lasting more than 3 days.",
+    "• Severe dehydration (no urination, dry mouth, sunken eyes).",
+    "• Difficulty breathing, confusion, or seizures.",
+    "• Signs of serious infection (red streaks around a wound, swollen joints, unresponsiveness)."
   ],
   es: [
-    "Retrasos en el desarrollo: Consulte con un pediatra y posiblemente con un experto en desarrollo infantil o educación especial para desarrollar un plan de intervención apropiado.",
-    "Problemas de comportamiento: Implemente enfoques basados en evidencia como Intervenciones y Apoyos Conductuales Positivos (PBIS) para estrategias de refuerzo positivo y comunicación.",
-    "Enfermedades crónicas como el asma: Trabaje estrechamente con clínicas locales para manejar medicamentos, desarrollar un Plan de Acción para el Asma y asegurar la preparación para emergencias.",
-    "Lesiones o accidentes: Busque atención médica inmediata en una clínica cercana si ocurren.",
-    "Quejas pediátricas comunes como dolor de oídos o faringitis estreptocócica: Reconozca los síntomas y busque tratamiento apropiado dentro de las 24 horas para prevenir complicaciones."
+    "Cuándo Buscar Ayuda:",
+    "• Fiebre alta persistente (superior a 39.4°C) o fiebre que dura más de 3 días.",
+    "• Deshidratación severa (sin orinar, boca seca, ojos hundidos).",
+    "• Dificultad para respirar, confusión o convulsiones.",
+    "• Signos de infección grave (líneas rojas alrededor de una herida, articulaciones hinchadas, falta de respuesta)."
   ]
 };
 
