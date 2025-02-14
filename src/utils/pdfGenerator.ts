@@ -1,11 +1,16 @@
 
 import jsPDF from 'jspdf';
 
+interface Condition {
+  topic: string;
+  remedies: string[];
+}
+
 export const generatePDF = (
   concerns: string,
   analysis: string,
   language: string = 'en',
-  selectedConditions: string[] = [],
+  selectedConditions: Condition[] = [],
   selectedMedicines: string[] = []
 ): string => {
   const doc = new jsPDF();
@@ -47,12 +52,23 @@ export const generatePDF = (
   // Add selected conditions if any
   if (selectedConditions.length > 0) {
     doc.setFont('helvetica', 'bold');
-    doc.text(language === 'en' ? 'Conditions of Interest:' : 'Condiciones de Interés:', 20, yPosition);
+    doc.text(language === 'en' ? 'Home Care Recommendations:' : 'Recomendaciones de Cuidado en Casa:', 20, yPosition);
     yPosition += lineHeight;
     doc.setFont('helvetica', 'normal');
+    
     selectedConditions.forEach(condition => {
-      doc.text(`• ${condition}`, 30, yPosition);
+      // Add topic
+      doc.setFont('helvetica', 'bold');
+      doc.text(`• ${condition.topic}`, 30, yPosition);
       yPosition += lineHeight;
+      
+      // Add remedies
+      doc.setFont('helvetica', 'normal');
+      condition.remedies.forEach(remedy => {
+        doc.text(`  - ${remedy}`, 40, yPosition);
+        yPosition += lineHeight;
+      });
+      yPosition += lineHeight / 2; // Add small space between topics
     });
     yPosition += lineHeight;
   }

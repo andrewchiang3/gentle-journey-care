@@ -78,17 +78,13 @@ const Confirmation = () => {
                 className="w-24 h-24 mx-auto"
               />
               <h1 className="text-2xl font-bold text-gray-800">
-                {isCheckup
-                  ? (language === 'en' ? "Check-up Information Summary" : "Resumen de Información del Chequeo")
-                  : (language === 'en' ? "Health Information Summary" : "Resumen de Información de Salud")}
+                {language === 'en' ? "Check-up Information Summary" : "Resumen de Información del Chequeo"}
               </h1>
             </div>
 
             <div className="bg-[#F2FCE2] p-6 rounded-lg shadow-sm border border-[#E2ECD2]">
               <h3 className="text-lg font-semibold mb-3">
-                {isCheckup
-                  ? (language === 'en' ? "Your Check-up Information" : "Su Información del Chequeo")
-                  : (language === 'en' ? "Your Concerns" : "Sus Preocupaciones")}
+                {language === 'en' ? "Your Check-up Information" : "Su Información del Chequeo"}
               </h3>
               <p className="text-gray-700 whitespace-pre-line">{concerns}</p>
             </div>
@@ -101,19 +97,37 @@ const Confirmation = () => {
                   className="w-16 h-16"
                 />
                 <h3 className="text-lg font-semibold">
-                  {isCheckup
-                    ? (language === 'en' ? "Important Check-up Guidelines" : "Pautas Importantes del Chequeo")
-                    : (language === 'en' ? "Important Health Guidelines" : "Pautas Importantes de Salud")}
+                  {language === 'en' ? "Important Check-up Guidelines" : "Pautas Importantes del Chequeo"}
                 </h3>
               </div>
               <ul className="space-y-4">
-                {(isCheckup ? checkupGuidelines[language] : specificConcerns[language]).map((item, index) => (
+                {checkupGuidelines[language].map((item, index) => (
                   <li key={index} className="flex items-start gap-2">
                     <span className="text-green-500 mt-1">•</span>
                     <span className="text-gray-700">{item}</span>
                   </li>
                 ))}
               </ul>
+            </div>
+
+            <div className="bg-white p-6 rounded-xl shadow-sm border hover:shadow-md transition-shadow">
+              <div className="bg-[#E8F5FF] w-16 h-16 rounded-2xl flex items-center justify-center mb-4">
+                <Globe className="h-8 w-8 text-[#4B9FE1]" />
+              </div>
+              <h3 className="text-xl font-bold mb-2">
+                {language === 'en' ? "Community Support & Resources" : "Apoyo y Recursos Comunitarios"}
+              </h3>
+              <p className="text-gray-600 mb-6">
+                {language === 'en'
+                  ? "Connect with local resources and support services that can help your family thrive. Discover programs, assistance, and community organizations ready to support you."
+                  : "Conéctese con recursos locales y servicios de apoyo que pueden ayudar a su familia a prosperar. Descubra programas, asistencia y organizaciones comunitarias listas para apoyarlo."}
+              </p>
+              <Button
+                onClick={() => navigate('/resources', { state: { ...location.state } })}
+                className="w-full bg-[#4B9FE1] hover:bg-[#3A8ED0] text-white"
+              >
+                {language === 'en' ? "Explore Community Resources" : "Explorar Recursos Comunitarios"}
+              </Button>
             </div>
 
             <div className="flex flex-col sm:flex-row justify-center gap-4 pt-4">
@@ -187,7 +201,6 @@ const Confirmation = () => {
           </div>
 
           <div className="grid gap-6 md:grid-cols-2">
-            {/* What You Can Do At Home Card */}
             <div className="bg-white p-6 rounded-xl shadow-sm border hover:shadow-md transition-shadow">
               <div className="bg-[#FFF5F5] w-16 h-16 rounded-2xl flex items-center justify-center mb-4">
                 <Brain className="h-8 w-8 text-[#FF9999]" />
@@ -208,7 +221,6 @@ const Confirmation = () => {
               </Button>
             </div>
 
-            {/* Medicine Guide Card */}
             <div className="bg-white p-6 rounded-xl shadow-sm border hover:shadow-md transition-shadow">
               <div className="bg-[#F5F9FF] w-16 h-16 rounded-2xl flex items-center justify-center mb-4">
                 <Shield className="h-8 w-8 text-[#7EB8E7]" />
@@ -226,27 +238,6 @@ const Confirmation = () => {
                 className="w-full bg-white hover:bg-gray-50 border-2 border-[#7EB8E7] text-gray-800"
               >
                 {language === 'en' ? "Search Medicines" : "Buscar Medicamentos"}
-              </Button>
-            </div>
-
-            {/* Community Resources Card */}
-            <div className="md:col-span-2 bg-white p-6 rounded-xl shadow-sm border hover:shadow-md transition-shadow">
-              <div className="bg-[#E8F5FF] w-16 h-16 rounded-2xl flex items-center justify-center mb-4">
-                <Globe className="h-8 w-8 text-[#4B9FE1]" />
-              </div>
-              <h3 className="text-xl font-bold mb-2">
-                {language === 'en' ? "Community Support & Resources" : "Apoyo y Recursos Comunitarios"}
-              </h3>
-              <p className="text-gray-600 mb-6">
-                {language === 'en'
-                  ? "Connect with local resources and support services that can help your family thrive. Discover programs, assistance, and community organizations ready to support you."
-                  : "Conéctese con recursos locales y servicios de apoyo que pueden ayudar a su familia a prosperar. Descubra programas, asistencia y organizaciones comunitarias listas para apoyarlo."}
-              </p>
-              <Button
-                onClick={() => navigate('/resources', { state: { ...location.state } })}
-                className="w-full bg-[#4B9FE1] hover:bg-[#3A8ED0] text-white"
-              >
-                {language === 'en' ? "Explore Community Resources" : "Explorar Recursos Comunitarios"}
               </Button>
             </div>
           </div>
