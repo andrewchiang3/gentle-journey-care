@@ -44,11 +44,17 @@ export const Navbar = () => {
     <nav className="bg-white border-b px-4 py-3 fixed top-0 w-full z-50">
       <div className="max-w-7xl mx-auto flex justify-between items-center">
         <div className="flex items-center gap-2">
-          <img
-            src="/lovable-uploads/f4a6e110-504c-4780-b9c6-30bec6066142.png"
-            alt="Logo"
-            className="w-8 h-8 md:w-10 md:h-10"
-          />
+          <Button
+            variant="ghost"
+            className="p-0"
+            onClick={() => navigate('/', { state: { language } })}
+          >
+            <img
+              src="/lovable-uploads/f4a6e110-504c-4780-b9c6-30bec6066142.png"
+              alt="Logo"
+              className="w-8 h-8 md:w-10 md:h-10"
+            />
+          </Button>
         </div>
         
         {isMobile ? (
