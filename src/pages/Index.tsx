@@ -1,9 +1,8 @@
 
 import React, { useState } from 'react';
 import { WelcomeHeader } from '@/components/WelcomeHeader';
-import { LanguageSelector } from '@/components/LanguageSelector';
 import { useToast } from '@/hooks/use-toast';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
 import { analyzeMedicalConcerns } from '@/utils/llmProcessor';
 import { MainMenuButtons } from '@/components/MainMenuButtons';
@@ -11,9 +10,10 @@ import { ConcernsForm } from '@/components/ConcernsForm';
 import { FormState } from '@/types/form';
 
 const Index = () => {
+  const location = useLocation();
   const [formState, setFormState] = useState<FormState>({
     isListening: false,
-    language: 'en',
+    language: location.state?.language || 'en',
     concerns: '',
     showCheckupForm: false,
     showConcernsForm: false,
@@ -83,11 +83,6 @@ const Index = () => {
   if (!formState.showCheckupForm && !formState.showConcernsForm) {
     return (
       <div className="min-h-screen bg-background">
-        <LanguageSelector
-          currentLanguage={formState.language}
-          onLanguageChange={(lang) => setFormState(prev => ({ ...prev, language: lang }))}
-        />
-        
         <main className="container max-w-4xl mx-auto px-4 py-6 md:py-8">
           <WelcomeHeader />
           
@@ -105,11 +100,6 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <LanguageSelector
-        currentLanguage={formState.language}
-        onLanguageChange={(lang) => setFormState(prev => ({ ...prev, language: lang }))}
-      />
-      
       <main className="container max-w-4xl mx-auto px-4 py-8">
         <WelcomeHeader />
         
