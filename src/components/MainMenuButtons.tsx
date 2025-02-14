@@ -1,6 +1,8 @@
 
 import React from 'react';
 import { Button } from '@/components/ui/button';
+import happy from '../img/happy.png'
+import koala from '../img/koala.png'
 
 type MainMenuButtonsProps = {
   language: string;
@@ -16,7 +18,7 @@ export const MainMenuButtons = ({ language, onCheckupClick, onConcernsClick }: M
         className="h-auto p-6 md:p-8 bg-[#F2FCE2] hover:bg-[#E2ECD2] text-gray-800 rounded-xl md:rounded-2xl shadow-md transition-all duration-300 flex flex-col items-center gap-3 md:gap-4 group"
       >
         <img
-          src="/lovable-uploads/f4a6e110-504c-4780-b9c6-30bec6066142.png"
+          src={happy}
           alt="Regular Checkup"
           className="w-16 h-16 md:w-24 md:h-24 group-hover:scale-110 transition-transform duration-300"
         />
@@ -39,7 +41,7 @@ export const MainMenuButtons = ({ language, onCheckupClick, onConcernsClick }: M
         className="h-auto p-6 md:p-8 bg-[#FEF7CD] hover:bg-[#FEC6A1] text-gray-800 rounded-xl md:rounded-2xl shadow-md transition-all duration-300 flex flex-col items-center gap-3 md:gap-4 group"
       >
         <img
-          src="/lovable-uploads/f4a6e110-504c-4780-b9c6-30bec6066142.png"
+          src={koala}
           alt="Specific Concerns"
           className="w-16 h-16 md:w-24 md:h-24 group-hover:scale-110 transition-transform duration-300"
         />

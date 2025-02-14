@@ -4,17 +4,17 @@ import { Button } from '@/components/ui/button';
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { generatePDF } from '@/utils/pdfGenerator';
 import { Brain, Shield, Globe } from 'lucide-react';
+import cow from '../img/cow.png'
+import sheep from '../img/sheep.png'
 
 const specificConcerns = {
   en: [
-    "When to Seek Help:",
     "Persistent high fever (above 103°F) or fever lasting more than 3 days.",
     "Severe dehydration (no urination, dry mouth, sunken eyes).",
     "Difficulty breathing, confusion, or seizures.",
     "Signs of serious infection (red streaks around a wound, swollen joints, unresponsiveness)."
   ],
   es: [
-    "Cuándo Buscar Ayuda:",
     "Fiebre alta persistente (superior a 39.4°C) o fiebre que dura más de 3 días.",
     "Deshidratación severa (sin orinar, boca seca, ojos hundidos).",
     "Dificultad para respirar, confusión o convulsiones.",
@@ -92,7 +92,7 @@ const Confirmation = () => {
             <div className="bg-[#FEF7CD] p-6 rounded-lg shadow-sm border">
               <div className="flex items-center gap-4 mb-4">
                 <img
-                  src="/lovable-uploads/f4a6e110-504c-4780-b9c6-30bec6066142.png"
+                  src={sheep}
                   alt="Health Tips"
                   className="w-16 h-16"
                 />
@@ -182,12 +182,12 @@ const Confirmation = () => {
           <div className="bg-[#FEF7CD] p-6 rounded-lg shadow-sm border">
             <div className="flex items-center gap-4 mb-4">
               <img
-                src="/lovable-uploads/f4a6e110-504c-4780-b9c6-30bec6066142.png"
+                src={cow}
                 alt="Health Tips"
                 className="w-16 h-16"
               />
               <h3 className="text-lg font-semibold">
-                {language === 'en' ? "Important Health Guidelines" : "Pautas Importantes de Salud"}
+                {language === 'en' ? "When to Seek Help" : "Cuándo buscar ayuda"}
               </h3>
             </div>
             <ul className="space-y-4">

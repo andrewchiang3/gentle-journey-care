@@ -8,6 +8,7 @@ import { analyzeMedicalConcerns } from '@/utils/llmProcessor';
 import { MainMenuButtons } from '@/components/MainMenuButtons';
 import { ConcernsForm } from '@/components/ConcernsForm';
 import { FormState } from '@/types/form';
+import owl from '../img/owl.png'
 
 const Index = () => {
   const location = useLocation();
@@ -123,7 +124,7 @@ const Index = () => {
         <AlertDialogContent>
           <div className="text-center space-y-4">
             <img
-              src="/lovable-uploads/f4a6e110-504c-4780-b9c6-30bec6066142.png"
+              src={owl}
               alt="Friendly Medical Helper"
               className="w-24 h-24 mx-auto animate-bounce"
             />

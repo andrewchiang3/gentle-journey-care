@@ -14,10 +14,10 @@ export const WelcomeHeader = () => {
           Virtual Pediatric Care
         </span>
         <h1 className="text-3xl font-bold mt-4 text-gray-900">
-          Here for a check-up?
+          Care for your children, right from home
         </h1>
         <p className="text-muted-foreground max-w-md mx-auto">
-          We're here to help you take care of your little ones. No appointment needed.
+          We're here to help you take care of your little ones
         </p>
       </div>
     </header>
