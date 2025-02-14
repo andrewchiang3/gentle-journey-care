@@ -131,11 +131,10 @@ const Resources = () => {
   const resources = resourceCategories[language];
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <ScrollArea className="h-[calc(100vh-4rem)]">
+    <div className="container mx-auto px-4 py-20 md:py-24">
+      <ScrollArea className="h-[calc(100vh-6rem)]">
         <div className="max-w-4xl mx-auto space-y-6">
-          {/* Header with Avatar */}
-          <div className="text-center space-y-4">
+          <div className="text-center space-y-4 pt-4">
             <img
               src="/lovable-uploads/f4a6e110-504c-4780-b9c6-30bec6066142.png"
               alt="Friendly Helper"
@@ -151,7 +150,6 @@ const Resources = () => {
             </p>
           </div>
 
-          {/* Main Services */}
           <div className="space-y-4">
             <h2 className="text-xl font-semibold text-gray-800 mb-4">
               {language === 'en' ? "Main Services" : "Servicios Principales"}
@@ -187,7 +185,6 @@ const Resources = () => {
             </div>
           </div>
 
-          {/* Crisis Services */}
           <div className="space-y-4">
             <h2 className="text-xl font-semibold text-gray-800 mb-4">
               {language === 'en' ? "Crisis Services" : "Servicios de Crisis"}
@@ -212,7 +209,6 @@ const Resources = () => {
             </div>
           </div>
 
-          {/* Child Services */}
           <div className="space-y-4">
             <h2 className="text-xl font-semibold text-gray-800 mb-4">
               {language === 'en' ? "Child & Family Services" : "Servicios para Niños y Familias"}
@@ -237,7 +233,6 @@ const Resources = () => {
             </div>
           </div>
 
-          {/* Additional Resources Link */}
           <div className="text-center pt-4">
             <a
               href="https://in.ewu.edu/ewahec/wp-content/uploads/sites/102/2016/05/Ferry-County-Resources.pdf"
@@ -252,7 +247,6 @@ const Resources = () => {
             </a>
           </div>
 
-          {/* Return Button */}
           <div className="flex justify-center pt-4">
             <Button
               onClick={() => navigate('/')}

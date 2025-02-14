@@ -18,7 +18,7 @@ export const Navbar = () => {
   ];
 
   const renderMenuItems = () => (
-    <div className={isMobile ? "flex flex-col space-y-4" : "flex space-x-4 items-center"}>
+    <div className={isMobile ? "flex flex-col space-y-4" : "flex items-center gap-4"}>
       {menuItems.map((item) => (
         <Button
           key={item.path}
@@ -29,23 +29,27 @@ export const Navbar = () => {
           {item.label}
         </Button>
       ))}
-      <LanguageSelector
-        currentLanguage={language}
-        onLanguageChange={(lang) => navigate(location.pathname, { 
-          state: { ...location.state, language: lang } 
-        })}
-      />
+      <div className="ml-2">
+        <LanguageSelector
+          currentLanguage={language}
+          onLanguageChange={(lang) => navigate(location.pathname, { 
+            state: { ...location.state, language: lang } 
+          })}
+        />
+      </div>
     </div>
   );
 
   return (
-    <nav className="bg-white border-b px-4 py-2 fixed top-0 w-full z-50">
+    <nav className="bg-white border-b px-4 py-3 fixed top-0 w-full z-50">
       <div className="max-w-7xl mx-auto flex justify-between items-center">
-        <img
-          src="/lovable-uploads/f4a6e110-504c-4780-b9c6-30bec6066142.png"
-          alt="Logo"
-          className="w-10 h-10"
-        />
+        <div className="flex items-center gap-2">
+          <img
+            src="/lovable-uploads/f4a6e110-504c-4780-b9c6-30bec6066142.png"
+            alt="Logo"
+            className="w-8 h-8 md:w-10 md:h-10"
+          />
+        </div>
         
         {isMobile ? (
           <Sheet>
