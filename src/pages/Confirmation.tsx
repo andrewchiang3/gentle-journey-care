@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -8,103 +7,80 @@ import { Brain, Shield, Globe } from 'lucide-react';
 import cow from '../img/cow.png'
 import sheep from '../img/sheep.png'
 
-// Updated with clearer urgency levels
 const specificConcerns = {
   en: [
     {
-      level: "Emergency - Seek Immediate Medical Care",
+      level: "Emergency - Seek Immediate Care",
       concerns: [
-        "Difficulty breathing, turning blue, or severe respiratory distress",
-        "Unresponsiveness or extreme lethargy (can't wake up)",
-        "Seizures or convulsions",
-        "Large, deep, or heavily bleeding wounds",
-        "Severe dehydration (no urination for 8+ hours, very dry mouth, sunken eyes or fontanelle)",
-        "Stiff neck with fever and headache (possible meningitis)",
-        "Severe abdominal pain, especially with vomiting and fever"
+        "Difficulty breathing or turning blue",
+        "Unresponsiveness or seizures",
+        "Severe bleeding or deep wounds",
+        "Stiff neck with fever (possible meningitis)"
       ]
     },
     {
       level: "Urgent - See Doctor Within 24 Hours",
       concerns: [
-        "Persistent high fever (above 103°F/39.4°C) for more than 24 hours",
-        "Fever in infants under 3 months (100.4°F/38°C or higher)",
-        "Fever lasting more than 3 days in children of any age",
-        "Ear pain with fever or discharge",
-        "Painful urination or blood in urine",
-        "Worsening rash, especially with fever",
-        "Persistent vomiting or diarrhea lasting more than 24 hours"
+        "High fever (above 103°F) for over 24 hours",
+        "Any fever in babies under 3 months",
+        "Persistent vomiting or diarrhea",
+        "Worsening rash with fever"
       ]
     },
     {
-      level: "Call Your Doctor - Advice Needed",
+      level: "Call Your Doctor When Convenient",
       concerns: [
-        "Fever (101-103°F/38.3-39.4°C) with no other serious symptoms",
-        "Mild dehydration (decreased urination, dry lips)",
-        "Persistent cough without difficulty breathing",
+        "Mild fever with normal behavior",
         "Ear pain without fever",
-        "Rash without fever",
-        "Mild vomiting or diarrhea less than 24 hours",
+        "Cough without breathing problems",
         "Minor injuries that may need assessment"
       ]
     },
     {
-      level: "Home Care - Monitor",
+      level: "Home Care Is Usually Sufficient",
       concerns: [
-        "Minor cold symptoms with normal activity level",
-        "Low-grade fever (below 101°F/38.3°C) with good fluid intake",
-        "Mild stomach upset with just 1-2 episodes of vomiting or diarrhea",
-        "Minor scratches or bruises that are healing normally",
-        "Seasonal allergies responding to over-the-counter treatments",
-        "Teething discomfort"
+        "Minor cold symptoms with normal activity",
+        "Low-grade fever with good fluid intake",
+        "Mild stomach upset (1-2 episodes)",
+        "Minor scratches healing normally"
       ]
     }
   ],
   es: [
     {
-      level: "Emergencia - Busque Atención Médica Inmediata",
+      level: "Emergencia - Atención Inmediata",
       concerns: [
-        "Dificultad para respirar, coloración azulada o dificultad respiratoria severa",
-        "Falta de respuesta o letargo extremo (no puede despertarse)",
-        "Convulsiones",
-        "Heridas grandes, profundas o con sangrado abundante",
-        "Deshidratación severa (sin orinar por más de 8 horas, boca muy seca, ojos o fontanela hundidos)",
-        "Rigidez en el cuello con fiebre y dolor de cabeza (posible meningitis)",
-        "Dolor abdominal severo, especialmente con vómitos y fiebre"
+        "Dificultad para respirar o color azulado",
+        "Falta de respuesta o convulsiones",
+        "Sangrado severo o heridas profundas",
+        "Rigidez de cuello con fiebre (posible meningitis)"
       ]
     },
     {
       level: "Urgente - Ver al Médico en 24 Horas",
       concerns: [
-        "Fiebre alta persistente (superior a 39.4°C) por más de 24 horas",
-        "Fiebre en bebés menores de 3 meses (38°C o más)",
-        "Fiebre que dura más de 3 días en niños de cualquier edad",
-        "Dolor de oído con fiebre o secreción",
-        "Dolor al orinar o sangre en la orina",
-        "Sarpullido que empeora, especialmente con fiebre",
-        "Vómitos persistentes o diarrea por más de 24 horas"
+        "Fiebre alta (más de 39.4°C) por más de 24 horas",
+        "Cualquier fiebre en bebés menores de 3 meses",
+        "Vómitos o diarrea persistentes",
+        "Sarpullido que empeora con fiebre"
       ]
     },
     {
-      level: "Llame a Su Médico - Necesita Consejo",
+      level: "Llame a Su Médico Cuando Sea Conveniente",
       concerns: [
-        "Fiebre (38.3-39.4°C) sin otros síntomas graves",
-        "Deshidratación leve (disminución de la orina, labios secos)",
-        "Tos persistente sin dificultad para respirar",
+        "Fiebre leve con comportamiento normal",
         "Dolor de oído sin fiebre",
-        "Sarpullido sin fiebre",
-        "Vómitos o diarrea leves menos de 24 horas",
+        "Tos sin problemas respiratorios",
         "Lesiones menores que pueden necesitar evaluación"
       ]
     },
     {
-      level: "Cuidado en Casa - Monitorear",
+      level: "El Cuidado en Casa Suele Ser Suficiente",
       concerns: [
-        "Síntomas leves de resfriado con nivel de actividad normal",
-        "Fiebre baja (menos de 38.3°C) con buena ingesta de líquidos",
-        "Malestar estomacal leve con solo 1-2 episodios de vómitos o diarrea",
-        "Rasguños o moretones menores que están sanando normalmente",
-        "Alergias estacionales que responden a tratamientos sin receta",
-        "Molestias por dentición"
+        "Síntomas leves de resfriado con actividad normal",
+        "Fiebre baja con buena ingesta de líquidos",
+        "Malestar estomacal leve (1-2 episodios)",
+        "Rasguños menores que sanan normalmente"
       ]
     }
   ]
@@ -282,45 +258,47 @@ const Confirmation = () => {
               </h3>
             </div>
             
-            {specificConcerns[language].map((category, categoryIndex) => (
-              <div key={categoryIndex} className={`mb-6 ${
-                categoryIndex === 0 
-                  ? 'p-4 bg-red-50 border border-red-200 rounded-lg' 
-                  : categoryIndex === 1 
-                    ? 'p-4 bg-orange-50 border border-orange-200 rounded-lg'
-                    : categoryIndex === 2
-                      ? 'p-4 bg-blue-50 border border-blue-200 rounded-lg'
-                      : 'p-4 bg-green-50 border border-green-200 rounded-lg'
-              }`}>
-                <h4 className={`font-bold text-base mb-2 ${
+            <div className="space-y-4">
+              {specificConcerns[language].map((category, categoryIndex) => (
+                <div key={categoryIndex} className={`p-4 rounded-lg ${
                   categoryIndex === 0 
-                    ? 'text-red-700' 
+                    ? 'bg-red-50 border border-red-200' 
                     : categoryIndex === 1 
-                      ? 'text-orange-700'
+                      ? 'bg-orange-50 border border-orange-200'
                       : categoryIndex === 2
-                        ? 'text-blue-700'
-                        : 'text-green-700'
+                        ? 'bg-blue-50 border border-blue-200'
+                        : 'bg-green-50 border border-green-200'
                 }`}>
-                  {category.level}
-                </h4>
-                <ul className="space-y-2">
-                  {category.concerns.map((item, index) => (
-                    <li key={index} className="flex items-start gap-2">
-                      <span className={`mt-1 ${
-                        categoryIndex === 0 
-                          ? 'text-red-500' 
-                          : categoryIndex === 1 
-                            ? 'text-orange-500'
-                            : categoryIndex === 2
-                              ? 'text-blue-500'
-                              : 'text-green-500'
-                      }`}>•</span>
-                      <span className="text-gray-700">{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
+                  <h4 className={`font-bold text-base ${
+                    categoryIndex === 0 
+                      ? 'text-red-700' 
+                      : categoryIndex === 1 
+                        ? 'text-orange-700'
+                        : categoryIndex === 2
+                          ? 'text-blue-700'
+                          : 'text-green-700'
+                  }`}>
+                    {category.level}
+                  </h4>
+                  <ul className="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-1">
+                    {category.concerns.map((item, index) => (
+                      <li key={index} className="flex items-start">
+                        <span className={`mr-1.5 mt-1 text-sm ${
+                          categoryIndex === 0 
+                            ? 'text-red-500' 
+                            : categoryIndex === 1 
+                              ? 'text-orange-500'
+                              : categoryIndex === 2
+                                ? 'text-blue-500'
+                                : 'text-green-500'
+                        }`}>•</span>
+                        <span className="text-gray-700 text-sm">{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
           </div>
 
           <div className="grid gap-6 md:grid-cols-2">
