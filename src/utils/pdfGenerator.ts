@@ -1,3 +1,4 @@
+
 import jsPDF from 'jspdf';
 
 interface Remedy {
@@ -43,21 +44,14 @@ export const generatePDF = (
   doc.text(splitConcerns, 20, yPosition);
   yPosition += (splitConcerns.length * lineHeight) + lineHeight;
 
-  // Add care guidance section (renamed from analysis)
+  // Add care guidance section
   doc.setFont('helvetica', 'bold');
-  doc.text(language === 'en' ? 'Care Guidance:' : 'Guía de Cuidados:', 20, yPosition);
-  yPosition += lineHeight;
+  doc.text(language === 'en' ? 'When to Seek Help:' : 'Cuándo Buscar Ayuda:', 20, yPosition);
+  yPosition += lineHeight * 1.5;
   doc.setFont('helvetica', 'normal');
   
-  // Format the analysis text to be more user-friendly
-  let formattedAnalysis = analysis;
-  if (formattedAnalysis.includes("When to Seek Care")) {
-    // If analysis contains "When to Seek Care", keep only that section
-    const seekCareIndex = formattedAnalysis.indexOf("When to Seek Care");
-    formattedAnalysis = formattedAnalysis.substring(seekCareIndex);
-  }
-  
-  const splitAnalysis = doc.splitTextToSize(formattedAnalysis, 170);
+  // The analysis text is now formatted with urgency levels
+  const splitAnalysis = doc.splitTextToSize(analysis, 170);
   doc.text(splitAnalysis, 20, yPosition);
   yPosition += (splitAnalysis.length * lineHeight) + lineHeight;
 
