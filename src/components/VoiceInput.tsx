@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Mic, MicOff } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
 
 interface VoiceInputProps {
   onTranscript: (transcript: string) => void;
@@ -14,6 +15,7 @@ export const VoiceInput: React.FC<VoiceInputProps> = ({
   onListeningChange,
 }) => {
   const [recognition, setRecognition] = useState<SpeechRecognition | null>(null);
+  const { toast } = useToast();
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -26,37 +28,89 @@ export const VoiceInput: React.FC<VoiceInputProps> = ({
       const SpeechRecognition = windowWithSpeech.SpeechRecognition || windowWithSpeech.webkitSpeechRecognition;
       
       if (SpeechRecognition) {
-        const recognition = new SpeechRecognition();
-        recognition.continuous = true;
-        recognition.interimResults = true;
-        recognition.lang = 'en-US';
+        const recognitionInstance = new SpeechRecognition();
+        recognitionInstance.continuous = true;
+        recognitionInstance.interimResults = true;
+        recognitionInstance.lang = 'en-US';
 
-        recognition.onresult = (event) => {
+        recognitionInstance.onresult = (event) => {
           const transcript = Array.from(event.results)
             .map(result => result[0])
             .map(result => result.transcript)
             .join('');
+          
+          console.log("Speech recognized:", transcript);
           onTranscript(transcript);
         };
 
-        recognition.onend = () => {
+        recognitionInstance.onend = () => {
+          console.log("Speech recognition ended");
           onListeningChange(false);
         };
 
-        setRecognition(recognition);
+        recognitionInstance.onerror = (event) => {
+          console.error("Speech recognition error:", event.error);
+          toast({
+            title: "Speech recognition error",
+            description: `There was a problem with the microphone: ${event.error}. Please try again or type your concerns.`,
+            variant: "destructive",
+          });
+          onListeningChange(false);
+        };
+
+        setRecognition(recognitionInstance);
+      } else {
+        console.error("Speech recognition not supported in this browser");
+        toast({
+          title: "Speech recognition not supported",
+          description: "Your browser doesn't support speech recognition. Please type your concerns instead.",
+          variant: "destructive",
+        });
       }
     }
-  }, [onTranscript, onListeningChange]);
+  }, [onTranscript, onListeningChange, toast]);
 
   const toggleListening = () => {
-    if (!recognition) return;
+    if (!recognition) {
+      toast({
+        title: "Speech recognition not available",
+        description: "Please try using a different browser or type your concerns.",
+        variant: "destructive",
+      });
+      return;
+    }
 
-    if (isListening) {
-      recognition.stop();
+    try {
+      if (isListening) {
+        recognition.stop();
+        onListeningChange(false);
+      } else {
+        navigator.mediaDevices.getUserMedia({ audio: true })
+          .then(() => {
+            recognition.start();
+            onListeningChange(true);
+            toast({
+              title: "Listening...",
+              description: "Speak clearly and we'll record your concerns.",
+            });
+          })
+          .catch(error => {
+            console.error("Microphone access error:", error);
+            toast({
+              title: "Microphone access denied",
+              description: "Please allow microphone access to use voice input.",
+              variant: "destructive",
+            });
+          });
+      }
+    } catch (error) {
+      console.error("Toggle listening error:", error);
+      toast({
+        title: "Speech recognition error",
+        description: "There was a problem starting speech recognition. Please try again.",
+        variant: "destructive",
+      });
       onListeningChange(false);
-    } else {
-      recognition.start();
-      onListeningChange(true);
     }
   };
 
@@ -65,16 +119,18 @@ export const VoiceInput: React.FC<VoiceInputProps> = ({
       onClick={toggleListening}
       className={`p-4 rounded-full transition-all duration-300 ${
         isListening
-          ? 'bg-primary text-primary-foreground'
+          ? 'bg-primary text-primary-foreground animate-pulse'
           : 'bg-muted hover:bg-primary/10'
       }`}
       aria-label={isListening ? 'Stop voice input' : 'Start voice input'}
+      title={isListening ? 'Click to stop recording' : 'Click to start voice recording'}
     >
       {isListening ? (
-        <Mic className="w-6 h-6 animate-pulse" />
+        <Mic className="w-6 h-6" />
       ) : (
         <MicOff className="w-6 h-6" />
       )}
+      <span className="sr-only">{isListening ? 'Stop voice input' : 'Start voice input'}</span>
     </button>
   );
 };

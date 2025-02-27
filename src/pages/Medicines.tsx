@@ -3,66 +3,66 @@ import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Shield, ArrowLeft, Plus } from 'lucide-react';
+import { Shield, ArrowLeft, Plus, Check } from 'lucide-react';
 
 const medicines = {
   en: [
     {
-      name: "Over-the-Counter Pain Relief",
-      description: "Children's acetaminophen or ibuprofen for fever and pain. Always check weight-based dosing."
+      name: "Pain Relief for Children",
+      description: "Children's acetaminophen (Tylenol) or ibuprofen (Motrin, Advil) for fever and pain. Always check the correct dose based on your child's weight."
     },
     {
-      name: "Oral Rehydration Solutions",
-      description: "Pedialyte or store-brand alternatives to prevent dehydration during illness."
+      name: "Rehydration Drinks",
+      description: "Pedialyte or similar drinks to prevent dehydration during illness with vomiting or diarrhea."
     },
     {
-      name: "Antihistamines",
-      description: "OTC options like Claritin (loratadine) or Benadryl (diphenhydramine) for allergy symptoms."
+      name: "Allergy Medicines",
+      description: "Over-the-counter options like Claritin (loratadine) or Benadryl (diphenhydramine) for allergy symptoms."
     },
     {
-      name: "Topical Treatments",
+      name: "Skin Treatment Creams",
       description: "Calamine lotion for itching, hydrocortisone cream for irritation, antiseptic ointments for minor cuts."
     },
     {
       name: "Saline Products",
-      description: "Nasal sprays and rinses to help clear congestion, safe for all ages."
+      description: "Salt water nasal sprays and rinses to help clear congestion, safe for all ages."
     },
     {
-      name: "Anti-Gas Remedies",
-      description: "Simethicone products like Gas-X to relieve bloating and discomfort."
+      name: "Gas Relief",
+      description: "Products like Gas-X (simethicone) to relieve bloating and stomach discomfort."
     },
     {
-      name: "Children's Multivitamins",
+      name: "Children's Vitamins",
       description: "Daily supplements to support overall health and fill nutritional gaps."
     }
   ],
   es: [
     {
-      name: "Analgésicos de Venta Libre",
-      description: "Acetaminofén o ibuprofeno para niños para fiebre y dolor. Siempre verifique la dosis según el peso."
+      name: "Analgésicos para Niños",
+      description: "Acetaminofén (Tylenol) o ibuprofeno (Motrin, Advil) para niños para fiebre y dolor. Siempre verifique la dosis correcta según el peso de su hijo."
     },
     {
-      name: "Soluciones de Rehidratación",
-      description: "Pedialyte o alternativas de marca propia para prevenir la deshidratación durante la enfermedad."
+      name: "Bebidas de Rehidratación",
+      description: "Pedialyte o alternativas similares para prevenir la deshidratación durante enfermedades con vómitos o diarrea."
     },
     {
-      name: "Antihistamínicos",
-      description: "Opciones como Claritin (loratadina) o Benadryl (difenhidramina) para síntomas de alergia."
+      name: "Medicamentos para Alergias",
+      description: "Opciones sin receta como Claritin (loratadina) o Benadryl (difenhidramina) para síntomas de alergia."
     },
     {
-      name: "Tratamientos Tópicos",
+      name: "Cremas para Tratamiento de Piel",
       description: "Loción de calamina para picazón, crema de hidrocortisona para irritación, ungüentos antisépticos para cortes menores."
     },
     {
       name: "Productos Salinos",
-      description: "Sprays y enjuagues nasales para ayudar con la congestión, seguros para todas las edades."
+      description: "Sprays y enjuagues nasales de agua salada para ayudar con la congestión, seguros para todas las edades."
     },
     {
-      name: "Remedios Anti-Gas",
-      description: "Productos con simeticona como Gas-X para aliviar la hinchazón y el malestar."
+      name: "Alivio de Gases",
+      description: "Productos con simeticona como Gas-X para aliviar la hinchazón y el malestar estomacal."
     },
     {
-      name: "Multivitamínicos para Niños",
+      name: "Vitaminas para Niños",
       description: "Suplementos diarios para apoyar la salud general y complementar la nutrición."
     }
   ]
@@ -116,12 +116,18 @@ const Medicines = () => {
           {language === 'en' ? "Children's Medicine Guide" : "Guía de Medicamentos para Niños"}
         </h1>
 
+        <p className="text-gray-600 mb-4">
+          {language === 'en' 
+            ? "Click the + button to add medicines to your downloadable summary" 
+            : "Haga clic en el botón + para agregar medicamentos a su resumen descargable"}
+        </p>
+
         <div className="relative mb-6">
           <Input
             type="search"
             placeholder={language === 'en'
-              ? "Search medicines by name, type, or age..."
-              : "Buscar medicamentos por nombre, tipo o edad..."}
+              ? "Search medicines by name or condition..."
+              : "Buscar medicamentos por nombre o condición..."}
             className="w-full pl-4 pr-4 py-3 rounded-full bg-white"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
@@ -156,9 +162,19 @@ const Medicines = () => {
                       : 'text-[#7EB8E7] hover:text-[#7EB8E7]/90'
                   }`}
                   onClick={() => toggleMedicine(medicine.name)}
+                  title={selectedMedicines.includes(medicine.name) ? "Remove from summary" : "Add to summary"}
                 >
-                  <Plus className="h-5 w-5" />
+                  {selectedMedicines.includes(medicine.name) ? (
+                    <Check className="h-5 w-5" />
+                  ) : (
+                    <Plus className="h-5 w-5" />
+                  )}
                 </Button>
+              </div>
+              <div className="mt-2 text-xs text-gray-500">
+                {selectedMedicines.includes(medicine.name) 
+                  ? "✓ Added to your summary" 
+                  : "Click + to add this to your downloadable summary"}
               </div>
             </div>
           ))}

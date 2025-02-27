@@ -1,4 +1,3 @@
-
 import jsPDF from 'jspdf';
 
 interface Remedy {
@@ -25,7 +24,7 @@ export const generatePDF = (
   // Add title
   doc.setFontSize(20);
   doc.setFont('helvetica', 'bold');
-  doc.text(language === 'en' ? 'Medical Analysis Report' : 'Informe de Análisis Médico', 20, yPosition);
+  doc.text(language === 'en' ? 'Care Summary Report' : 'Informe Resumen de Cuidados', 20, yPosition);
   
   // Add date
   yPosition += lineHeight * 2;
@@ -44,13 +43,21 @@ export const generatePDF = (
   doc.text(splitConcerns, 20, yPosition);
   yPosition += (splitConcerns.length * lineHeight) + lineHeight;
 
-  // Add analysis section
+  // Add care guidance section (renamed from analysis)
   doc.setFont('helvetica', 'bold');
-  doc.text(language === 'en' ? 'Analysis & Recommendations:' : 'Análisis y Recomendaciones:', 20, yPosition);
+  doc.text(language === 'en' ? 'Care Guidance:' : 'Guía de Cuidados:', 20, yPosition);
   yPosition += lineHeight;
   doc.setFont('helvetica', 'normal');
   
-  const splitAnalysis = doc.splitTextToSize(analysis, 170);
+  // Format the analysis text to be more user-friendly
+  let formattedAnalysis = analysis;
+  if (formattedAnalysis.includes("When to Seek Care")) {
+    // If analysis contains "When to Seek Care", keep only that section
+    const seekCareIndex = formattedAnalysis.indexOf("When to Seek Care");
+    formattedAnalysis = formattedAnalysis.substring(seekCareIndex);
+  }
+  
+  const splitAnalysis = doc.splitTextToSize(formattedAnalysis, 170);
   doc.text(splitAnalysis, 20, yPosition);
   yPosition += (splitAnalysis.length * lineHeight) + lineHeight;
 
@@ -114,8 +121,8 @@ export const generatePDF = (
   doc.setTextColor(128);
   doc.text(
     language === 'en' 
-      ? 'This is an AI-generated analysis. Please consult with a healthcare professional for medical advice.' 
-      : 'Este es un análisis generado por IA. Por favor consulte con un profesional de la salud para consejos médicos.',
+      ? 'This is an AI-generated summary. Please consult with a healthcare professional for medical advice.' 
+      : 'Este es un resumen generado por IA. Por favor consulte con un profesional de la salud para consejos médicos.',
     20, 
     280
   );

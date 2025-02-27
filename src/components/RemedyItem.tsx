@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { Plus } from 'lucide-react';
+import { Plus, Check } from 'lucide-react';
 
 interface RemedyItemProps {
   title: string;
@@ -42,9 +42,20 @@ export const RemedyItem: React.FC<RemedyItemProps> = ({
               : 'text-[#FF9999] hover:text-[#FF9999]/90'
           }`}
           onClick={onToggle}
+          title={isSelected ? "Remove from summary" : "Add to summary"}
+          aria-label={isSelected ? "Remove from summary" : "Add to summary"}
         >
-          <Plus className="h-5 w-5" />
+          {isSelected ? (
+            <Check className="h-5 w-5" />
+          ) : (
+            <Plus className="h-5 w-5" />
+          )}
         </Button>
+      </div>
+      <div className="mt-2 text-xs text-gray-500">
+        {isSelected 
+          ? "✓ Added to your summary" 
+          : "Click + to add this to your downloadable summary"}
       </div>
     </div>
   );
