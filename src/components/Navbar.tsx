@@ -14,6 +14,7 @@ export const Navbar = () => {
 
   const menuItems = [
     { path: '/', label: language === 'en' ? 'Home' : 'Inicio' },
+    { path: '/clinics', label: language === 'en' ? 'Find a Clinic' : 'Encontrar una Clínica' },
     { path: '/resources', label: language === 'en' ? 'Resources' : 'Recursos' },
   ];
 
