@@ -6,6 +6,7 @@ export type FormState = {
   showCheckupForm: boolean;
   showConcernsForm: boolean;
   showConfirmDialog: boolean;
+  isAnalyzing?: boolean;
 };
 
 export type ConsentStatus = {
@@ -13,3 +14,10 @@ export type ConsentStatus = {
   consentDate?: Date;
   consentVersion?: string;
 };
+
+export type RiskAssessment = {
+  riskLevel: 'low' | 'moderate' | 'elevated' | 'high';
+  keyFactors: string[];
+  recommendations: string[];
+};
+
