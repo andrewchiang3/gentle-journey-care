@@ -18,13 +18,25 @@ export const Navbar = () => {
     { path: '/resources', label: language === 'en' ? 'Resources' : 'Recursos' },
   ];
 
+  const handleNavigation = (path: string) => {
+    // Preserve language when navigating, but don't carry other state to home page
+    if (path === '/') {
+      navigate(path, { state: { language } });
+    } else {
+      // For other pages, preserve all current state and update the path
+      navigate(path, { 
+        state: { ...location.state, language } 
+      });
+    }
+  };
+
   const renderMenuItems = () => (
     <div className={isMobile ? "flex flex-col space-y-4" : "flex items-center gap-4"}>
       {menuItems.map((item) => (
         <Button
           key={item.path}
           variant="ghost"
-          onClick={() => navigate(item.path, { state: { language } })}
+          onClick={() => handleNavigation(item.path)}
           className={`${location.pathname === item.path ? 'bg-muted' : ''}`}
         >
           {item.label}
@@ -49,6 +61,8 @@ export const Navbar = () => {
             src="/lovable-uploads/f4a6e110-504c-4780-b9c6-30bec6066142.png"
             alt="Logo"
             className="w-8 h-8 md:w-10 md:h-10"
+            onClick={() => handleNavigation('/')}
+            style={{ cursor: 'pointer' }}
           />
         </div>
         
