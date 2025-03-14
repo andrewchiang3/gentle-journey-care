@@ -18,18 +18,18 @@ export const RemedyItem: React.FC<RemedyItemProps> = ({
 }) => {
   return (
     <div
-      className={`p-4 rounded-lg border transition-colors ${
+      className={`p-4 rounded-lg border transition-all hover-scale ${
         isSelected
-          ? 'border-2 border-[#FF9999] bg-[#FFF5F5]'
-          : 'border-[#FFE4E4] hover:border-[#FF9999]'
+          ? 'border-2 border-primary bg-primary-soft'
+          : 'border-gray-100 shadow-soft hover:border-primary/30'
       }`}
     >
       <div className="flex justify-between items-start">
         <div className="flex-1">
-          <h4 className="font-semibold text-[#FF9999] mb-1">
+          <h4 className={`font-semibold mb-1 ${isSelected ? 'text-primary-foreground' : 'text-primary'}`}>
             {title}
           </h4>
-          <p className="text-gray-600">
+          <p className="text-gray-600 text-sm">
             {description}
           </p>
         </div>
@@ -38,17 +38,17 @@ export const RemedyItem: React.FC<RemedyItemProps> = ({
           size="icon"
           className={`shrink-0 ml-2 ${
             isSelected
-              ? 'bg-[#FF9999] text-white hover:bg-[#FF9999]/90'
-              : 'text-[#FF9999] hover:text-[#FF9999]/90'
+              ? 'bg-primary text-white hover:bg-primary/90'
+              : 'text-primary border border-primary/20 hover:bg-primary-soft'
           }`}
           onClick={onToggle}
           title={isSelected ? "Remove from summary" : "Add to summary"}
           aria-label={isSelected ? "Remove from summary" : "Add to summary"}
         >
           {isSelected ? (
-            <Check className="h-5 w-5" />
+            <Check className="h-4 w-4" />
           ) : (
-            <Plus className="h-5 w-5" />
+            <Plus className="h-4 w-4" />
           )}
         </Button>
       </div>

@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -48,6 +47,14 @@ export default {
           DEFAULT: "#FF8989",
           foreground: "#FFFFFF",
         },
+        card: {
+          DEFAULT: "white",
+          foreground: "#333333",
+        },
+        popover: {
+          DEFAULT: "white",
+          foreground: "#333333",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -77,6 +84,14 @@ export default {
         contentShow: 'contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1)',
         fadeIn: 'fadeIn 200ms ease-out',
         slideUp: 'slideUp 200ms ease-out',
+        "float-slow": "float 8s ease-in-out infinite",
+      },
+      fontFamily: {
+        sans: ["Inter", "system-ui", "sans-serif"],
+      },
+      boxShadow: {
+        'soft': '0 4px 12px rgba(0, 0, 0, 0.05)',
+        'hover': '0 6px 16px rgba(0, 0, 0, 0.1)',
       },
     },
   },
