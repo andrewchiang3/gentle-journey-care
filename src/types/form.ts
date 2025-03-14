@@ -15,9 +15,17 @@ export type ConsentStatus = {
   consentVersion?: string;
 };
 
+export type RemedySuggestion = {
+  topic: string;
+  remedies: {
+    title: string;
+    description: string;
+  }[];
+};
+
 export type RiskAssessment = {
   riskLevel: 'low' | 'moderate' | 'elevated' | 'high';
   keyFactors: string[];
   recommendations: string[];
+  suggestedRemedies?: RemedySuggestion[];
 };
-

@@ -1,12 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { generatePDF } from '@/utils/pdfGenerator';
-import { Brain, Shield, Globe, AlertTriangle, CheckCircle, ArrowRight } from 'lucide-react';
-import { RiskAssessment } from '@/types/form';
+import { 
+  Shield, Globe, Info, Heart, WandSparkles, Sparkles, 
+  Leaf, ArrowLeft, Plus, Check 
+} from 'lucide-react';
+import { RiskAssessment, RemedySuggestion } from '@/types/form';
 import cow from '../img/cow.png'
 import sheep from '../img/sheep.png'
+import { toast } from "@/hooks/use-toast";
 
 const specificConcerns = {
   en: [
@@ -118,7 +122,12 @@ const Confirmation = () => {
   const isCheckup = location.state?.isCheckup || false;
   const selectedConditions = location.state?.selectedConditions || [];
   const selectedMedicines = location.state?.selectedMedicines || [];
-  const riskAssessment: RiskAssessment | undefined = location.state?.analysis?.riskAssessment;
+  const insightAssessment: RiskAssessment | undefined = location.state?.analysis?.insightAssessment;
+  
+  const [selectedRemedies, setSelectedRemedies] = useState<{
+    topic: string;
+    remedies: {title: string; description: string}[];
+  }[]>([]);
 
   const handleDownloadPDF = () => {
     const guidelinesToUse = isCheckup ? checkupGuidelines[language].join('\n\n') : specificConcerns[language].map(item => 
@@ -129,70 +138,102 @@ const Confirmation = () => {
       concerns, 
       guidelinesToUse, 
       language,
-      selectedConditions,
+      [...selectedConditions, ...selectedRemedies],
       selectedMedicines
     );
     window.open(pdfUrl, '_blank');
   };
 
-  const getRiskLevelColor = (riskLevel: string) => {
+  const getStatusColor = (riskLevel: string) => {
     switch (riskLevel) {
       case 'low': return 'bg-green-50 text-green-700 border-green-200';
       case 'moderate': return 'bg-yellow-50 text-yellow-700 border-yellow-200';
       case 'elevated': return 'bg-orange-50 text-orange-700 border-orange-200';
       case 'high': return 'bg-red-50 text-red-700 border-red-200';
-      default: return 'bg-gray-50 text-gray-700 border-gray-200';
+      default: return 'bg-blue-50 text-blue-700 border-blue-200';
     }
   };
 
-  const renderAIAssessment = () => {
-    if (!riskAssessment) return null;
+  const getStatusLabel = (riskLevel: string) => {
+    if (language === 'en') {
+      switch (riskLevel) {
+        case 'low': return 'Routine Care';
+        case 'moderate': return 'Some Attention Needed';
+        case 'elevated': return 'Attention Recommended';
+        case 'high': return 'Prompt Attention Advised';
+        default: return 'Care Insights';
+      }
+    } else {
+      switch (riskLevel) {
+        case 'low': return 'Cuidado Rutinario';
+        case 'moderate': return 'Algo de Atención Necesaria';
+        case 'elevated': return 'Atención Recomendada';
+        case 'high': return 'Atención Pronta Aconsejada';
+        default: return 'Información de Cuidado';
+      }
+    }
+  };
+
+  const addRemedy = (remedy: RemedySuggestion) => {
+    setSelectedRemedies(prev => {
+      const exists = prev.some(r => r.topic === remedy.topic && 
+        r.remedies.some(item => remedy.remedies.some(ri => ri.title === item.title)));
+      
+      if (exists) {
+        return prev;
+      }
+      
+      const newRemedies = [...prev, remedy];
+      toast({
+        title: language === 'en' ? "Added to summary" : "Añadido al resumen",
+        description: language === 'en' ? 
+          "Home care recommendations added to your downloadable summary" : 
+          "Recomendaciones de cuidado en casa añadidas a su resumen descargable"
+      });
+      return newRemedies;
+    });
+  };
+
+  const renderAIInsights = () => {
+    if (!insightAssessment) return null;
     
     return (
-      <div className="bg-blue-50 p-6 rounded-lg shadow-sm border border-blue-200 mb-6">
+      <div className="bg-[#F0F7FF] p-6 rounded-lg shadow-sm border border-[#D0E3F7] mb-6">
         <div className="flex items-start gap-4 mb-4">
           <div className="bg-white p-2 rounded-full">
-            <Brain className="h-8 w-8 text-blue-600" />
+            <Sparkles className="h-8 w-8 text-[#4B9FE1]" />
           </div>
           <div>
-            <h3 className="text-lg font-semibold text-blue-800">
-              {language === 'en' ? "AI-Assisted Risk Assessment" : "Evaluación de Riesgo Asistida por IA"}
+            <h3 className="text-lg font-semibold text-[#1A5089]">
+              {language === 'en' ? "Care Insights & Helpful Tips" : "Información de Cuidado y Consejos Útiles"}
             </h3>
-            <p className="text-sm text-blue-600">
+            <p className="text-sm text-[#4B78A5]">
               {language === 'en' 
-                ? "This preliminary assessment is based on the information you provided"
-                : "Esta evaluación preliminar se basa en la información que proporcionó"}
+                ? "Based on what you've shared, we've put together some helpful information"
+                : "Basado en lo que ha compartido, hemos reunido información útil"}
             </p>
           </div>
         </div>
 
-        <div className={`p-3 rounded-md mb-4 border ${getRiskLevelColor(riskAssessment.riskLevel)}`}>
+        <div className={`p-3 rounded-md mb-4 border ${getStatusColor(insightAssessment.riskLevel)}`}>
           <div className="flex items-center gap-2">
-            <AlertTriangle className="h-5 w-5" />
+            <Info className="h-5 w-5" />
             <span className="font-medium">
-              {language === 'en' ? "Risk Level: " : "Nivel de Riesgo: "}
-              {language === 'en' 
-                ? riskAssessment.riskLevel.charAt(0).toUpperCase() + riskAssessment.riskLevel.slice(1) 
-                : riskAssessment.riskLevel === 'low' 
-                  ? 'Bajo' 
-                  : riskAssessment.riskLevel === 'moderate' 
-                    ? 'Moderado' 
-                    : riskAssessment.riskLevel === 'elevated' 
-                      ? 'Elevado' 
-                      : 'Alto'}
+              {language === 'en' ? "Care Level: " : "Nivel de Cuidado: "}
+              {getStatusLabel(insightAssessment.riskLevel)}
             </span>
           </div>
         </div>
 
-        {riskAssessment.keyFactors.length > 0 && (
+        {insightAssessment.keyFactors.length > 0 && (
           <div className="mb-4">
-            <h4 className="text-sm font-medium text-blue-800 mb-2">
-              {language === 'en' ? "Key Factors Identified:" : "Factores Clave Identificados:"}
+            <h4 className="text-sm font-medium text-[#1A5089] mb-2">
+              {language === 'en' ? "We've noticed:" : "Hemos notado:"}
             </h4>
             <ul className="space-y-1">
-              {riskAssessment.keyFactors.map((factor, index) => (
+              {insightAssessment.keyFactors.map((factor, index) => (
                 <li key={index} className="flex items-start text-sm">
-                  <ArrowRight className="h-4 w-4 mr-2 mt-0.5 text-blue-500" />
+                  <Leaf className="h-4 w-4 mr-2 mt-0.5 text-[#4B9FE1]" />
                   <span>{factor}</span>
                 </li>
               ))}
@@ -200,15 +241,15 @@ const Confirmation = () => {
           </div>
         )}
 
-        {riskAssessment.recommendations.length > 0 && (
-          <div>
-            <h4 className="text-sm font-medium text-blue-800 mb-2">
-              {language === 'en' ? "AI Recommendations:" : "Recomendaciones de la IA:"}
+        {insightAssessment.recommendations.length > 0 && (
+          <div className="mb-4">
+            <h4 className="text-sm font-medium text-[#1A5089] mb-2">
+              {language === 'en' ? "Helpful suggestions:" : "Sugerencias útiles:"}
             </h4>
             <ul className="space-y-1">
-              {riskAssessment.recommendations.map((rec, index) => (
+              {insightAssessment.recommendations.map((rec, index) => (
                 <li key={index} className="flex items-start text-sm">
-                  <CheckCircle className="h-4 w-4 mr-2 mt-0.5 text-blue-500" />
+                  <Heart className="h-4 w-4 mr-2 mt-0.5 text-[#4B9FE1]" />
                   <span>{rec}</span>
                 </li>
               ))}
@@ -216,10 +257,45 @@ const Confirmation = () => {
           </div>
         )}
 
+        {insightAssessment.suggestedRemedies && insightAssessment.suggestedRemedies.length > 0 && (
+          <div className="mt-4 pt-4 border-t border-blue-200">
+            <h4 className="text-sm font-medium text-[#1A5089] mb-2">
+              {language === 'en' ? "At-home care options you might find helpful:" : "Opciones de cuidado en casa que podrían ser útiles:"}
+            </h4>
+            <div className="space-y-3">
+              {insightAssessment.suggestedRemedies.map((remedyGroup, groupIndex) => (
+                <div key={groupIndex} className="bg-white p-3 rounded-md border border-blue-100">
+                  <div className="flex justify-between items-start">
+                    <h5 className="text-sm font-medium text-blue-800">{remedyGroup.topic}</h5>
+                    <Button 
+                      size="sm" 
+                      variant="ghost" 
+                      className="h-7 px-2" 
+                      onClick={() => addRemedy(remedyGroup)}
+                    >
+                      <Plus className="h-4 w-4 mr-1" />
+                      <span className="text-xs">
+                        {language === 'en' ? "Add to summary" : "Añadir al resumen"}
+                      </span>
+                    </Button>
+                  </div>
+                  <ul className="mt-2 space-y-2">
+                    {remedyGroup.remedies.map((remedy, remedyIndex) => (
+                      <li key={remedyIndex} className="text-xs text-gray-700">
+                        <span className="font-medium">{remedy.title}:</span> {remedy.description}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         <div className="mt-4 pt-4 border-t border-blue-200 text-xs text-blue-600">
           {language === 'en' 
-            ? "NOTE: This is an AI-generated assessment and not a medical diagnosis. Always consult with a healthcare professional for proper medical advice."
-            : "NOTA: Esta es una evaluación generada por IA y no un diagnóstico médico. Siempre consulte con un profesional de la salud para obtener un consejo médico adecuado."}
+            ? "NOTE: This information is not a medical diagnosis. Always consult with a healthcare professional for proper medical advice."
+            : "NOTA: Esta información no es un diagnóstico médico. Siempre consulte con un profesional de la salud para obtener un consejo médico adecuado."}
         </div>
       </div>
     );
@@ -248,7 +324,7 @@ const Confirmation = () => {
               <p className="text-gray-700 whitespace-pre-line">{concerns}</p>
             </div>
 
-            {renderAIAssessment()}
+            {renderAIInsights()}
 
             <div className="bg-[#FEF7CD] p-6 rounded-lg shadow-sm border">
               <div className="flex items-center gap-4 mb-4">
@@ -340,7 +416,7 @@ const Confirmation = () => {
             <p className="text-gray-700 whitespace-pre-line">{concerns}</p>
           </div>
 
-          {renderAIAssessment()}
+          {renderAIInsights()}
 
           <div className="bg-[#FEF7CD] p-6 rounded-lg shadow-sm border">
             <div className="flex items-center gap-4 mb-4">
@@ -400,7 +476,7 @@ const Confirmation = () => {
           <div className="grid gap-6 md:grid-cols-2">
             <div className="bg-white p-6 rounded-xl shadow-sm border hover:shadow-md transition-shadow">
               <div className="bg-[#FFF5F5] w-16 h-16 rounded-2xl flex items-center justify-center mb-4">
-                <Brain className="h-8 w-8 text-[#FF9999]" />
+                <WandSparkles className="h-8 w-8 text-[#FF9999]" />
               </div>
               <h3 className="text-xl font-bold mb-2">
                 {language === 'en' ? "Helpful Care at Home" : "Cuidados Útiles en Casa"}
