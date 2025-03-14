@@ -12,6 +12,7 @@ import Resources from "./pages/Resources";
 import NotFound from "./pages/NotFound";
 import Conditions from "./pages/Conditions";
 import Medicines from "./pages/Medicines";
+import ClinicsInfo from "./pages/ClinicsInfo";
 
 const queryClient = new QueryClient();
 
@@ -30,6 +31,7 @@ const App = () => (
             <Route path="/resources" element={<Resources />} />
             <Route path="/conditions" element={<Conditions />} />
             <Route path="/medicines" element={<Medicines />} />
+            <Route path="/clinics" element={<ClinicsInfo />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </div>

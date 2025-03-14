@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
@@ -13,6 +12,8 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { format } from "date-fns";
 import { es } from 'date-fns/locale';
 import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const availableTimeSlots = [
   {start: "9:00 AM", end: "9:30 AM"},
@@ -34,16 +35,20 @@ const Schedule = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const language = location.state?.language || 'en';
+  const preselectedClinic = location.state?.preselectedClinic || '';
+  
   const [patientName, setPatientName] = React.useState("");
   const [parentGuardianName, setParentGuardianName] = React.useState("");
   const [relationship, setRelationship] = React.useState("parent");
   const [phone, setPhone] = React.useState("");
   const [appointmentType, setAppointmentType] = React.useState("telehealth");
+  const [selectedClinic, setSelectedClinic] = React.useState(preselectedClinic);
   const [date, setDate] = React.useState<Date>();
   const [timeSlot, setTimeSlot] = React.useState("");
   const [reason, setReason] = React.useState("");
   const [isCalendarOpen, setIsCalendarOpen] = React.useState(false);
   const [showConfirmation, setShowConfirmation] = React.useState(false);
+  const [offlineSave, setOfflineSave] = React.useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -67,8 +72,10 @@ const Schedule = () => {
         relationship,
         phone,
         appointmentType,
+        clinic: selectedClinic,
         date: date ? format(date, 'PPP', { locale: language === 'es' ? es : undefined }) : '',
-        timeSlot
+        timeSlot,
+        offlineSave
       }
     }});
   };
@@ -137,6 +144,15 @@ const Schedule = () => {
                 </span>
               </div>
               
+              {selectedClinic && (
+                <div className="flex">
+                  <span className="font-medium w-40 text-gray-600">
+                    {language === 'en' ? "Clinic:" : "Clínica:"}
+                  </span>
+                  <span>{selectedClinic}</span>
+                </div>
+              )}
+              
               <div className="flex">
                 <span className="font-medium w-40 text-gray-600">
                   {language === 'en' ? "Date:" : "Fecha:"}
@@ -162,6 +178,19 @@ const Schedule = () => {
                 </div>
               )}
             </div>
+          </div>
+
+          <div className="flex items-center mt-4">
+            <Checkbox 
+              id="offline-save" 
+              checked={offlineSave}
+              onCheckedChange={(checked) => setOfflineSave(!!checked)}
+            />
+            <label htmlFor="offline-save" className="ml-2 text-sm text-gray-600">
+              {language === 'en' 
+                ? "Save appointment info for offline access" 
+                : "Guardar información de cita para acceso sin conexión"}
+            </label>
           </div>
 
           <div className="flex flex-col sm:flex-row justify-center gap-4 pt-4">
@@ -299,6 +328,33 @@ const Schedule = () => {
             </RadioGroup>
           </div>
 
+          {appointmentType === 'clinic' && (
+            <div className="space-y-2">
+              <Label htmlFor="clinic" className="text-base">
+                {language === 'en' ? "Select Clinic" : "Seleccionar Clínica"}
+              </Label>
+              <Select
+                value={selectedClinic}
+                onValueChange={setSelectedClinic}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder={language === 'en' ? "Select a clinic" : "Seleccione una clínica"} />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Ferry County Public Hospital District">
+                    Ferry County Public Hospital District
+                  </SelectItem>
+                  <SelectItem value="Republic Health Center">
+                    Republic Health Center
+                  </SelectItem>
+                  <SelectItem value="Northeast Washington Health Programs">
+                    Northeast Washington Health Programs
+                  </SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          )}
+
           <div className="space-y-2">
             <Label className="text-base">
               {language === 'en' ? "Preferred Date" : "Fecha Preferida"}
@@ -375,6 +431,19 @@ const Schedule = () => {
             />
           </div>
 
+          <div className="flex items-center mt-4">
+            <Checkbox 
+              id="offline-save" 
+              checked={offlineSave}
+              onCheckedChange={(checked) => setOfflineSave(!!checked)}
+            />
+            <label htmlFor="offline-save" className="ml-2 text-sm text-gray-600">
+              {language === 'en' 
+                ? "Save appointment info for offline access" 
+                : "Guardar información de cita para acceso sin conexión"}
+            </label>
+          </div>
+
           <div className="flex flex-col sm:flex-row justify-center gap-4 pt-4">
             <Button
               type="button"
@@ -386,7 +455,7 @@ const Schedule = () => {
             <Button
               type="submit"
               className="bg-green-500 hover:bg-green-600 text-white"
-              disabled={!patientName || !parentGuardianName || !phone || !date || !timeSlot}
+              disabled={!patientName || !parentGuardianName || !phone || !date || !timeSlot || (appointmentType === 'clinic' && !selectedClinic)}
             >
               {language === 'en' ? "Review Appointment" : "Revisar Cita"}
             </Button>

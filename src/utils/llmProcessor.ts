@@ -1,4 +1,3 @@
-
 import { RiskAssessment } from '@/types/form';
 import { homeRemedies } from '@/data/homeRemedies';
 
@@ -27,6 +26,13 @@ export const analyzeMedicalConcerns = async (
     recommendations: [],
     suggestedRemedies: []
   };
+  
+  // Add Ferry County specific information
+  const ferryCountyRecommendation = language === 'en'
+    ? 'Ferry County Public Health resources are available for follow-up care'
+    : 'Los recursos de Salud Pública del Condado de Ferry están disponibles para atención de seguimiento';
+  
+  insightAssessment.recommendations.push(ferryCountyRecommendation);
   
   // Simple demonstration logic - in reality this would be a sophisticated LLM analysis
   if (keywords.includes('fever') || keywords.includes('fiebre')) {
@@ -64,8 +70,8 @@ export const analyzeMedicalConcerns = async (
     );
     insightAssessment.recommendations.push(
       language === 'en' 
-        ? 'Consult healthcare provider within 24 hours' 
-        : 'Consulte al proveedor de atención médica dentro de las 24 horas'
+        ? 'Consult Ferry County healthcare provider within 24 hours' 
+        : 'Consulte al proveedor de atención médica del Condado de Ferry dentro de las 24 horas'
     );
     
     // Add remedies for respiratory issues
@@ -143,6 +149,15 @@ export const analyzeMedicalConcerns = async (
     }
   }
   
+  // Add rural healthcare specific recommendations
+  if (insightAssessment.riskLevel === 'elevated' || insightAssessment.riskLevel === 'high') {
+    insightAssessment.recommendations.push(
+      language === 'en'
+        ? 'If internet connectivity is limited, save this assessment for your visit to Republic Health Center'
+        : 'Si la conectividad a internet es limitada, guarde esta evaluación para su visita al Centro de Salud de Republic'
+    );
+  }
+  
   // Add general recommendations
   insightAssessment.recommendations.push(
     language === 'en'
@@ -153,8 +168,8 @@ export const analyzeMedicalConcerns = async (
   return {
     success: true,
     text: language === 'en'
-      ? "Thank you for sharing your concerns. A healthcare provider will review them shortly."
-      : "Gracias por compartir sus preocupaciones. Un proveedor de atención médica las revisará en breve.",
+      ? "Thank you for sharing your concerns. These insights are provided as general guidance for Ferry County families."
+      : "Gracias por compartir sus preocupaciones. Estos consejos se proporcionan como orientación general para las familias del Condado de Ferry.",
     insightAssessment
   };
 };

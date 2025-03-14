@@ -7,6 +7,7 @@ export type FormState = {
   showConcernsForm: boolean;
   showConfirmDialog: boolean;
   isAnalyzing?: boolean;
+  offlineMode?: boolean;
 };
 
 export type ConsentStatus = {
@@ -28,4 +29,17 @@ export type RiskAssessment = {
   keyFactors: string[];
   recommendations: string[];
   suggestedRemedies?: RemedySuggestion[];
+};
+
+export type ClinicInfo = {
+  name: string;
+  address: string;
+  phone: string;
+  hours: string;
+  services: string[];
+  website: string;
+  coordinates: {
+    lat: number;
+    lng: number;
+  };
 };
