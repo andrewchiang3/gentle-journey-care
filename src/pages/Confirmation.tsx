@@ -130,13 +130,41 @@ const Confirmation = () => {
   }[]>([]);
 
   const handleDownloadPDF = () => {
-    const guidelinesToUse = isCheckup ? checkupGuidelines[language].join('\n\n') : specificConcerns[language].map(item => 
-      `${item.level}:\n${item.concerns.map(concern => `• ${concern}`).join('\n')}`
-    ).join('\n\n');
+    // Instead of using the specificConcerns or checkupGuidelines, we'll use the actual Care Insights content
+    let analysisContent = '';
+    
+    if (insightAssessment) {
+      // Build a formatted string representation of the Care Insights
+      const keyFactors = insightAssessment.keyFactors.map(factor => `• ${factor}`).join('\n');
+      const recommendations = insightAssessment.recommendations.map(rec => `• ${rec}`).join('\n');
+      
+      analysisContent = language === 'en' 
+        ? `Care Level: ${getStatusLabel(insightAssessment.riskLevel)}\n\n`
+        : `Nivel de Cuidado: ${getStatusLabel(insightAssessment.riskLevel)}\n\n`;
+        
+      if (insightAssessment.keyFactors.length > 0) {
+        analysisContent += language === 'en' 
+          ? `We've noticed:\n${keyFactors}\n\n`
+          : `Hemos notado:\n${keyFactors}\n\n`;
+      }
+      
+      if (insightAssessment.recommendations.length > 0) {
+        analysisContent += language === 'en' 
+          ? `Helpful suggestions:\n${recommendations}\n\n`
+          : `Sugerencias útiles:\n${recommendations}\n\n`;
+      }
+    } else {
+      // Fallback content if no analysis is available
+      analysisContent = isCheckup 
+        ? checkupGuidelines[language].join('\n\n') 
+        : specificConcerns[language].map(item => 
+            `${item.level}:\n${item.concerns.map(concern => `• ${concern}`).join('\n')}`
+          ).join('\n\n');
+    }
     
     const pdfUrl = generatePDF(
       concerns, 
-      guidelinesToUse, 
+      analysisContent, 
       language,
       [...selectedConditions, ...selectedRemedies],
       selectedMedicines

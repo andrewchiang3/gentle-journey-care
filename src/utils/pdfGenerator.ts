@@ -66,7 +66,7 @@ export const generatePDF = (
   doc.text(splitConcerns, margin, yPosition);
   yPosition += (splitConcerns.length * lineHeight) + lineHeight;
 
-  // Add care insights section (replacing "When to Seek Help")
+  // Add care insights section - use the actual analysis content passed to the function
   checkForNewPage(lineHeight * 2);
   doc.setFont('helvetica', 'bold');
   doc.text(language === 'en' ? 'Care Insights & Helpful Tips:' : 'Información de Cuidado y Consejos Útiles:', margin, yPosition);
