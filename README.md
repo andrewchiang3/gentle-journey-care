@@ -161,6 +161,29 @@ This virtual clinic is designed to comply with state and local healthcare regula
 | Northeast WA ACH | Supports Medicaid & social determinants of health | Provide pediatric health education (development, mental health, vaccination, preventive care) |
 | WA State Dept. of Health | Funding, training, policy enforcement | Secure funding, set telehealth & vaccination guidelines, develop training for providers & residents |
 
+## Prototype Readiness
+This prototype is currently conceptual, and requires backend LLM integration. This prototype was designed with the Med42-v2-70B in mind.
+#### Key performance metrics:
+* Med42-v2-70B outperforms GPT-4.0 in most of the MCQA tasks.
+* Med42-v2-70B achieves a MedQA zero-shot performance of 79.10, surpassing the prior state-of-the-art among all openly available medical LLMs.
+* Med42-v2-70B sits at the top of the Clinical Elo Rating Leaderboard.
+
+Implementing the Med42 70B model for pediatric healthcare in Ferry County would involve substantial upfront hardware investments and ongoing operational costs
+
+| Category | Cost Estimate | Notes |
+|----------|---------------|-------|
+| Initial Hardware | $65,000 - $75,000 | 2x NVIDIA A100 80GB GPUs, server, storage, cooling |
+| Annual Operations | $14,050 - 22,550 | Power, maintenance, hybrid cloud |
+| Personnel | $60,000 - $220,000 | IT support + optional engineers |
+| Mobile Prototype | $5,000 - $10,000 (first year) | Development and deployment |
+
+#### Key Considerations
+1. Data Security: HIPAA compliance requires encrypted storage and access controls, potentially adding ~$10,000–$20,000 for audits and infrastructure.
+2. Scalability: If usage grows, adding GPUs or cloud capacity could increase costs by 30–50%.
+3. Energy Efficiency: Renewable energy or off-peak scheduling could reduce electricity expenses.
+
+For a small-scale deployment in Ferry County, the first-year total cost would likely be up to ~$164,050-$377,550 depending on personnel and prototype scope. Long-term savings from automation and improved care could offset these investments
+
 ## Contributors
 
 * Andrew Chiang
