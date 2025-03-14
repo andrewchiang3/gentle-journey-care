@@ -5,18 +5,19 @@
  
 @layer base {
   :root {
-    --background: 0 0% 98%;
+    --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
     --ring: 222.2 84% 4.9%;
     --radius: 1rem;
   }
+}
 
+@layer base {
   * {
     @apply border-border;
   }
-  
   body {
     @apply bg-background text-foreground antialiased;
     font-feature-settings: "ss01", "ss02", "cv01", "cv02", "cv03";
@@ -40,36 +41,9 @@
   animation: float 6s ease-in-out infinite;
 }
 
-.animate-float-slow {
-  animation: float 8s ease-in-out infinite;
-}
-
-/* Custom transitions */
-.transition-transform {
-  transition-property: transform;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 200ms;
-}
-
-.transition-opacity {
-  transition-property: opacity;
+/* Smooth transitions */
+.transition-all {
+  transition-property: all;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
-}
-
-/* Custom utility classes */
-.card-shadow {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-}
-
-.card-shadow-hover {
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
-}
-
-.hover-scale {
-  @apply transition-all duration-200;
-}
-
-.hover-scale:hover {
-  transform: scale(1.02);
 }
