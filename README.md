@@ -82,6 +82,16 @@ This project utilized Large Language Models (LLMs) and AI-generated prompts for 
 
 ### Total Addressable Market
 
+Ferry County Population Total: 7,543
+
+Total population ages 0-17: ~1,290 (17.1%)
+
+Total providers in Ferry County: ~11 (0.14%)
+
+Households: 3,138 (U.S. Census Bureau, 2019-2023)
+
+Broadband Access: 2,413 Households (76.9%)
+
 ## Acquisition
 
 ### Supply-Side Strategy:
