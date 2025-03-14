@@ -1,4 +1,3 @@
-
 export type FormState = {
   isListening: boolean;
   language: string;
@@ -14,6 +13,9 @@ export type ConsentStatus = {
   hasConsented: boolean;
   consentDate?: Date;
   consentVersion?: string;
+  privacyPolicyAccepted?: boolean;
+  dataProcessingAccepted?: boolean;
+  consentMethod?: 'explicit' | 'implied';
 };
 
 export type RemedySuggestion = {

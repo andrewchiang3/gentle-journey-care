@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { WelcomeHeader } from '@/components/WelcomeHeader';
 import { useToast } from '@/hooks/use-toast';
@@ -7,6 +8,7 @@ import { analyzeMedicalConcerns } from '@/utils/llmProcessor';
 import { MainMenuButtons } from '@/components/MainMenuButtons';
 import { ConcernsForm } from '@/components/ConcernsForm';
 import { ConsentDialog } from '@/components/ConsentDialog';
+import { PrivacyFooter } from '@/components/PrivacyFooter';
 import { FormState } from '@/types/form';
 import owl from '../img/owl.png'
 
@@ -143,6 +145,8 @@ const Index = () => {
               onConcernsClick={() => setFormState(prev => ({ ...prev, showConcernsForm: true }))}
             />
           </div>
+          
+          <PrivacyFooter language={formState.language} />
         </main>
       </div>
     );
@@ -164,6 +168,8 @@ const Index = () => {
           onInputKeyDown={handleInputKeyDown}
           onSubmit={handleSubmit}
         />
+        
+        <PrivacyFooter language={formState.language} />
       </main>
 
       <AlertDialog 
