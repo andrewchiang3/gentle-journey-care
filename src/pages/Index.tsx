@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { WelcomeHeader } from '@/components/WelcomeHeader';
 import { useToast } from '@/hooks/use-toast';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -7,6 +7,7 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { analyzeMedicalConcerns } from '@/utils/llmProcessor';
 import { MainMenuButtons } from '@/components/MainMenuButtons';
 import { ConcernsForm } from '@/components/ConcernsForm';
+import { ConsentDialog } from '@/components/ConsentDialog';
 import { FormState } from '@/types/form';
 import owl from '../img/owl.png'
 
@@ -20,9 +21,29 @@ const Index = () => {
     showConcernsForm: false,
     showConfirmDialog: false,
   });
+  const [showConsent, setShowConsent] = useState(true);
 
   const navigate = useNavigate();
   const { toast } = useToast();
+
+  // Check if user has already given consent
+  useEffect(() => {
+    const hasConsented = localStorage.getItem('healthDataConsent');
+    if (hasConsented === 'true') {
+      setShowConsent(false);
+    }
+  }, []);
+
+  const handleConsentAccept = () => {
+    localStorage.setItem('healthDataConsent', 'true');
+    setShowConsent(false);
+    toast({
+      title: formState.language === 'en' ? "Thank you" : "Gracias",
+      description: formState.language === 'en' 
+        ? "Your privacy is important to us" 
+        : "Su privacidad es importante para nosotros",
+    });
+  };
 
   const handleTranscript = (transcript: string) => {
     setFormState(prev => ({
@@ -80,6 +101,17 @@ const Index = () => {
       showEmptyInputToast();
     }
   };
+
+  // Show the consent dialog first
+  if (showConsent) {
+    return (
+      <ConsentDialog 
+        open={showConsent} 
+        language={formState.language}
+        onAccept={handleConsentAccept} 
+      />
+    );
+  }
 
   if (!formState.showCheckupForm && !formState.showConcernsForm) {
     return (

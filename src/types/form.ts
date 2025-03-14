@@ -7,3 +7,9 @@ export type FormState = {
   showConcernsForm: boolean;
   showConfirmDialog: boolean;
 };
+
+export type ConsentStatus = {
+  hasConsented: boolean;
+  consentDate?: Date;
+  consentVersion?: string;
+};
